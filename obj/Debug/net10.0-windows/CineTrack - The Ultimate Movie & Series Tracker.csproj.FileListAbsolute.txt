@@ -1,0 +1,4 @@
+C:\Users\parvanyik.daniel\source\repos\CineTrack - The Ultimate Movie & Series Tracker\CineTrack - The Ultimate Movie & Series Tracker\obj\Debug\net10.0-windows\MainWindow.g.cs
+C:\Users\parvanyik.daniel\source\repos\CineTrack - The Ultimate Movie & Series Tracker\CineTrack - The Ultimate Movie & Series Tracker\obj\Debug\net10.0-windows\App.g.cs
+C:\Users\parvanyik.daniel\source\repos\CineTrack - The Ultimate Movie & Series Tracker\CineTrack - The Ultimate Movie & Series Tracker\obj\Debug\net10.0-windows\CineTrack - The Ultimate Movie & Series Tracker_MarkupCompile.cache
+C:\Users\parvanyik.daniel\source\repos\CineTrack - The Ultimate Movie & Series Tracker\CineTrack - The Ultimate Movie & Series Tracker\obj\Debug\net10.0-windows\CineTrack - The Ultimate Movie & Series Tracker_MarkupCompile.lref
