@@ -1,9 +1,0 @@
-﻿<Application x:Class="CineTrack___The_Ultimate_Movie___Series_Tracker.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CineTrack___The_Ultimate_Movie___Series_Tracker"
-             StartupUri="MainWindow.xaml">
-    <Application.Resources>
-         
-    </Application.Resources>
-</Application>
