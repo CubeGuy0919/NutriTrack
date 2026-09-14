@@ -8,7 +8,7 @@ public class Receipt
     public DateTime PurchaseDate { get; set; } = DateTime.Now;
     public decimal TotalAmount { get; set; }
 
-    public List<ReceiptItem> Items { get; set; } = new();
+    public List<ReceiptItem> Items { get; set; } = new List<ReceiptItem>();
 
     /// <summary>Recalculates TotalAmount from the current line items.</summary>
     public void RecalculateTotal()
