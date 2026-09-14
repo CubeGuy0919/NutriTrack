@@ -1,0 +1,42 @@
+<Window x:Class="NutriTrack.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NutriTrack" Height="720" Width="1180"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ===== Sidebar ===== -->
+        <Border Grid.Column="0" Background="{StaticResource SidebarBrush}">
+            <DockPanel LastChildFill="False">
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,24,0,32">
+                    <TextBlock Text="🥗" FontSize="30" HorizontalAlignment="Center" />
+                    <TextBlock Text="NutriTrack" FontSize="18" FontWeight="Bold"
+                               Foreground="White" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Top">
+                    <Button Content="🏠  Dashboard"   Style="{StaticResource NavButtonStyle}" Click="NavDashboard_Click" />
+                    <Button Content="🧾  Receipts"    Style="{StaticResource NavButtonStyle}" Click="NavReceipts_Click" />
+                    <Button Content="🏠  Pantry"      Style="{StaticResource NavButtonStyle}" Click="NavPantry_Click" />
+                    <Button Content="🛒  Shopping"    Style="{StaticResource NavButtonStyle}" Click="NavShopping_Click" />
+                    <Button Content="📊  Analytics"   Style="{StaticResource NavButtonStyle}" Click="NavAnalytics_Click" />
+                </StackPanel>
+
+                <TextBlock DockPanel.Dock="Bottom" Text="NutriTrack v0.1 — DEV BUILD"
+                           Foreground="#8FA396" FontSize="11"
+                           HorizontalAlignment="Center" Margin="0,0,0,16" />
+            </DockPanel>
+        </Border>
+
+        <!-- ===== Content area ===== -->
+        <ContentControl x:Name="MainContent" Grid.Column="1" Margin="24" />
+
+    </Grid>
+</Window>
