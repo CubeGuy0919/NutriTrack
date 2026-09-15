@@ -30,3 +30,17 @@ C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-window
 C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.pdb
 C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.genruntimeconfig.cache
 C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\ref\NutriTrack.UI.dll
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.csproj.AssemblyReference.cache
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\App.baml
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI_MarkupCompile.cache
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.g.resources
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.AssemblyInfoInputs.cache
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.AssemblyInfo.cs
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.csproj.CoreCompileInputs.cache
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.dll
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\refint\NutriTrack.UI.dll
+C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.UI\obj\Debug\net8.0-windows\NutriTrack.UI.pdb

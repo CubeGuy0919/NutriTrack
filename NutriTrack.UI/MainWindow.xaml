@@ -22,14 +22,14 @@
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top">
-                    <Button Content="🏠  Dashboard"   Style="{StaticResource NavButtonStyle}" Click="NavDashboard_Click" />
+                    <Button Content="🏠  Home"   Style="{StaticResource NavButtonStyle}" Click="NavDashboard_Click" />
                     <Button Content="🧾  Receipts"    Style="{StaticResource NavButtonStyle}" Click="NavReceipts_Click" />
                     <Button Content="🏠  Pantry"      Style="{StaticResource NavButtonStyle}" Click="NavPantry_Click" />
                     <Button Content="🛒  Shopping"    Style="{StaticResource NavButtonStyle}" Click="NavShopping_Click" />
                     <Button Content="📊  Analytics"   Style="{StaticResource NavButtonStyle}" Click="NavAnalytics_Click" />
                 </StackPanel>
 
-                <TextBlock DockPanel.Dock="Bottom" Text="NutriTrack v0.1 — DEV BUILD"
+                <TextBlock DockPanel.Dock="Bottom" Text="NutriTrack v0.2 — DEV BUILD"
                            Foreground="#8FA396" FontSize="11"
                            HorizontalAlignment="Center" Margin="0,0,0,16" />
             </DockPanel>

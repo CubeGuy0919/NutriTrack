@@ -46,7 +46,7 @@ namespace NutriTrack.UI {
         /// InitializeComponent
         /// </summary>
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.12.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.11.0")]
         public void InitializeComponent() {
             if (_contentLoaded) {
                 return;
@@ -72,7 +72,7 @@ namespace NutriTrack.UI {
         /// </summary>
         [System.STAThreadAttribute()]
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.12.0")]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "10.0.11.0")]
         public static void Main() {
             NutriTrack.UI.App app = new NutriTrack.UI.App();
             app.InitializeComponent();
