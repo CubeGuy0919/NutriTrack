@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "qVVRFTkNGpo=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.UI\\NutriTrack.UI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.1\\microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
+    "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\mysqlconnector\\2.3.7\\mysqlconnector.2.3.7.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,21 @@
+<UserControl x:Class="NutriTrack.UI.Views.PlaceholderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="420">
+            <TextBlock x:Name="TitleText"
+                       FontSize="24" FontWeight="Bold"
+                       Foreground="{StaticResource PrimaryDarkBrush}"
+                       HorizontalAlignment="Center" TextAlignment="Center" />
+            <TextBlock x:Name="MessageText"
+                       FontSize="14" Foreground="#6B7A70"
+                       Margin="0,10,0,0" TextWrapping="Wrap"
+                       HorizontalAlignment="Center" TextAlignment="Center" />
+        </StackPanel>
+    </Grid>
+</UserControl>
