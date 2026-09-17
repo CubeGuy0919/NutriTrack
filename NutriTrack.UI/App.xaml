@@ -8,7 +8,7 @@
         <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#1B5E20" />
         <SolidColorBrush x:Key="BackgroundBrush" Color="#F5F7F5" />
         <SolidColorBrush x:Key="SidebarBrush" Color="#1F2A24" />
-        <SolidColorBrush x:Key="TextLightBrush" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="TextLightBrush" Color="LightBlue" />
 
         <Style x:Key="NavButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
@@ -33,6 +33,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
     </Application.Resources>
 </Application>
