@@ -10,14 +10,3 @@ C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\refi
 C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.pdb
 C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\ref\NutriTrack.Core.dll
 C:\Users\pdani0919\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTra.A707BA36.Up2Date
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\bin\Debug\net8.0\NutriTrack.Core.deps.json
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\bin\Debug\net8.0\NutriTrack.Core.dll
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\bin\Debug\net8.0\NutriTrack.Core.pdb
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.AssemblyInfoInputs.cache
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.AssemblyInfo.cs
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.csproj.CoreCompileInputs.cache
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.dll
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\refint\NutriTrack.Core.dll
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\NutriTrack.Core.pdb
-C:\Users\parvanyik.daniel\source\repos\NutriTrack\NutriTrack.Core\obj\Debug\net8.0\ref\NutriTrack.Core.dll
