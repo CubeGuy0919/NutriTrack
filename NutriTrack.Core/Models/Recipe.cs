@@ -9,7 +9,14 @@ public class Recipe
     public int PrepTimeMinutes { get; set; }
     public int CookTimeMinutes { get; set; }
     public double CaloriesPerServing { get; set; }
+
+    // Processed collections
+    public List<string> FoodSensitivities { get; set; } = new();
     public List<string> Ingredients { get; set; } = new();
-    public string Instructions { get; set; } = string.Empty;
-    // Sensitivity 
+    public List<string> Instructions { get; set; } = new();
+
+    // Formatted helper properties for DataGrid/ListView bindings
+    public string FormattedSensitivities => string.Join(", ", FoodSensitivities);
+    public string FormattedIngredients => string.Join("\n ", Ingredients.Prepend(string.Empty)).TrimStart();
+    public string FormattedInstructions => string.Join("\n", Instructions);
 }

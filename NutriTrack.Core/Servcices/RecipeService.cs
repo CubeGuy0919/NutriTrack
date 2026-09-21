@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using NutriTrack.Core.Models;
 
 namespace NutriTrack.Core.Services;
@@ -12,27 +15,36 @@ public class RecipeService
         if (!File.Exists(filePath))
             return recipes;
 
-        var lines = File.ReadAllLines(filePath).Skip(1);
+        var lines = File.ReadAllLines(filePath).Skip(1); // Skip CSV header
 
         foreach (var line in lines)
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            var parts = line.Split(',');
-            if (parts.Length < 9) continue;
+            var parts = line.Split(',', 10);
+            if (parts.Length < 10) continue;
 
-            recipes.Add(new Recipe
+            try
             {
-                RecipeId = int.Parse(parts[0]),
-                Name = parts[1],
-                Cuisine = parts[2],
-                Category = parts[3],
-                PrepTimeMinutes = int.Parse(parts[4]),
-                CookTimeMinutes = int.Parse(parts[5]),
-                CaloriesPerServing = double.Parse(parts[6]),
-                Ingredients = parts[7].Split(';').ToList(),
-                Instructions = parts[8]
-            });
+                recipes.Add(new Recipe
+                {
+                    RecipeId = int.TryParse(parts[0], out int id) ? id : 0,
+                    Name = parts[1].Trim(),
+                    Cuisine = parts[2].Trim(),
+                    Category = parts[3].Trim(),
+                    PrepTimeMinutes = int.TryParse(parts[4], out int prep) ? prep : 0,
+                    CookTimeMinutes = int.TryParse(parts[5], out int cook) ? cook : 0,
+                    CaloriesPerServing = double.TryParse(parts[6], out double cal) ? cal : 0,
+                    FoodSensitivities = parts[7].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList(),
+                    Ingredients = parts[8].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList(),
+                    Instructions = parts[9].Split('|', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList()
+                });
+            }
+            catch
+            {
+                // Skip corrupted individual lines gracefully
+                continue;
+            }
         }
 
         return recipes;
