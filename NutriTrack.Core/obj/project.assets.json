@@ -8,19 +8,19 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\": {}
+    "C:\\Users\\pdani0919\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj",
+      "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj",
       "projectName": "NutriTrack.Core",
-      "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj",
-      "packagesPath": "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\obj\\",
+      "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj",
+      "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\parvanyik.daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -69,7 +69,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
