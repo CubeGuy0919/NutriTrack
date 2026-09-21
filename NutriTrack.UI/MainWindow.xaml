@@ -22,6 +22,7 @@
 
                 <StackPanel DockPanel.Dock="Top">
                     <Button Content="🏠  Home"      Style="{StaticResource NavButtonStyle}" Click="NavDashboard_Click" />
+                    <Button Content="📖  Recipes"   Style="{StaticResource NavButtonStyle}" Click="NavRecipes_Click" />
                     <Button Content="🧾  Receipts"  Style="{StaticResource NavButtonStyle}" Click="NavReceipts_Click" />
                     <Button Content="🏠  Pantry"    Style="{StaticResource NavButtonStyle}" Click="NavPantry_Click" />
                     <Button Content="🛒  Shopping"  Style="{StaticResource NavButtonStyle}" Click="NavShopping_Click" />
