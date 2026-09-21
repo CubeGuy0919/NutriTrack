@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\NutriTrack.Data.csproj": {}
+    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj": {
+    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj",
+        "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj",
         "projectName": "NutriTrack.Core",
-        "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj",
-        "packagesPath": "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\obj\\",
+        "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj",
+        "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\parvanyik.daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -63,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -341,17 +341,17 @@
         }
       }
     },
-    "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\NutriTrack.Data.csproj": {
+    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\NutriTrack.Data.csproj",
+        "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj",
         "projectName": "NutriTrack.Data",
-        "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\NutriTrack.Data.csproj",
-        "packagesPath": "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\obj\\",
+        "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj",
+        "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\parvanyik.daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -366,8 +366,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj": {
-                "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj"
+              "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj": {
+                "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj"
               }
             }
           }
@@ -388,12 +388,6 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "dependencies": {
-            "MySqlConnector": {
-              "target": "Package",
-              "version": "[2.3.7, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -410,7 +404,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

@@ -27,7 +27,7 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel>
+    <StackPanel Margin="24">
         <TextBlock Text="Dashboard" FontSize="26" FontWeight="Bold"
                    Foreground="{StaticResource PrimaryDarkBrush}" Margin="0,0,0,4" />
         <TextBlock Text="A quick look at where things stand."
@@ -43,21 +43,21 @@
             <Border Grid.Column="0" Style="{StaticResource TileStyle}">
                 <StackPanel>
                     <TextBlock Text="RECEIPTS THIS MONTH" Style="{StaticResource TileLabelStyle}" />
-                    <TextBlock Text="—" Style="{StaticResource TileValueStyle}" />
+                    <TextBlock x:Name="ReceiptsCountText" Text="0" Style="{StaticResource TileValueStyle}" />
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="1" Style="{StaticResource TileStyle}">
                 <StackPanel>
-                    <TextBlock Text="PANTRY ITEMS" Style="{StaticResource TileLabelStyle}" />
-                    <TextBlock Text="—" Style="{StaticResource TileValueStyle}" />
+                    <TextBlock Text="TOTAL RECIPES" Style="{StaticResource TileLabelStyle}" />
+                    <TextBlock x:Name="RecipesCountText" Text="0" Style="{StaticResource TileValueStyle}" />
                 </StackPanel>
             </Border>
 
             <Border Grid.Column="2" Style="{StaticResource TileStyle}" Margin="0">
                 <StackPanel>
                     <TextBlock Text="AVG. CALORIES / DAY" Style="{StaticResource TileLabelStyle}" />
-                    <TextBlock Text="—" Style="{StaticResource TileValueStyle}" />
+                    <TextBlock x:Name="AvgCaloriesText" Text="—" Style="{StaticResource TileValueStyle}" />
                 </StackPanel>
             </Border>
         </Grid>

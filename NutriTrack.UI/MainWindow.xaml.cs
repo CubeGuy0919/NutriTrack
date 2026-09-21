@@ -1,5 +1,4 @@
 using System.Windows;
-using System.Windows.Controls;
 using NutriTrack.UI.Views;
 
 namespace NutriTrack.UI;
@@ -14,6 +13,9 @@ public partial class MainWindow : Window
 
     private void NavDashboard_Click(object sender, RoutedEventArgs e) =>
         MainContent.Content = new DashboardView();
+
+    private void NavRecipes_Click(object sender, RoutedEventArgs e) =>
+        MainContent.Content = new RecipesView();
 
     private void NavReceipts_Click(object sender, RoutedEventArgs e) =>
         MainContent.Content = new PlaceholderView("Receipts", "Add, browse and search your receipts here.");

@@ -1,0 +1,21 @@
+RecipeId,Name,Cuisine,Category,PrepTimeMinutes,CookTimeMinutes,CaloriesPerServing,Ingredients,Instructions
+1,Goulash,Hungarian,Soup,20,90,450,Beef;Onions;Paprika;Potatoes;Carrots,Brown meat and onions. Add paprika water and simmer 90 mins.
+2,Tiramisu,Italian,Dessert,30,0,380,Ladyfingers,Espresso;Mascarpone;Cocoa,Layer soaked ladyfingers with whipped mascarpone cream and chill.
+3,Coq au Vin,French,Meal,25,60,520,Chicken;Red Wine;Mushrooms;Bacon,Sauté chicken and bacon then braise in red wine sauce.
+4,Fisherman's Soup,Hungarian,Soup,25,40,320,Carp;Pike;Paprika;Onions,Boil fish heads and onions to create broth. Strain add steaks and paprika.
+5,Dobos Torte,Hungarian,Dessert,45,30,410,Flour;Sugar;Butter;Chocolate;Eggs,Layer sponge cake with chocolate buttercream and top with caramel.
+6,Chicken Paprikash,Hungarian,Meal,20,40,480,Chicken;Paprika;Sour Cream;Flour,Simmer chicken in paprika sauce and stir in sour cream at end.
+7,Minestrone,Italian,Soup,15,30,210,Beans;Pasta;Tomatoes;Zucchini;Celery,Simmer vegetables and beans in broth then add pasta until tender.
+8,Cannoli,Italian,Dessert,40,15,310,Ricotta;Sugar;Pastry Shells;Chocolate Chips,Fill crispy fried shells with sweetened ricotta and chocolate chips.
+9,Margherita Pizza,Italian,Meal,20,12,650,Flour;Yeast;Mozzarella;Tomato Sauce;Basil,Stretch dough top with sauce and cheese then bake at high heat.
+10,French Onion Soup,French,Soup,20,50,290,Onions;Beef Broth;Gruyere;Baguette,Caramelize onions slowly add broth top with bread and broil cheese.
+11,Crème Brûlée,French,Dessert,15,45,340,Cream;Egg Yolks;Sugar;Vanilla,Bake custard in water bath chill then torch sugar top.
+12,Ratatouille,French,Meal,20,45,220,Eggplant;Zucchini;Tomatoes;Bell Peppers,Slice vegetables layer in baking dish and roast with herbs.
+13,Tacos al Pastor,Mexican,Meal,30,20,420,Pork;Pineapple;Achiote;Tortillas,Marinate pork grill with pineapple and serve on corn tortillas.
+14,Churros,Mexican,Dessert,20,15,280,Flour;Water;Cinnamon;Sugar;Oil,Pipe dough into hot oil fry until golden and roll in cinnamon sugar.
+15,Sopa de Lima,Mexican,Soup,15,25,260,Chicken;Lime;Tortilla Strips;Tomatoes,Simmer chicken broth with lime juice and serve with crispy tortillas.
+16,Tom Yum,Asian,Soup,15,15,180,Shrimp;Lemongrass;Galangal;Lime Leaves;Chili,Boil aromatics in broth add shrimp and lime juice before serving.
+17,Mango Sticky Rice,Asian,Dessert,15,25,310,Glutinous Rice;Coconut Milk;Sugar;Mango,Steam rice cook with sweetened coconut milk and serve with mango.
+18,Pad Thai,Asian,Meal,20,10,510,Rice Noodles;Tofu;Shrimp;Peanuts;Tamarind,Stir fry noodles with sauce eggs and top with crushed peanuts.
+19,Clam Chowder,American,Soup,20,30,390,Clams;Potatoes;Heavy Cream;Bacon,Cook bacon fry vegetables add clam juice potatoes cream and clams.
+20,Apple Pie,American,Dessert,30,50,360,Apples;Flour;Butter;Cinnamon;Sugar,Fill pie crust with spiced sliced apples and bake until golden.

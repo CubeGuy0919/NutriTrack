@@ -10,7 +10,6 @@ public class Receipt
 
     public List<ReceiptItem> Items { get; set; } = new List<ReceiptItem>();
 
-    /// <summary>Recalculates TotalAmount from the current line items.</summary>
     public void RecalculateTotal()
     {
         TotalAmount = Items.Sum(i => i.LineTotal);
