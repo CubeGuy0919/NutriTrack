@@ -10,43 +10,44 @@ public class RecipeService
 {
     public List<Recipe> LoadRecipesFromTxt(string filePath)
     {
-        var recipes = new List<Recipe>();
+        List<Recipe> databaseRecipes = new List<Recipe>();
 
         if (!File.Exists(filePath))
-            return recipes;
+            return databaseRecipes;
 
-        var lines = File.ReadAllLines(filePath).Skip(1); // Skip CSV header
+        IEnumerable<string> recipesFileLines = File.ReadAllLines(filePath).Skip(1); // Skip CSV header
 
-        foreach (var line in lines)
+        foreach (string? recipeLine in recipesFileLines)
         {
-            if (string.IsNullOrWhiteSpace(line)) continue;
+            if (string.IsNullOrWhiteSpace(recipeLine)) continue;
 
-            var parts = line.Split(',', 10);
-            if (parts.Length < 10) continue;
+            string[] recipeLineParts = recipeLine.Split(',', 11);
+            if (recipeLineParts.Length < 11) continue;
 
             try
             {
-                recipes.Add(new Recipe
-                {
-                    RecipeId = int.TryParse(parts[0], out int id) ? id : 0,
-                    Name = parts[1].Trim(),
-                    Cuisine = parts[2].Trim(),
-                    Category = parts[3].Trim(),
-                    PrepTimeMinutes = int.TryParse(parts[4], out int prep) ? prep : 0,
-                    CookTimeMinutes = int.TryParse(parts[5], out int cook) ? cook : 0,
-                    CaloriesPerServing = double.TryParse(parts[6], out double cal) ? cal : 0,
-                    FoodSensitivities = parts[7].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList(),
-                    Ingredients = parts[8].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList(),
-                    Instructions = parts[9].Split('|', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList()
-                });
+                databaseRecipes.Add(new Recipe(
+                    int.TryParse(recipeLineParts[0], out int id) ? id : 0,
+                    recipeLineParts[1].Trim(),
+                    recipeLineParts[2].Trim(),
+                    recipeLineParts[3].Trim(),
+                    int.TryParse(recipeLineParts[4], out int prep) ? prep : 0,
+                    int.TryParse(recipeLineParts[5], out int cook) ? cook : 0,
+                    double.TryParse(recipeLineParts[6], out double cal) ? cal : 0,
+                    int.TryParse(recipeLineParts[7], out int serv) ? serv : 0,
+                    recipeLineParts[7].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList(),
+                    recipeLineParts[8].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList(),
+                    recipeLineParts[9].Split('|', StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList(),
+                    recipeLineParts[10].Split(';', StringSplitOptions.RemoveEmptyEntries).Select(i => i.Trim()).ToList()
+                ));
             }
             catch
             {
-                // Skip corrupted individual lines gracefully
+                // Skip corrupted individual lines 
                 continue;
             }
         }
 
-        return recipes;
+        return databaseRecipes;
     }
 }
