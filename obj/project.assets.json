@@ -1,26 +1,64 @@
 {
   "version": 4,
   "targets": {
-    "net10.0-windows": {}
+    "net10.0-windows": {
+      "NutriTrack.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/NutriTrack.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NutriTrack.Core.dll": {}
+        }
+      },
+      "NutriTrack.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "NutriTrack.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/NutriTrack.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NutriTrack.Data.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "NutriTrack.Core/1.0.0": {
+      "type": "project",
+      "path": "../NutriTrack.Core/NutriTrack.Core.csproj",
+      "msbuildProject": "../NutriTrack.Core/NutriTrack.Core.csproj"
+    },
+    "NutriTrack.Data/1.0.0": {
+      "type": "project",
+      "path": "../NutriTrack.Data/NutriTrack.Data.csproj",
+      "msbuildProject": "../NutriTrack.Data/NutriTrack.Data.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0-windows": []
+    "net10.0-windows": [
+      "NutriTrack.Core >= 1.0.0",
+      "NutriTrack.Data >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\": {}
+    "C:\\Users\\pdani0919\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\parvanyik.daniel\\source\\repos\\CineTrack - The Ultimate Movie & Series Tracker\\CineTrack - The Ultimate Movie & Series Tracker\\CineTrack - The Ultimate Movie & Series Tracker.csproj",
-      "projectName": "CineTrack - The Ultimate Movie & Series Tracker",
-      "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\CineTrack - The Ultimate Movie & Series Tracker\\CineTrack - The Ultimate Movie & Series Tracker\\CineTrack - The Ultimate Movie & Series Tracker.csproj",
-      "packagesPath": "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\CineTrack - The Ultimate Movie & Series Tracker\\CineTrack - The Ultimate Movie & Series Tracker\\obj\\",
+      "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.UI\\NutriTrack.UI.csproj",
+      "projectName": "NutriTrack.UI",
+      "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.UI\\NutriTrack.UI.csproj",
+      "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.UI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\parvanyik.daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -34,7 +72,14 @@
         "net10.0-windows": {
           "framework": "net10.0-windows7.0",
           "targetAlias": "net10.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj": {
+              "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj"
+            },
+            "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj": {
+              "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -72,7 +117,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
