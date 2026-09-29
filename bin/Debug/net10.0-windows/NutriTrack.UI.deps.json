@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "NutriTrack.UI/1.0.0": {
+        "dependencies": {
+          "NutriTrack.Core": "1.0.0",
+          "NutriTrack.Data": "1.0.0"
+        },
+        "runtime": {
+          "NutriTrack.UI.dll": {}
+        }
+      },
+      "NutriTrack.Core/1.0.0": {
+        "runtime": {
+          "NutriTrack.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "NutriTrack.Data/1.0.0": {
+        "dependencies": {
+          "NutriTrack.Core": "1.0.0"
+        },
+        "runtime": {
+          "NutriTrack.Data.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "NutriTrack.UI/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NutriTrack.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NutriTrack.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
