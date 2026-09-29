@@ -27,19 +27,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\pdani0919\\.nuget\\packages\\": {}
+    "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj",
+      "projectUniqueName": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\NutriTrack.Data.csproj",
       "projectName": "NutriTrack.Data",
-      "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\NutriTrack.Data.csproj",
-      "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Data\\obj\\",
+      "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\NutriTrack.Data.csproj",
+      "packagesPath": "C:\\Users\\parvanyik.daniel\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Data\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\parvanyik.daniel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -54,8 +59,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj": {
-              "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v3\\NutriTrack.Core\\NutriTrack.Core.csproj"
+            "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj": {
+              "projectPath": "C:\\Users\\parvanyik.daniel\\source\\repos\\NutriTrack\\NutriTrack.Core\\NutriTrack.Core.csproj"
             }
           }
         }

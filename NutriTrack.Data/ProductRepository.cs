@@ -1,4 +1,3 @@
-using MySqlConnector;
 using NutriTrack.Core.Models;
 
 namespace NutriTrack.Data;
