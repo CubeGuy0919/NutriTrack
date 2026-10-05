@@ -18,10 +18,10 @@ public partial class MainWindow : Window
         MainContent.Content = new RecipesView();
 
     private void NavReceipts_Click(object sender, RoutedEventArgs e) =>
-        MainContent.Content = new PlaceholderView("Receipts", "Add, browse and search your receipts here.");
+        MainContent.Content = new ReceiptsView();
 
     private void NavPantry_Click(object sender, RoutedEventArgs e) =>
-        MainContent.Content = new PlaceholderView("Pantry", "Your current food inventory will show up here.");
+        MainContent.Content = new PantryView();
 
     private void NavShopping_Click(object sender, RoutedEventArgs e) =>
         MainContent.Content = new PlaceholderView("Shopping", "Shopping lists, synced with your pantry.");
