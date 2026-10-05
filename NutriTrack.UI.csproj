@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Recipe images (default_food.png + per-recipe files); new recipe images are copied here at run time -->
+    <Content Include="Assets\Images\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\NutriTrack.Core\NutriTrack.Core.csproj" />
     <ProjectReference Include="..\NutriTrack.Data\NutriTrack.Data.csproj" />
   </ItemGroup>

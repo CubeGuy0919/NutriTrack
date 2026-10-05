@@ -4,6 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using NutriTrack.Core.Models;
 using NutriTrack.Core.Services;
 
@@ -12,7 +15,28 @@ namespace NutriTrack.UI.Views;
 public partial class RecipesView : UserControl
 {
     private readonly RecipeService _recipeService = new();
+    private readonly ProductService _productService = new();
+    private readonly RecipeImageService _imageService = new();
     private List<Recipe> _allRecipes = new();
+    private List<Product> _products = new();
+
+    private readonly PantryService _pantryService = new();
+    private readonly ShoppingListService _shoppingService = new();
+
+    private static string RecipesPath => AppPaths.RecipesPath;
+    private static string ProductsPath => AppPaths.ProductsPath;
+    private static string ImagesDirectory => AppPaths.ImagesDirectory;
+
+    // ---- detail panel state ----
+    private Recipe? _detailRecipe;
+    private bool _suppressSliderEvents;
+    private List<PantryItem> _pantryItems = new();
+    private IReadOnlyList<IngredientAvailability> _availability = Array.Empty<IngredientAvailability>();
+
+    // image slideshow
+    private readonly List<BitmapImage> _slides = new();
+    private int _slideIndex;
+    private DispatcherTimer? _slideTimer;
     private ICollectionView? _view;
 
     /// <summary>"All" plus the real category names, backing the chip row.</summary>
@@ -22,6 +46,7 @@ public partial class RecipesView : UserControl
     public RecipesView()
     {
         InitializeComponent();
+        Unloaded += (_, _) => StopSlideshow();
         LoadRecipes();
     }
 
@@ -31,11 +56,20 @@ public partial class RecipesView : UserControl
 
     private void LoadRecipes()
     {
-        string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-        string recipePath = Path.Combine(baseDir, "Recipes.txt");
+        // The existing product list is the only source of accepted ingredients
+        try
+        {
+            _products = File.Exists(ProductsPath)
+                ? _productService.LoadAllowedProducts(ProductsPath)
+                : new List<Product>();
+        }
+        catch
+        {
+            _products = new List<Product>();
+        }
 
-        _allRecipes = File.Exists(recipePath)
-            ? _recipeService.LoadRecipesFromTxt(recipePath)
+        _allRecipes = File.Exists(RecipesPath)
+            ? _recipeService.LoadRecipesFromTxt(RecipesPath, _products)
             : new List<Recipe>();
 
         _view = CollectionViewSource.GetDefaultView(_allRecipes);
@@ -134,7 +168,7 @@ public partial class RecipesView : UserControl
         if (!string.IsNullOrWhiteSpace(query))
         {
             bool nameMatch = recipe.Name.Contains(query, StringComparison.OrdinalIgnoreCase);
-            bool ingredientMatch = recipe.Ingredients.Any(i => i.Contains(query, StringComparison.OrdinalIgnoreCase));
+            bool ingredientMatch = recipe.Ingredients.Any(i => i.DisplayText.Contains(query, StringComparison.OrdinalIgnoreCase));
             if (!nameMatch && !ingredientMatch) return false;
         }
 
@@ -189,6 +223,8 @@ public partial class RecipesView : UserControl
     // ---------------------------------------------------------------
     // Detail panel
     // ---------------------------------------------------------------
+    // All scaling / nutrition / pantry maths lives in Core (IngredientScaler, RecipeNutritionCalculator,
+    // RecipeAvailabilityCalculator, UnitConverter). This code only shows the results.
 
     private void RecipeCard_Click(object sender, RoutedEventArgs e)
     {
@@ -198,18 +234,264 @@ public partial class RecipesView : UserControl
 
     private void ShowDetail(Recipe recipe)
     {
+        _detailRecipe = recipe;
+
         DetailTitle.Text = recipe.Name;
-        DetailMeta.Text = $"{recipe.Cuisine} · {recipe.Category} · {recipe.TimeLabel} · {recipe.CaloriesLabel}";
+        DetailMeta.Text = $"{recipe.Cuisine} · {recipe.Category}";
+        DetailPrep.Text = $"{recipe.PrepTimeMinutes} min";
+        DetailCook.Text = $"{recipe.CookTimeMinutes} min";
+        DetailCalories.Text = recipe.CaloriesPerServing > 0 ? $"{recipe.CaloriesPerServing:0} kcal" : "–";
+
+        DetailDescription.Text = recipe.Description;
+        DetailDescription.Visibility = string.IsNullOrWhiteSpace(recipe.Description) ? Visibility.Collapsed : Visibility.Visible;
+
+        ShowDetailImages(recipe);
         DetailSensitivities.Text = recipe.SensitivitiesLabel;
-        DetailIngredients.ItemsSource = recipe.Ingredients;
         DetailInstructions.ItemsSource = recipe.Instructions;
 
+        LoadPantry();
+
+        // The slider starts at the recipe's own (base) servings
+        _suppressSliderEvents = true;
+        ServingsSlider.Maximum = Math.Max(12, recipe.BaseServings);
+        ServingsMaxText.Text = ((int)ServingsSlider.Maximum).ToString();
+        ServingsSlider.Value = recipe.BaseServings;
+        _suppressSliderEvents = false;
+
+        BaseServingsNote.Text = recipe.HasKnownServings
+            ? $"This recipe is written for {recipe.BaseServings} servings."
+            : $"No servings value on file for this recipe - assuming {recipe.BaseServings}.";
+
+        RefreshServings();
+
         DetailBorder.Visibility = Visibility.Visible;
-        DetailColumn.Width = new GridLength(360);
+        DetailColumn.Width = new GridLength(440);
+        DetailScroll.ScrollToTop();
+    }
+
+    private void LoadPantry()
+    {
+        try
+        {
+            _pantryItems = _pantryService.Load(AppPaths.PantryPath);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _pantryItems = new List<PantryItem>();
+        }
+    }
+
+    private void ServingsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        // Also fires while the window is still being built, before any recipe is open
+        if (_suppressSliderEvents || _detailRecipe is null) return;
+        RefreshServings();
+    }
+
+    /// <summary>Re-computes ingredients, pantry status and nutrition for the slider's current value. Runs on every slider move.</summary>
+    private void RefreshServings()
+    {
+        if (_detailRecipe is null) return;
+
+        int servings = (int)Math.Round(ServingsSlider.Value);
+        SelectedServingsText.Text = $"Selected servings: {servings}";
+
+        var scaled = IngredientScaler.Scale(_detailRecipe, servings);
+        _availability = RecipeAvailabilityCalculator.Check(scaled, _pantryItems);
+        DetailIngredients.ItemsSource = _availability;
+
+        var nutrition = RecipeNutritionCalculator.Calculate(_detailRecipe, servings);
+        NutritionRows.ItemsSource = nutrition.Lines;
+        NutritionHeader.Visibility = nutrition.Lines.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        NutritionTotalHeader.Text = servings == 1 ? "TOTAL (1 serving)" : $"TOTAL ({servings} servings)";
+
+        if (nutrition.Lines.Count == 0)
+        {
+            NutritionNote.Text = "No nutrition values are on file for this recipe.";
+            NutritionNote.Visibility = Visibility.Visible;
+        }
+        else if (!nutrition.HasMacros)
+        {
+            NutritionNote.Text = "Protein, carbohydrates and fat were not provided for this recipe.";
+            NutritionNote.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            NutritionNote.Visibility = Visibility.Collapsed;
+        }
+
+        AddMissingButton.IsEnabled = _availability.Any(a => a.NeedsPurchase);
+        ShoppingMessage.Text = string.Empty;
+    }
+
+    private void AddMissing_Click(object sender, RoutedEventArgs e)
+    {
+        if (_detailRecipe is null) return;
+
+        int servings = (int)Math.Round(ServingsSlider.Value);
+        var toBuy = _availability.Where(a => a.NeedsPurchase).ToList();
+
+        if (toBuy.Count == 0)
+        {
+            ShowShoppingMessage("Nothing to add - everything is already in your pantry.", isError: false);
+            return;
+        }
+
+        try
+        {
+            var list = _shoppingService.Load(AppPaths.ShoppingListPath);
+            int changed = _shoppingService.AddMissing(list, toBuy);
+            _shoppingService.Save(AppPaths.ShoppingListPath, list);
+
+            ShowShoppingMessage(
+                $"Added {changed} ingredient{(changed == 1 ? "" : "s")} for {servings} serving{(servings == 1 ? "" : "s")} to your shopping list.",
+                isError: false);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            ShowShoppingMessage($"The shopping list could not be saved: {ex.Message}", isError: true);
+        }
+    }
+
+    private void ShowShoppingMessage(string text, bool isError)
+    {
+        ShoppingMessage.Foreground = isError ? Brushes.Firebrick : (Brush)FindResource("PrimaryBrush");
+        ShoppingMessage.Text = text;
+    }
+
+    // ---- image slideshow ----
+
+    /// <summary>
+    /// Shows every existing image listed for the recipe (auto-advancing when there are several).
+    /// With no usable image the default placeholder is shown together with "No image available".
+    /// </summary>
+    private void ShowDetailImages(Recipe recipe)
+    {
+        StopSlideshow();
+        _slides.Clear();
+        _slideIndex = 0;
+
+        foreach (var name in recipe.ImageFileNames)
+        {
+            if (string.IsNullOrWhiteSpace(name)) continue;
+
+            string path = Path.Combine(ImagesDirectory, Path.GetFileName(name.Trim()));
+            var bitmap = TryLoadBitmap(path);
+            if (bitmap != null) _slides.Add(bitmap);
+        }
+
+        bool hasOwnImages = _slides.Count > 0;
+        if (!hasOwnImages)
+        {
+            string? fallback = _imageService.ResolveImagePath(Array.Empty<string>(), ImagesDirectory);
+            var bitmap = fallback == null ? null : TryLoadBitmap(fallback);
+            if (bitmap != null) _slides.Add(bitmap);
+        }
+
+        NoImageText.Visibility = hasOwnImages ? Visibility.Collapsed : Visibility.Visible;
+
+        bool multiple = hasOwnImages && _slides.Count > 1;
+        var navVisibility = multiple ? Visibility.Visible : Visibility.Collapsed;
+        SlidePrevButton.Visibility = navVisibility;
+        SlideNextButton.Visibility = navVisibility;
+        SlideCounterBorder.Visibility = navVisibility;
+
+        ShowSlide(0);
+        if (multiple) StartSlideshow();
+    }
+
+    private static BitmapImage? TryLoadBitmap(string path)
+    {
+        try
+        {
+            if (!File.Exists(path)) return null;
+
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(path, UriKind.Absolute);
+            bitmap.CacheOption = BitmapCacheOption.OnLoad; // do not keep the file locked
+            bitmap.DecodePixelWidth = 640;
+            bitmap.EndInit();
+            bitmap.Freeze();
+            return bitmap;
+        }
+        catch
+        {
+            return null; // unreadable / corrupt image: treat it as missing instead of crashing
+        }
+    }
+
+    private void ShowSlide(int index)
+    {
+        if (_slides.Count == 0)
+        {
+            DetailImage.Source = null;
+            return;
+        }
+
+        _slideIndex = ((index % _slides.Count) + _slides.Count) % _slides.Count;
+        DetailImage.Source = _slides[_slideIndex];
+        SlideCounterText.Text = $"{_slideIndex + 1} / {_slides.Count}";
+    }
+
+    private void StartSlideshow()
+    {
+        if (_slideTimer is null)
+        {
+            _slideTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            _slideTimer.Tick += (_, _) => ShowSlide(_slideIndex + 1);
+        }
+
+        _slideTimer.Stop();
+        _slideTimer.Start();
+    }
+
+    private void StopSlideshow() => _slideTimer?.Stop();
+
+    private void PrevSlide_Click(object sender, RoutedEventArgs e)
+    {
+        ShowSlide(_slideIndex - 1);
+        StartSlideshow(); // restart the 5 s countdown after a manual change
+    }
+
+    private void NextSlide_Click(object sender, RoutedEventArgs e)
+    {
+        ShowSlide(_slideIndex + 1);
+        StartSlideshow();
+    }
+
+    // ---------------------------------------------------------------
+    // Add recipe
+    // ---------------------------------------------------------------
+
+    private void AddRecipe_Click(object sender, RoutedEventArgs e)
+    {
+        if (_products.Count == 0)
+        {
+            MessageBox.Show(Window.GetWindow(this),
+                "The product list (Products.txt) could not be loaded, so ingredients cannot be validated.\n\nA recipe cannot be added right now.",
+                "Add Recipe", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var dialog = new AddRecipeWindow(_recipeService, _products, _allRecipes, RecipesPath, ImagesDirectory)
+        {
+            Owner = Window.GetWindow(this)
+        };
+
+        if (dialog.ShowDialog() == true && dialog.CreatedRecipe != null)
+        {
+            // Reload from disk so the list shows exactly what was persisted
+            CloseDetail_Click(this, new RoutedEventArgs());
+            LoadRecipes();
+            ClearFilters_Click(this, new RoutedEventArgs()); // make sure the new recipe is visible
+        }
     }
 
     private void CloseDetail_Click(object sender, RoutedEventArgs e)
     {
+        StopSlideshow();
+        _detailRecipe = null;
         DetailBorder.Visibility = Visibility.Collapsed;
         DetailColumn.Width = new GridLength(0);
     }

@@ -1,0 +1,11 @@
+ProductId,Name,Quantity,Unit
+,smoked bacon,150,g
+,onion,1,
+,carrots,2,
+,parsnip,1,
+,white beans,250,g
+,stock,1,l
+,paprika,1,tsp
+,marjoram,1,tsp
+,bay leaf,1,
+,oil,1,tbsp
