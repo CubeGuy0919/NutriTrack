@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Data\\NutriTrack.Data.csproj": {}
+    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Data\\NutriTrack.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj": {
+    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj",
+        "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj",
         "projectName": "NutriTrack.Core",
-        "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj",
+        "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj",
         "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\obj\\",
+        "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -341,14 +341,14 @@
         }
       }
     },
-    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Data\\NutriTrack.Data.csproj": {
+    "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Data\\NutriTrack.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Data\\NutriTrack.Data.csproj",
+        "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Data\\NutriTrack.Data.csproj",
         "projectName": "NutriTrack.Data",
-        "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Data\\NutriTrack.Data.csproj",
+        "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Data\\NutriTrack.Data.csproj",
         "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Data\\obj\\",
+        "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -366,8 +366,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj": {
-                "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj"
+              "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj": {
+                "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj"
               }
             }
           }
