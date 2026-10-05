@@ -56,8 +56,5 @@ public partial class DashboardView : UserControl
 
         // Calculate Average Calories per Serving 
         AvgCaloriesText.Text = "0";
-
-        // Receipts count : Temporary UNTIL Receipts logging is implemented
-        ReceiptsCountText.Text = "0";
     }
 }
