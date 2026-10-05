@@ -4,38 +4,45 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <SolidColorBrush x:Key="PrimaryBrush" Color="#2E7D32" />
-        <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#1B5E20" />
-        <SolidColorBrush x:Key="BackgroundBrush" Color="#F5F7F5" />
-        <SolidColorBrush x:Key="SidebarBrush" Color="#1F2A24" />
-        <SolidColorBrush x:Key="TextLightBrush" Color="LightBlue" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Brushes.xaml" />
+                <ResourceDictionary Source="Styles/SharedStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="NavButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{StaticResource TextLightBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Padding" Value="16,12" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Left" 
-                                              VerticalAlignment="Center" 
-                                              Margin="16,0,0,0"
-                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#2C3B32" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+
+            <Style x:Key="NavButtonStyle" TargetType="Button">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{StaticResource TextLightBrush}" />
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Padding" Value="16,12" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Margin" Value="0,2" />
+                <Setter Property="MinHeight" Value="50" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Left" 
+                                      VerticalAlignment="Center" 
+                                      Margin="16,0,0,0"
+                                      TextElement.Foreground="{TemplateBinding Foreground}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="#2C3B32" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
 
     </Application.Resources>
 </Application>

@@ -15,4 +15,11 @@
     <ProjectReference Include="..\NutriTrack.Data\NutriTrack.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Views\Assets\Images\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Assets\Images\%(FileName)%(Extension)</Link>
+    </None>
+  </ItemGroup>
+
 </Project>
