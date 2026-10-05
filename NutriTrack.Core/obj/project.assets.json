@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj",
+      "projectUniqueName": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj",
       "projectName": "NutriTrack.Core",
-      "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\NutriTrack.Core.csproj",
+      "projectPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\NutriTrack.Core.csproj",
       "packagesPath": "C:\\Users\\pdani0919\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v4\\NutriTrack.Core\\obj\\",
+      "outputPath": "C:\\Users\\pdani0919\\source\\repos\\NutriTrack v6\\NutriTrack.Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pdani0919\\AppData\\Roaming\\NuGet\\NuGet.Config",
