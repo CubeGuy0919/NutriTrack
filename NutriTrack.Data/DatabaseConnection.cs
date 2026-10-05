@@ -1,5 +1,3 @@
-using MySqlConnector;
-
 namespace NutriTrack.Data;
 
 /// <summary>

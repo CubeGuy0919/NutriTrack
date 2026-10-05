@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using NutriTrack.Core.Models;
 
 namespace NutriTrack.Core.Services;
@@ -28,13 +29,13 @@ public class ProductService
                 Category = parts[2],
                 Brand = parts[3],
                 Unit = parts[4],
-                CaloriesPer100 = double.Parse(parts[5]),
-                ProteinPer100 = double.Parse(parts[6]),
-                CarbsPer100 = double.Parse(parts[7]),
-                FatPer100 = double.Parse(parts[8]),
-                FiberPer100 = double.Parse(parts[9]),
-                SugarPer100 = double.Parse(parts[10]),
-                SaltPer100 = double.Parse(parts[11])
+                CaloriesPer100 = double.Parse(parts[5], CultureInfo.InvariantCulture),
+                ProteinPer100 = double.Parse(parts[6], CultureInfo.InvariantCulture),
+                CarbsPer100 = double.Parse(parts[7], CultureInfo.InvariantCulture),
+                FatPer100 = double.Parse(parts[8], CultureInfo.InvariantCulture),
+                FiberPer100 = double.Parse(parts[9], CultureInfo.InvariantCulture),
+                SugarPer100 = double.Parse(parts[10], CultureInfo.InvariantCulture),
+                SaltPer100 = double.Parse(parts[11], CultureInfo.InvariantCulture)
             });
         }
 
