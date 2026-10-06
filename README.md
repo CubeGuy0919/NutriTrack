@@ -1,20 +1,33 @@
-# NutriTrack — starter solution
+# NutriTrack v8
 
-## What's here
-- **NutriTrack.UI** — WPF app (.NET 10). Sidebar navigation + a Dashboard view with placeholder tiles, and stub views for Receipts/Pantry/Shopping/Analytics.
-- **NutriTrack.Core** — plain C# models (`Product`, `Receipt`, `ReceiptItem`) with no dependencies. This is where business logic/services will live as you build them out.
-- **NutriTrack.Data** — MySQL access layer using `MySqlConnector`. Has a `DatabaseConnection` helper and a first `ProductRepository` (GetAll/Insert).
+Combines the two lines of work: **v6** (structured ingredients, add-recipe, serving scaling, shopping list) and
+**v7** (receipts, pantry with expiry dates, dashboard).
 
-## Opening it in VS Code
-1. Unzip, then open the **NutriTrack** folder in VS Code (`File → Open Folder`).
-2. Install the recommended extensions when prompted (C# Dev Kit). VS Code will restore NuGet
-   packages on first build — that needs internet, to pull down `MySqlConnector`.
-3. Press **F5** and pick *Launch NutriTrack.UI (Debug)*. You should get a window with a green
-   sidebar and a Dashboard with three placeholder tiles.
-4. From a terminal instead: `dotnet run --project NutriTrack.UI`.
+## Projects
+- **NutriTrack.UI** - WPF app (.NET 10, Windows only). Sidebar: Home, Recipes, Receipts, Pantry, Shopping, Analytics (placeholder).
+- **NutriTrack.Core** - models and services, no UI dependencies.
+- **NutriTrack.Data** - `Products.txt`, `Recipes.txt` and empty repository stubs for a future database.
 
-WPF is Windows-only, so the UI project builds and runs on Windows only. `NutriTrack.Core` and
-`NutriTrack.Data` are plain `net10.0` and build anywhere.
+## What each screen does
+- **Home** - receipts this month, recipe count, recipe of the day (best pantry match), "use soon" list for items about to expire.
+- **Recipes** - search / filter, add new recipes, detail panel with image slideshow, servings slider (1-12), live ingredient and
+  nutrition scaling, unit switch (as written / metric / imperial), per-ingredient pantry status and
+  "Add missing ingredients to shopping list".
+- **Receipts** - add, edit, delete, filter receipts (`Receipts.json`).
+- **Pantry** - stock with quantity, unit and expiry date (`Pantry.json`), "what can I cook?" suggestions.
+- **Shopping** - the list built from recipes (`ShoppingList.txt`); "Bought" moves an item into the pantry.
 
-## Opening it in Visual Studio
-`NutriTrack.sln` still works — double-click it, set **NutriTrack.UI** as the startup project, F5.
+## How the pieces fit
+- Ingredients are structured (`IngredientItem`: quantity, unit, product). Everything below uses them.
+- `IngredientScaler` -> `UnitConverter` / `QuantityFormatter`: scale first, then convert units, then format. Calculations
+  (pantry, shopping) always use the recipe's own unit, so the unit switch only changes how things are shown.
+- `RecipeNutritionCalculator`: calories / protein / carbs / fat in the recipe are **per serving**; totals = per serving x servings.
+- `RecipeAvailabilityCalculator` compares the scaled ingredients with `PantryService` (g, ml and counts are converted, so 1 kg covers 750 g).
+- `AppServices` holds the single shared pantry, receipts, shopping list, products and recipes.
+
+## Data files (next to the .exe)
+`Recipes.txt`, `Products.txt` (shipped), `Pantry.json`, `Receipts.json`, `ShoppingList.txt` (created on first use; the first
+run fills the pantry and receipts with demo data). A clean rebuild removes files created at run time.
+
+## Build
+Open `NutriTrack.sln` (or `.slnx`) in Visual Studio 2026 / `dotnet run --project NutriTrack.UI` on Windows. SDK: .NET 10 (see `global.json`).
