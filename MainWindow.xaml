@@ -1,8 +1,8 @@
 <Window x:Class="NutriTrack.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="720" Width="1180"
-        MinHeight="600" MinWidth="1100"
+        Height="720" Width="1300"
+        MinHeight="600" MinWidth="650"
         WindowStartupLocation="CenterScreen"
         Background="{StaticResource BackgroundBrush}">
 

@@ -1,0 +1,47 @@
+[
+  {
+    "PantryItemId": 1,
+    "ProductId": 4,
+    "ProductName": "Whole Milk",
+    "Category": "Dairy",
+    "Quantity": 1.5,
+    "Unit": "L",
+    "ExpiryDate": "2026-10-08T00:00:00+02:00"
+  },
+  {
+    "PantryItemId": 2,
+    "ProductId": 7,
+    "ProductName": "Eggs",
+    "Category": "Dairy",
+    "Quantity": 6,
+    "Unit": "pcs",
+    "ExpiryDate": "2026-10-07T00:00:00+02:00"
+  },
+  {
+    "PantryItemId": 3,
+    "ProductId": 1,
+    "ProductName": "Chicken Breast",
+    "Category": "Meat",
+    "Quantity": 800,
+    "Unit": "g",
+    "ExpiryDate": "2026-10-11T00:00:00+02:00"
+  },
+  {
+    "PantryItemId": 4,
+    "ProductId": 8,
+    "ProductName": "White Rice (Uncooked)",
+    "Category": "Grains",
+    "Quantity": 1000,
+    "Unit": "g",
+    "ExpiryDate": "2027-04-04T00:00:00+02:00"
+  },
+  {
+    "PantryItemId": 5,
+    "ProductId": 6,
+    "ProductName": "Cheddar Cheese",
+    "Category": "Dairy",
+    "Quantity": 200,
+    "Unit": "g",
+    "ExpiryDate": "2026-10-05T00:00:00+02:00"
+  }
+]

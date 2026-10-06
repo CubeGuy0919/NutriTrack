@@ -9,5 +9,6 @@ internal static class AppPaths
     public static string RecipesPath => Path.Combine(BaseDir, "Recipes.txt");
     public static string ProductsPath => Path.Combine(BaseDir, "Products.txt");
     public static string ShoppingListPath => Path.Combine(BaseDir, "ShoppingList.txt");
+    public static string HistoryPath => Path.Combine(BaseDir, "History.json");
     public static string ImagesDirectory => Path.Combine(BaseDir, "Assets", "Images");
 }

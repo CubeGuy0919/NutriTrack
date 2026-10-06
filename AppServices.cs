@@ -18,6 +18,9 @@ public static class AppServices
     public static ShoppingListService Shopping { get; } = new();
     public static NutritionAnalyticsService Analytics { get; } = new();
 
+    /// <summary>Persistent consumption, cooking and waste history (History.json).</summary>
+    public static HistoryService History { get; } = new(AppPaths.HistoryPath);
+
     /// <summary>Unit system chosen in the recipe detail (kept while the application runs).</summary>
     public static UnitSystem DisplayUnits { get; set; } = UnitSystem.AsWritten;
 
