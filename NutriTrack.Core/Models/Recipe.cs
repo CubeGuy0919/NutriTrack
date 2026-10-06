@@ -2,22 +2,49 @@ namespace NutriTrack.Core.Models;
 
 public class Recipe
 {
+    /// <summary>Base servings assumed when a recipe has no servings value on file (older Recipes.txt rows).</summary>
+    public const int DefaultServings = 4;
+
     public int RecipeId { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Cuisine { get; set; } = string.Empty;
     public string Category { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public int PrepTimeMinutes { get; set; }
     public int CookTimeMinutes { get; set; }
+
+    /// <summary>Number of servings the ingredient quantities are written for. 0 = not on file.</summary>
+    public int Servings { get; set; }
+
     public double CaloriesPerServing { get; set; }
+
+    // Optional macros per serving: null = not provided (never invented).
+    public double? ProteinPerServing { get; set; }
+    public double? CarbsPerServing { get; set; }
+    public double? FatPerServing { get; set; }
 
     // Processed collections
     public List<string> FoodSensitivities { get; set; } = new();
-    public List<string> Ingredients { get; set; } = new();
+    public List<IngredientItem> Ingredients { get; set; } = new();
     public List<string> Instructions { get; set; } = new();
+
+    /// <summary>Explicit image file names inside the application's Assets/Images folder. Empty = use the placeholder.</summary>
+    public List<string> ImageFileNames { get; set; } = new();
+
+    // ---- Serving / scaling support (the slider itself comes in Part 2) ----
+
+    public bool HasKnownServings => Servings > 0;
+
+    /// <summary>Servings the stored quantities refer to; falls back to <see cref="DefaultServings"/> when unknown.</summary>
+    public int BaseServings => Servings > 0 ? Servings : DefaultServings;
+
+    /// <summary>selected servings / base servings, e.g. 6 / 4 = 1.5. Multiply ingredient and nutrition values by this.</summary>
+    public double GetScaleFactor(int selectedServings) =>
+        selectedServings <= 0 ? 0 : (double)selectedServings / BaseServings;
 
     // Formatted helper properties for DataGrid/ListView bindings
     public string FormattedSensitivities => string.Join(" \n ", FoodSensitivities.Prepend(string.Empty));
-    public string FormattedIngredients => string.Join(" \n ", Ingredients.Prepend(string.Empty));
+    public string FormattedIngredients => string.Join(" \n ", Ingredients.Select(i => i.DisplayText).Prepend(string.Empty));
     public string FormattedInstructions => string.Join(" \n", Instructions.Prepend(string.Empty));
 
     // ---- Card / filter-view helpers ----
@@ -32,72 +59,16 @@ public class Recipe
     public string SensitivitiesLabel =>
         FoodSensitivities.Count == 0 ? "No flagged sensitivities" : string.Join(" · ", FoodSensitivities);
 
-    // ---- Planned and Detail Features ----
-    public int Servings { get; set; } = 4;
-    public List<string> ImageFileNames { get; set; } = new();
-    public bool IsFavorite { get; set; } = false;
-    public int CookedCount { get; set; } = 0;
-
-    public string GetScaledAndConvertedIngredients(double scaleFactor, bool useImperial = false)
+    /// <summary>"Protein 30 g · Carbs 40 g · Fat 10 g" for whichever values exist; empty when none do.</summary>
+    public string MacrosLabel
     {
-        if (scaleFactor <= 0) scaleFactor = 1.0;
-        var scaled = new List<string>();
-
-        foreach (var ingredient in Ingredients)
+        get
         {
-            if (string.IsNullOrWhiteSpace(ingredient)) continue;
-
-            // Attempt to scale leading numeric portion
-            var match = System.Text.RegularExpressions.Regex.Match(ingredient.Trim(), @"^(\d+(?:[.,]\d+)?|\d+/\d+)\s*(.*)$");
-            if (match.Success)
-            {
-                string numStr = match.Groups[1].Value.Replace(',', '.');
-                string rest = match.Groups[2].Value;
-                double amount;
-
-                if (numStr.Contains('/'))
-                {
-                    var frac = numStr.Split('/');
-                    if (frac.Length == 2 && double.TryParse(frac[0], out double num) && double.TryParse(frac[1], out double den) && den != 0)
-                        amount = num / den;
-                    else
-                        amount = 1.0;
-                }
-                else if (!double.TryParse(numStr, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out amount))
-                {
-                    amount = 1.0;
-                }
-
-                double scaledAmount = amount * scaleFactor;
-
-                if (useImperial)
-                {
-                    // Convert metric units to imperial if applicable
-                    if (rest.StartsWith("g ", StringComparison.OrdinalIgnoreCase))
-                    {
-                        double oz = scaledAmount * 0.035274;
-                        rest = "oz " + rest[2..].TrimStart();
-                        scaled.Add($"{oz:0.#} {rest}");
-                        continue;
-                    }
-                    else if (rest.StartsWith("ml ", StringComparison.OrdinalIgnoreCase))
-                    {
-                        double flOz = scaledAmount * 0.033814;
-                        rest = "fl oz " + rest[3..].TrimStart();
-                        scaled.Add($"{flOz:0.#} {rest}");
-                        continue;
-                    }
-                }
-
-                string formattedAmount = scaledAmount >= 10 ? $"{scaledAmount:0}" : $"{scaledAmount:0.#}";
-                scaled.Add($"{formattedAmount} {rest}");
-            }
-            else
-            {
-                scaled.Add(ingredient);
-            }
+            var parts = new List<string>();
+            if (ProteinPerServing.HasValue) parts.Add($"Protein {ProteinPerServing.Value:0.#} g");
+            if (CarbsPerServing.HasValue) parts.Add($"Carbs {CarbsPerServing.Value:0.#} g");
+            if (FatPerServing.HasValue) parts.Add($"Fat {FatPerServing.Value:0.#} g");
+            return string.Join(" · ", parts);
         }
-
-        return string.Join(" \n ", scaled.Prepend(string.Empty));
     }
 }

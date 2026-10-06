@@ -1,35 +1,17 @@
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\Products.txt
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\Recipes.txt
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.deps.json
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.dll
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.pdb
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Core.dll
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Core.pdb
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.csproj.AssemblyReference.cache
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.AssemblyInfoInputs.cache
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.AssemblyInfo.cs
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.csproj.CoreCompileInputs.cache
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTra.CA54C0A8.Up2Date
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.dll
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\refint\NutriTrack.Data.dll
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.pdb
-C:\Users\pdani0919\source\repos\NutriTrack v4\NutriTrack.Data\obj\Debug\net10.0\ref\NutriTrack.Data.dll
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\Products.txt
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\Recipes.txt
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.deps.json
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.dll
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.pdb
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Core.dll
-C:\Users\PC\NutriTrack\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Core.pdb
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.csproj.AssemblyReference.cache
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.AssemblyInfoInputs.cache
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.AssemblyInfo.cs
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.csproj.CoreCompileInputs.cache
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.sourcelink.json
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTra.CA54C0A8.Up2Date
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.dll
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\refint\NutriTrack.Data.dll
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.pdb
-C:\Users\PC\NutriTrack\NutriTrack.Data\obj\Debug\net10.0\ref\NutriTrack.Data.dll
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\Products.txt
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\Recipes.txt
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.deps.json
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.dll
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Data.pdb
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Core.dll
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\bin\Debug\net10.0\NutriTrack.Core.pdb
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.csproj.AssemblyReference.cache
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.AssemblyInfoInputs.cache
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.AssemblyInfo.cs
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.csproj.CoreCompileInputs.cache
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTra.CA54C0A8.Up2Date
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.dll
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\refint\NutriTrack.Data.dll
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\NutriTrack.Data.pdb
+C:\Users\parvanyik.daniel\Downloads\NutriTrack v8\NutriTrack.Data\obj\Debug\net10.0\ref\NutriTrack.Data.dll

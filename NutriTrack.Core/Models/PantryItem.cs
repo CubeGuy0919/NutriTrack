@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Text.Json.Serialization;
+
 namespace NutriTrack.Core.Models;
 
 public enum ExpiryStatus
@@ -18,6 +21,7 @@ public class PantryItem
     public string Unit { get; set; } = "pcs";
     public DateTime? ExpiryDate { get; set; }
 
+    [JsonIgnore]
     public ExpiryStatus ExpiryStatus
     {
         get
@@ -31,6 +35,7 @@ public class PantryItem
         }
     }
 
+    [JsonIgnore]
     public string ExpiryText
     {
         get
@@ -47,7 +52,8 @@ public class PantryItem
         }
     }
 
-    public string FormattedQuantity => $"{Quantity:0.##} {Unit}".Trim();
+    [JsonIgnore]
+    public string FormattedQuantity => $"{Quantity.ToString("0.##", CultureInfo.InvariantCulture)} {Unit}".Trim();
 
     public override string ToString() => $"{ProductName} ({FormattedQuantity})";
 }

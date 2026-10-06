@@ -17,6 +17,9 @@ public class ReceiptService
         PropertyNameCaseInsensitive = true
     };
 
+    /// <summary>Message of the last failed save, or null when the last save worked.</summary>
+    public string? LastSaveError { get; private set; }
+
     public ReceiptService(string? customPath = null)
     {
         _filePath = customPath ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Receipts.json");
@@ -108,9 +111,9 @@ public class ReceiptService
                 }
             }
         }
-        catch
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
         {
-            // Fall back to seed data if reading corrupted file
+            // Unreadable file: fall back to the demo receipts (the broken file is kept as .bak on the next save)
         }
 
         // Initialize with default demo receipts if file doesn't exist
@@ -123,11 +126,12 @@ public class ReceiptService
         try
         {
             string json = JsonSerializer.Serialize(_receipts, _jsonOptions);
-            File.WriteAllText(_filePath, json);
+            TextFile.WriteAtomic(_filePath, json);
+            LastSaveError = null;
         }
-        catch
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
-            // Silently handle IO errors in restricted environments
+            LastSaveError = ex.Message;
         }
     }
 
