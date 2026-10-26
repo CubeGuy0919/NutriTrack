@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace NutriTrack.UI.Converters;
 
-/// <summary>Category -> a distinct accent color, used for card top-bars and badges.</summary>
+/// <summary>Category Designs</summary>
 public class CategoryBrushConverter : IValueConverter
 {
     private static readonly Dictionary<string, Color> Map = new(StringComparer.OrdinalIgnoreCase)
