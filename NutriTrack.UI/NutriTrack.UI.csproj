@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>NutriTrack.UI</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Recipes.txt and Products.txt are copied next to the .exe -->
+    <Content Include="Data\**\*.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <!-- Recipe images (default_food.png + one set per recipe) -->
+    <Content Include="Assets\Images\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NutriTrack.Core\NutriTrack.Core.csproj" />
+  </ItemGroup>
+
+</Project>
