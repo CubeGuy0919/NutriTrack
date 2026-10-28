@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="NutriTrack.Core/NutriTrack.Core.csproj" />
+  <Project Path="NutriTrack.UI/NutriTrack.UI.csproj" />
+</Solution>
