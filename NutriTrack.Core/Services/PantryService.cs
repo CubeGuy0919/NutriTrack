@@ -27,9 +27,7 @@ public class PantryService
         LoadPantry();
     }
 
-    // ---------------------------------------------------------------
-    // Queries
-    // ---------------------------------------------------------------
+    // Pantry Queries
 
     public List<PantryItem> GetAllPantryItems() => _pantryItems.OrderBy(p => p.ExpiryDate ?? DateTime.MaxValue).ToList();
 
@@ -107,7 +105,6 @@ public class PantryService
             if (best != null) return best;
         }
 
-        // Free-text pantry item (no product): look for its name in the ingredient names
         if (string.IsNullOrWhiteSpace(item.ProductName)) return null;
         string name = item.ProductName.Trim();
 
@@ -122,9 +119,7 @@ public class PantryService
             r.Ingredients.Any(i => words.Any(w => i.Name.Contains(w, StringComparison.OrdinalIgnoreCase))));
     }
 
-    // ---------------------------------------------------------------
     // Changes
-    // ---------------------------------------------------------------
 
     public void AddPantryItem(PantryItem item)
     {
