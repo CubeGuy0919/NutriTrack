@@ -7,10 +7,8 @@ public class RecipeMatchResult
     public int MatchedIngredientsCount { get; set; }
     public int TotalIngredientsCount { get; set; }
 
-    /// <summary>Display text of the ingredients the pantry covers.</summary>
     public List<string> MatchedIngredients { get; set; } = new();
 
-    /// <summary>Display text of the ingredients the pantry does not cover.</summary>
     public List<string> MissingIngredients { get; set; } = new();
 
     public double MatchPercentage => TotalIngredientsCount > 0
