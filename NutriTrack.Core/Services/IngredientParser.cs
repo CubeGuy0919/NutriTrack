@@ -11,8 +11,6 @@ namespace NutriTrack.Core.Services;
 /// </summary>
 public static class IngredientParser
 {
-    // Quantity forms, tried in this order: mixed number (1 1/2), fraction (1/2), decimal (1.5 / 1,5), unicode fraction.
-    // The lookahead stops things like "2-3 cloves" or "3x" from being half-parsed.
     private static readonly Regex QuantityRegex = new(
         @"^\s*(?:(?<mw>\d+)\s+(?<mn>\d+)/(?<md>\d+)|(?<fn>\d+)/(?<fd>\d+)|(?<dec>\d+(?:[.,]\d+)?)(?<uf>[½¼¾⅓⅔⅛])?|(?<uo>[½¼¾⅓⅔⅛]))(?=\s|$|[A-Za-z])",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
@@ -96,7 +94,7 @@ public static class IngredientParser
         string trimmed = text.Trim();
         var match = QuantityRegex.Match(trimmed);
         if (!match.Success || match.Length != trimmed.Length)
-            return false; // empty, not a number, or has trailing junk such as "5 kg"
+            return false; // empty / not a number
 
         return TryReadQuantity(match, out quantity) && quantity > 0;
     }
@@ -107,8 +105,6 @@ public static class IngredientParser
         string trimmed = (unit ?? string.Empty).Trim().TrimEnd('.');
         return KnownUnits.TryGetValue(trimmed, out var known) ? known : trimmed;
     }
-
-    // ---------------------------------------------------------------
 
     private static bool TryParseCore(string line, out IngredientItem item)
     {

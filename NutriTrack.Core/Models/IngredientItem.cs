@@ -1,5 +1,4 @@
 using System.Globalization;
-
 namespace NutriTrack.Core.Models;
 
 /// <summary>

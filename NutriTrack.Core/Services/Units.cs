@@ -2,8 +2,7 @@ using System.Globalization;
 
 namespace NutriTrack.Core.Services;
 
-// Everything about units lives in this file. The idea in one sentence:
-//   a recipe is scaled first, then converted to the chosen unit system, then formatted as text.
+// A recipe is scaled first, then converted to the chosen unit system, then formatted as text.
 // Pantry and shopping-list maths never use the display system - they compare amounts in grams / ml / counts.
 
 /// <summary>How amounts are shown in the recipe detail. Only the display changes, stored recipes never do.</summary>
@@ -21,7 +20,7 @@ public enum UnitDimension
 {
     Mass,
     Volume,
-    /// <summary>Countable things: pieces, cloves, slices ... Only comparable when the count word is the same.</summary>
+    /// <summary>Countable things: pieces, cloves, slices ...</summary>
     Count
 }
 

@@ -119,7 +119,7 @@ public static class RecipeAvailabilityCalculator
             };
         }
 
-        // Shortfall in the recipe's own unit (what goes on the shopping list)
+        // What goes on the shopping list
         double missing = Math.Round(UnitConverter.FromBase(missingBase, unit), 2, MidpointRounding.AwayFromZero);
         string missingLabel = QuantityFormatter.FormatAmount(missing, unit, system);
 

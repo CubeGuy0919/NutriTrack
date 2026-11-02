@@ -2,7 +2,7 @@ using System.Globalization;
 
 namespace NutriTrack.Core.Services;
 
-/// <summary>Reads the product list (Products.txt). Lines that cannot be read are skipped.</summary>
+/// <summary>Reads the product list (Products.txt) => Lines that cannot be read are skipped.</summary>
 public class ProductService
 {
     public List<Models.Product> LoadAllowedProducts(string filePath)
