@@ -2,8 +2,6 @@ using System.Globalization;
 
 namespace NutriTrack.Core.Services;
 
-// A recipe is scaled first, then converted to the chosen unit system, then formatted as text.
-// Pantry and shopping-list maths never use the display system - they compare amounts in grams / ml / counts.
 
 /// <summary>How amounts are shown in the recipe detail. Only the display changes, stored recipes never do.</summary>
 public enum UnitSystem
@@ -20,7 +18,7 @@ public enum UnitDimension
 {
     Mass,
     Volume,
-    /// <summary>Countable things: pieces, cloves, slices ...</summary>
+    /// <summary>Countable things: pieces, cloves, slices ... Only comparable when the count word is the same.</summary>
     Count
 }
 
@@ -55,7 +53,6 @@ public static class UnitConverter
         ["tsp"] = 5, ["tbsp"] = 15, ["cup"] = 240, ["cups"] = 240, ["fl oz"] = MillilitresPerFluidOunce
     };
 
-    // Count words (singular form). The plural is the word + "s" or "es", handled in Singular / DisplayUnit.
     private static readonly string[] CountWords =
         { "clove", "slice", "pinch", "dash", "sprig", "stalk", "can", "bunch", "sheet" };
 
@@ -63,7 +60,6 @@ public static class UnitConverter
         (unit ?? string.Empty).Trim().TrimEnd('.').ToLowerInvariant();
 
     // ---------------------------------------------------------------
-    // For pantry and shopping list: compare amounts in a common base unit
     // ---------------------------------------------------------------
 
     /// <summary>Converts an amount to grams, millilitres or a count. Unknown or empty units count as pieces.</summary>
@@ -115,7 +111,6 @@ public static class UnitConverter
     }
 
     // ---------------------------------------------------------------
-    // For the recipe screen: show an amount in the chosen unit system
     // ---------------------------------------------------------------
 
     /// <summary>
@@ -131,7 +126,6 @@ public static class UnitConverter
         string u = Clean(unit);
         var amount = ToBase(quantity, unit);
 
-        // pieces, cloves ... and tiny mg amounts stay as they are
         if (amount.Dimension == UnitDimension.Count || u == "mg") return (quantity, original);
 
         if (system == UnitSystem.Metric)
@@ -167,7 +161,7 @@ public static class UnitConverter
         if (u is "cup" or "cups") return singular ? "cup" : "cups";
 
         string word = Singular(u);
-        if (Array.IndexOf(CountWords, word) < 0) return trimmed;   // g, ml, tbsp, pcs ... have no plural form
+        if (Array.IndexOf(CountWords, word) < 0) return trimmed;
 
         if (singular) return word;
         return word.EndsWith("ch") || word.EndsWith("sh") ? word + "es" : word + "s";
@@ -226,7 +220,6 @@ public static class QuantityFormatter
                 return Fraction(quantity, EighthSteps);
 
             default:
-                // pieces, cloves, slices, "2 tomatoes" (no unit) ...
                 return Fraction(quantity, QuarterSteps);
         }
     }
@@ -265,7 +258,6 @@ public static class QuantityFormatter
             }
         }
 
-        // 0.97 is closest to a full 1: carry it into the whole part
         if (best.Value >= 1)
         {
             whole += 1;
@@ -274,7 +266,6 @@ public static class QuantityFormatter
 
         if (best.Text.Length == 0)
         {
-            // A whole number. Anything too small to show as a fraction falls back to a decimal.
             return whole > 0 ? whole.ToString("0", CultureInfo.InvariantCulture) : Round(quantity, 2);
         }
 

@@ -4,11 +4,15 @@ using System.Windows.Media;
 
 namespace NutriTrack.UI.Converters;
 
-/// <summary>Category Designs</summary>
+/// <summary>Category -> a distinct accent color, used for card top-bars and badges.</summary>
 public class CategoryBrushConverter : IValueConverter
 {
     private static readonly Dictionary<string, Color> Map = new(StringComparer.OrdinalIgnoreCase)
     {
+        ["Breakfast"] = Color.FromRgb(0xE6, 0xB8, 0x55),
+        ["Lunch"] = Color.FromRgb(0x4C, 0x91, 0xA8),
+        ["Dinner"] = Color.FromRgb(0x2E, 0x7D, 0x32),
+        ["Bread"] = Color.FromRgb(0xB8, 0x83, 0x4D),
         ["Soup"] = Color.FromRgb(0xE0, 0x8E, 0x3E),
         ["Meal"] = Color.FromRgb(0x2E, 0x7D, 0x32),
         ["Salad"] = Color.FromRgb(0x5B, 0x9B, 0x4A),

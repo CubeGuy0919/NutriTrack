@@ -22,13 +22,12 @@ public class ProductMatcher
     {
         _products = products.ToList();
 
-        foreach (var product in _products)
+        foreach (Product product in _products)
         {
-            foreach (var key in KeysFor(product.Name))
+            foreach (string key in KeysFor(product.Name))
             {
                 if (_index.TryGetValue(key, out var existing) && existing.ProductId != product.ProductId)
                 {
-                    // two different products share a key: never guess between them
                     _ambiguous.Add(key);
                     continue;
                 }
@@ -44,7 +43,7 @@ public class ProductMatcher
     {
         if (string.IsNullOrWhiteSpace(ingredientName)) return null;
 
-        foreach (var key in KeysFor(ingredientName))
+        foreach (string key in KeysFor(ingredientName))
         {
             if (_ambiguous.Contains(key)) continue;
             if (_index.TryGetValue(key, out var product)) return product;
@@ -69,10 +68,6 @@ public class ProductMatcher
             .ToList();
     }
 
-    // ---------------------------------------------------------------
-    // Normalization
-    // ---------------------------------------------------------------
-
     /// <summary>Lower-case, accent-free, single-spaced. "  Crème  Fraîche " becomes "creme fraiche".</summary>
     public static string Normalize(string? text)
     {
@@ -82,7 +77,7 @@ public class ProductMatcher
         var sb = new StringBuilder(decomposed.Length);
         foreach (char c in decomposed)
         {
-            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark && c is not '"' and not '“' and not '”')
                 sb.Append(c);
         }
 
@@ -99,14 +94,26 @@ public class ProductMatcher
         string head = lastSpace < 0 ? string.Empty : normalized.Substring(0, lastSpace + 1);
         string word = lastSpace < 0 ? normalized : normalized.Substring(lastSpace + 1);
 
-        if (word.Length < 4) return normalized;
+        if (word.Length < 4) { return normalized; }
 
         if (word.EndsWith("ies", StringComparison.Ordinal))
-            word = word.Substring(0, word.Length - 3) + "y";
+            { word = word.Substring(0, word.Length - 3) + "y"; }
         else if (word.EndsWith("oes", StringComparison.Ordinal))
-            word = word.Substring(0, word.Length - 2);
+            { word = word.Substring(0, word.Length - 2); }
+        else if (word.EndsWith("ves", StringComparison.Ordinal))
+            { word = word.Substring(0, word.Length - 3) + "f"; }
+        else if (word.EndsWith("xes", StringComparison.Ordinal))
+            { word = word.Substring(0, word.Length - 2); }
+        else if (word.EndsWith("ches", StringComparison.Ordinal) || word.EndsWith("shes", StringComparison.Ordinal))
+            { word = word.Substring(0, word.Length - 2); }
+        else if (word.EndsWith("ses", StringComparison.Ordinal))
+            { word = word.Substring(0, word.Length - 1); }
+        else if (word.EndsWith("sses", StringComparison.Ordinal))
+        { word = word.Substring(0, word.Length - 1); }
+        else if (word.EndsWith("xes", StringComparison.Ordinal))
+        { word = word.Substring(0, word.Length - 2); }
         else if (word.EndsWith("ss", StringComparison.Ordinal) || word.EndsWith("us", StringComparison.Ordinal))
-            return normalized; // "hummus", "asparagus", "molasses" stay as they are
+        { word = word.Substring(0, word.Length - 1); }
         else if (word.EndsWith('s'))
             word = word.Substring(0, word.Length - 1);
 
@@ -131,7 +138,7 @@ public class ProductMatcher
 
         int open = name.IndexOf('(');
         if (open > 0)
-            Add(name.Substring(0, open)); // "Ground Beef (80/20)" also answers to "ground beef"
+            Add(name.Substring(0, open));
 
         return keys;
     }

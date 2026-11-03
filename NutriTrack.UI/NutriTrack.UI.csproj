@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Recipes.txt and Products.txt are copied next to the .exe -->
+    <!-- Curated recipes and the product nutrition catalogue are copied next to the .exe -->
     <Content Include="Data\**\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

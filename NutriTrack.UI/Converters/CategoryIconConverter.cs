@@ -3,12 +3,16 @@ using System.Windows.Data;
 
 namespace NutriTrack.UI.Converters;
 
-/// <summary>Category (Soup/Meal/Salad/Snack/Dessert) -> emoji icons for recipe cards.</summary>
+/// <summary>Category (Soup/Meal/Salad/Snack/Dessert) -> emoji icon for recipe cards.</summary>
 public class CategoryIconConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object parameter, CultureInfo culture) =>
         (value as string)?.ToLowerInvariant() switch
         {
+            "breakfast" => "🍳",
+            "lunch" => "🥙",
+            "dinner" => "🍽️",
+            "bread" => "🍞",
             "soup" => "🍲",
             "meal" => "🍽️",
             "salad" => "🥗",

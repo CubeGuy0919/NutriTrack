@@ -21,7 +21,7 @@ public static class AppServices
     private static ProductMatcher? _matcher;
     private static List<Recipe>? _recipes;
 
-    /// <summary>The product list (Products.txt). The only source of ingredients that recipes, pantry and receipts accept.</summary>
+    /// <summary>The complete recipe-derived product catalogue. Blank nutrition fields are deliberately treated as unknown.</summary>
     public static List<Product> GetAllowedProducts()
     {
         if (_products == null || _products.Count == 0)
@@ -34,7 +34,7 @@ public static class AppServices
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or FormatException)
             {
-                _products = new List<Product>();   // unreadable file: the app starts with an empty product list
+                _products = new List<Product>();
             }
 
             _matcher = null;
@@ -44,10 +44,26 @@ public static class AppServices
     }
 
     /// <summary>Turns a typed name ("tomatoes") into a product, tolerant of case, accents and plurals.</summary>
-    public static ProductMatcher GetProductMatcher() => _matcher ??= new ProductMatcher(GetAllowedProducts());
+    public static ProductMatcher GetProductMatcher()
+    {
+        if (_matcher == null)
+        {
+            _matcher = new ProductMatcher(GetAllowedProducts());
+        }
+
+        return _matcher;
+    }
 
     /// <summary>The recipes as last loaded.</summary>
-    public static List<Recipe> GetLoadedRecipes() => _recipes ?? ReloadRecipes();
+    public static List<Recipe> GetLoadedRecipes()
+    {
+        if (_recipes == null)
+        {
+            ReloadRecipes();
+        }
+
+        return _recipes;
+    }
 
     /// <summary>Reads Recipes.txt again (for example after a recipe was added).</summary>
     public static List<Recipe> ReloadRecipes()
@@ -55,6 +71,25 @@ public static class AppServices
         _recipes = File.Exists(AppPaths.RecipesPath)
             ? Recipes.LoadRecipesFromTxt(AppPaths.RecipesPath, GetAllowedProducts())
             : new List<Recipe>();
+
+        try
+        {
+            Directory.CreateDirectory(AppPaths.UserDataDirectory);
+            var favorites = File.Exists(AppPaths.FavoriteRecipesPath)
+                ? File.ReadAllLines(AppPaths.FavoriteRecipesPath).ToHashSet(StringComparer.Ordinal)
+                : new HashSet<string>(StringComparer.Ordinal);
+            var recent = File.Exists(AppPaths.RecentlyViewedRecipesPath)
+                ? File.ReadAllLines(AppPaths.RecentlyViewedRecipesPath).ToHashSet(StringComparer.Ordinal)
+                : new HashSet<string>(StringComparer.Ordinal);
+            foreach (var recipe in _recipes)
+            {
+                recipe.IsFavorite = favorites.Contains(recipe.RecipeId.ToString());
+                recipe.IsRecentlyViewed = recent.Contains(recipe.RecipeId.ToString());
+            }
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+        }
 
         return _recipes;
     }

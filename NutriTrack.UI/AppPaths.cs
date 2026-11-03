@@ -7,11 +7,15 @@ internal static class AppPaths
 {
     private static string BaseDir => AppDomain.CurrentDomain.BaseDirectory;
 
-    // shipped with the app (the Data folder of the UI project)
     public static string RecipesPath => Path.Combine(BaseDir, "Data", "Recipes.txt");
     public static string ProductsPath => Path.Combine(BaseDir, "Data", "Products.txt");
     public static string ImagesDirectory => Path.Combine(BaseDir, "Assets", "Images");
 
-    // created while the app runs (Pantry.json and Receipts.json are handled by their own services)
     public static string ShoppingListPath => Path.Combine(BaseDir, "ShoppingList.txt");
+
+    public static string UserDataDirectory =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NutriTrack");
+    public static string FavoriteRecipesPath => Path.Combine(UserDataDirectory, "favorite-recipes.txt");
+    public static string RecentlyViewedRecipesPath => Path.Combine(UserDataDirectory, "recently-viewed-recipes.txt");
+    public static string RecipeImageCacheDirectory => Path.Combine(UserDataDirectory, "RecipeImages");
 }

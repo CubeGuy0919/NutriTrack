@@ -370,7 +370,7 @@
                     <!-- Product selector / name -->
                     <StackPanel Grid.Row="1" Margin="0,0,0,14">
                         <TextBlock Text="Product *" FontSize="12" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,6" />
-                        <ComboBox x:Name="DialogProductCombo" IsEditable="True"
+                        <ComboBox x:Name="DialogProductCombo" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" StaysOpenOnEdit="True"
                                   Style="{StaticResource FilterComboStyle}"
                                   SelectionChanged="DialogProductCombo_SelectionChanged" />
                     </StackPanel>

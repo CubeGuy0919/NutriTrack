@@ -75,7 +75,6 @@ public class RecipeImageService
             }
             catch (IOException) when (File.Exists(target))
             {
-                // someone created it between the check and the copy - try the next number
             }
         }
 

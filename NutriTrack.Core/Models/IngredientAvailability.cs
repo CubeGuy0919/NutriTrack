@@ -23,18 +23,17 @@ public class IngredientAvailability
     public AvailabilityStatus Status { get; init; }
     public PantryItem? PantryItem { get; init; }
 
-    /// <summary>Amount still missing, expressed in the ingredient's own unit => 0 when the pantry covers it.</summary>
+    /// <summary>Amount still missing, expressed in the ingredient's own unit. 0 when the pantry covers it.</summary>
     public double MissingQuantity { get; init; }
 
-    /// <summary>Text for the "Required / Pantry / Missing" line.</summary>
+    /// <summary>Text for the "Required / Pantry / Missing" line under the ingredient.</summary>
     public string DetailLine { get; init; } = string.Empty;
 
     /// <summary>True when something has to be bought for this ingredient.</summary>
     public bool NeedsPurchase => Status is AvailabilityStatus.Missing or AvailabilityStatus.Partial
                                            or AvailabilityStatus.NotTracked or AvailabilityStatus.UnitMismatch;
 
-    /// <summary>What goes on the shopping list: -> only the shortfall for Partial 
-    ///                                          -> the full required amount otherwise.</summary>
+    /// <summary>What goes on the shopping list: only the shortfall for Partial, the full required amount otherwise.</summary>
     public double QuantityToBuy => Status == AvailabilityStatus.Partial ? MissingQuantity : Ingredient.Quantity;
 
     public string StatusSymbol => Status switch

@@ -113,10 +113,8 @@ public class ReceiptService
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
         {
-            // Unreadable file: fall back to the demo receipts 
         }
 
-        // Initialize with default demo receipts if file doesn't exist
         SeedInitialReceipts();
         SaveReceipts();
     }

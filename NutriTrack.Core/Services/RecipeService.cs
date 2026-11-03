@@ -59,7 +59,6 @@ public class RecipeService
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            // The last column absorbs any extra commas (instruction text)
             var parts = line.Split(',', columns.Length);
             if (parts.Length < columns.Length) continue;
 
@@ -225,7 +224,6 @@ public class RecipeService
         var result = Validate(recipe, existingRecipes, products);
         if (!result.IsValid) return result;
 
-        // Clean up text and link every ingredient to its product (canonical product name)
         var matcher = new ProductMatcher(products);
         recipe.Name = recipe.Name.Trim();
         recipe.Cuisine = recipe.Cuisine.Trim();
@@ -259,7 +257,6 @@ public class RecipeService
             }
         }
 
-        // Persist, then update the in-memory collection
         try
         {
             SaveRecipesToTxt(recipesFilePath, existingRecipes.Concat(new[] { recipe }));

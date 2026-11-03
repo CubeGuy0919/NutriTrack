@@ -85,7 +85,6 @@ public partial class ReceiptsView : UserControl
 
         var query = _allReceipts.AsEnumerable();
 
-        // 1. Text Search (Store or Product names)
         var searchText = SearchBox?.Text?.Trim();
         if (!string.IsNullOrWhiteSpace(searchText))
         {
@@ -133,7 +132,6 @@ public partial class ReceiptsView : UserControl
 
         EmptyState.Visibility = count == 0 ? Visibility.Visible : Visibility.Collapsed;
 
-        // If selected receipt is not in filtered list, hide details
         if (_selectedReceipt != null && !filtered.Any(r => r.ReceiptId == _selectedReceipt.ReceiptId))
         {
             CloseDetail();
@@ -277,7 +275,6 @@ public partial class ReceiptsView : UserControl
             return;
         }
 
-        // Match existing product ID if found in catalog
         var matchedProduct = AppServices.GetAllowedProducts()
             .FirstOrDefault(p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase));
 

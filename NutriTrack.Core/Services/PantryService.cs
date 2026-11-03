@@ -27,7 +27,9 @@ public class PantryService
         LoadPantry();
     }
 
-    // Pantry Queries
+    // ---------------------------------------------------------------
+    // Queries
+    // ---------------------------------------------------------------
 
     public List<PantryItem> GetAllPantryItems() => _pantryItems.OrderBy(p => p.ExpiryDate ?? DateTime.MaxValue).ToList();
 
@@ -119,7 +121,9 @@ public class PantryService
             r.Ingredients.Any(i => words.Any(w => i.Name.Contains(w, StringComparison.OrdinalIgnoreCase))));
     }
 
+    // ---------------------------------------------------------------
     // Changes
+    // ---------------------------------------------------------------
 
     public void AddPantryItem(PantryItem item)
     {
@@ -191,7 +195,9 @@ public class PantryService
         return true;
     }
 
+    // ---------------------------------------------------------------
     // Persistence
+    // ---------------------------------------------------------------
 
     public void LoadPantry()
     {
@@ -212,7 +218,6 @@ public class PantryService
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
         {
-            // Unreadable file: start again from the demo data below (the broken file is kept as .bak on the next save)
         }
 
         SeedInitialPantry();

@@ -55,7 +55,20 @@
                                         Background="{Binding Category, Converter={StaticResource CategoryBrushConverter}}">
                                     <Grid>
                                         <TextBlock Text="{Binding Category, Converter={StaticResource CategoryIconConverter}}"
-                                                   FontSize="26" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                   FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <TextBlock Text="★" FontSize="16" Foreground="#FFF4B8" FontWeight="Bold"
+                                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,7,0,0">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                         <Border Background="#33000000" CornerRadius="8" Padding="7,3"
                                                 HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,8,8,0">
                                             <TextBlock Text="{Binding Cuisine}" Foreground="White" FontSize="10.5" FontWeight="SemiBold" />
@@ -84,6 +97,19 @@
                                             <TextBlock Text="{Binding IngredientCountLabel}" FontSize="11" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,2,0,0" TextAlignment="Center" />
                                         </StackPanel>
                                     </UniformGrid>
+                                    <TextBlock Text="{Binding MacrosLabel}" FontSize="10.5" Foreground="#6B7A70"
+                                               HorizontalAlignment="Center" Margin="0,-5,0,9">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HasMacros}" Value="True">
+                                                        <Setter Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
 
                                     <Border CornerRadius="10" Padding="0,5"
                                             Background="{Binding Difficulty, Converter={StaticResource DifficultyBrushConverter}}">
@@ -118,9 +144,9 @@
 
         <!-- Header (centered) -->
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="0,0,0,18">
-            <TextBlock Text="📖 Recipes" FontSize="30" FontWeight="Bold"
+            <TextBlock Text="🍃  Your Recipe Kitchen" FontSize="30" FontWeight="Bold"
                        Foreground="{StaticResource PrimaryDarkBrush}" HorizontalAlignment="Center" />
-            <TextBlock Text="Search and browse by cuisine, category or time — click a card for the full recipe."
+            <TextBlock Text="Find your next favourite meal · plan portions · shop only what you need"
                        Foreground="#6B7A70" FontSize="13.5" HorizontalAlignment="Center" Margin="0,4,0,0" />
         </StackPanel>
 
@@ -174,17 +200,20 @@
             Foreground="White" FontWeight="SemiBold" Cursor="Hand" />
         </WrapPanel>
 
-        <!-- Category chips + result count -->
+        <!-- Category chips + smart pantry filter + result count -->
         <Grid Grid.Row="2" Grid.Column="0" Margin="0,0,0,16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <!-- Using WrapPanel instead of StackPanel for responsive tag chips -->
             <WrapPanel x:Name="CategoryChips" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
-            <TextBlock x:Name="ResultCountText" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center"
+            <CheckBox x:Name="CookFromPantryCheck" Grid.Column="1" Content="Cook with my pantry" VerticalAlignment="Center"
+                      Margin="12,0,8,0" Foreground="#356344" FontWeight="SemiBold" Checked="Filter_Changed" Unchecked="Filter_Changed" />
+            <TextBlock x:Name="ResultCountText" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"
                Foreground="#6B7A70" FontSize="12.5" Margin="10,0,0,0" />
         </Grid>
 
@@ -223,7 +252,11 @@
                         <Button Content="✕" Click="CloseDetail_Click" HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Background="Transparent" BorderThickness="0" Foreground="#9AA8A0" Cursor="Hand" FontSize="14" />
                     </Grid>
-                    <TextBlock x:Name="DetailMeta" FontSize="12.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,0,0,12" />
+                    <TextBlock x:Name="DetailMeta" FontSize="12.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                    <Button x:Name="FavoriteRecipeButton" Content="☆  Add to favorites" Click="FavoriteRecipe_Click"
+                            HorizontalAlignment="Stretch" Padding="12,8" Margin="0,0,0,12"
+                            Background="#EAF3EB" Foreground="#1B5E20" BorderBrush="#C9DDCB"
+                            FontWeight="SemiBold" Cursor="Hand" />
 
                     <!-- Recipe image / slideshow -->
                     <Border x:Name="DetailImageBorder" CornerRadius="10" ClipToBounds="True" Height="200"
