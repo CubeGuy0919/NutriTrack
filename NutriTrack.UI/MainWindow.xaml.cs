@@ -26,6 +26,9 @@ public partial class MainWindow : Window
     private void NavShopping_Click(object sender, RoutedEventArgs e) =>
         MainContent.Content = new ShoppingListView();
 
+    private void NavAnalytics_Click(object sender, RoutedEventArgs e) =>
+        MainContent.Content = new AnalyticsView();
+
     /// <summary>Shows the Recipes screen with the given recipe already open</summary>
     public void OpenRecipe(int recipeId) =>
         MainContent.Content = new RecipesView(recipeId);

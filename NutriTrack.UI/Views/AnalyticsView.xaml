@@ -1,0 +1,180 @@
+<UserControl x:Class="NutriTrack.UI.Views.AnalyticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="760" d:DesignWidth="1100">
+
+    <UserControl.Resources>
+
+        <!-- White rounded card, same look as the Dashboard -->
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="20" />
+            <Setter Property="BorderBrush" Value="{StaticResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="CardTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#1B2A20" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+
+        <Style x:Key="TileLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6B7A70" />
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style x:Key="TileValueStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource PrimaryDarkBrush}" />
+            <Setter Property="FontSize" Value="28" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,6,0,2" />
+        </Style>
+
+        <!--
+            One row of a bar chart:  [ label ] [=========bar=========] [ value ]
+            Every chart below re-uses this template. It expects a ChartBar object.
+            The bar is a ProgressBar (0-100), so no custom drawing is needed.
+        -->
+        <DataTemplate x:Key="BarRowTemplate">
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="90" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding Label}" FontSize="12.5"
+                           Foreground="#2C3E35" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+
+                <ProgressBar Grid.Column="1" Value="{Binding Percent, Mode=OneWay}" Minimum="0" Maximum="100"
+                             Height="12" Margin="8,0" BorderThickness="0"
+                             Background="#EEF2EF" Foreground="{StaticResource PrimaryBrush}" />
+
+                <TextBlock Grid.Column="2" Text="{Binding ValueText}" FontSize="12.5" FontWeight="SemiBold"
+                           Foreground="#2C3E35" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="28,24,28,24">
+
+            <!-- Header + time range -->
+            <Grid Margin="0,0,0,22">
+                <StackPanel>
+                    <TextBlock Text="Analytics" FontSize="30" FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryDarkBrush}" Margin="0,0,0,4" />
+                    <TextBlock Text="Where your money goes and how fresh your pantry is."
+                               Foreground="#6B7A70" FontSize="13.5" />
+                </StackPanel>
+                <ComboBox x:Name="RangeCombo" Style="{StaticResource FilterComboStyle}"
+                          HorizontalAlignment="Right" VerticalAlignment="Top" />
+            </Grid>
+
+            <!-- 3 big numbers -->
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="TOTAL SPENT" Style="{StaticResource TileLabelStyle}" />
+                        <TextBlock x:Name="TotalSpentText" Text="0 Ft" Style="{StaticResource TileValueStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="RECEIPTS" Style="{StaticResource TileLabelStyle}" />
+                        <TextBlock x:Name="ReceiptCountText" Text="0" Style="{StaticResource TileValueStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="4" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="AVERAGE RECEIPT" Style="{StaticResource TileLabelStyle}" />
+                        <TextBlock x:Name="AverageReceiptText" Text="0 Ft" Style="{StaticResource TileValueStyle}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Insights: short sentences -->
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,20" Background="#F3F9F3">
+                <StackPanel>
+                    <TextBlock Text="💡 Insights" Style="{StaticResource CardTitleStyle}" />
+                    <ItemsControl x:Name="InsightsList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StringFormat='•  {0}'}" FontSize="13.5"
+                                           Foreground="#2C3E35" TextWrapping="Wrap" Margin="0,0,0,6" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- Charts, two per row -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="16" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="📅 Spending per month" Style="{StaticResource CardTitleStyle}" />
+                        <ItemsControl x:Name="MonthlyChart" ItemTemplate="{StaticResource BarRowTemplate}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="🏪 Spending per store" Style="{StaticResource CardTitleStyle}" />
+                        <ItemsControl x:Name="StoreChart" ItemTemplate="{StaticResource BarRowTemplate}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="🛒 Top products by spending" Style="{StaticResource CardTitleStyle}" />
+                        <ItemsControl x:Name="TopProductsChart" ItemTemplate="{StaticResource BarRowTemplate}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="🥫 Pantry freshness (items)" Style="{StaticResource CardTitleStyle}" />
+                        <ItemsControl x:Name="FreshnessChart" ItemTemplate="{StaticResource BarRowTemplate}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="📖 Recipes per category" Style="{StaticResource CardTitleStyle}" />
+                        <ItemsControl x:Name="CategoryChart" ItemTemplate="{StaticResource BarRowTemplate}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

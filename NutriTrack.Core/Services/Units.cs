@@ -59,9 +59,6 @@ public static class UnitConverter
     private static string Clean(string? unit) =>
         (unit ?? string.Empty).Trim().TrimEnd('.').ToLowerInvariant();
 
-    // ---------------------------------------------------------------
-    // ---------------------------------------------------------------
-
     /// <summary>Converts an amount to grams, millilitres or a count. Unknown or empty units count as pieces.</summary>
     public static BaseAmount ToBase(double quantity, string? unit)
     {
@@ -109,9 +106,6 @@ public static class UnitConverter
         }
         return word;
     }
-
-    // ---------------------------------------------------------------
-    // ---------------------------------------------------------------
 
     /// <summary>
     /// Converts an amount for display. Counted units (pcs, clove ...) are never converted.

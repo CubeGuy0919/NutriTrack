@@ -28,6 +28,7 @@
                     <Button Content="🧾  Receipts"  Style="{StaticResource NavButtonStyle}" Click="NavReceipts_Click" />
                     <Button Content="🥫  Pantry"    Style="{StaticResource NavButtonStyle}" Click="NavPantry_Click" />
                     <Button Content="🛒  Shopping"  Style="{StaticResource NavButtonStyle}" Click="NavShopping_Click" />
+                    <Button Content="📊  Analytics" Style="{StaticResource NavButtonStyle}" Click="NavAnalytics_Click" />
                 </StackPanel>
 
                 <TextBlock DockPanel.Dock="Bottom" Text="v1.0"
