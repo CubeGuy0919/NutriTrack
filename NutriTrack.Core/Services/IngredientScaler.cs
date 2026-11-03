@@ -22,8 +22,10 @@ public static class IngredientScaler
         if (!item.IsScalable)
             return new ScaledIngredient(item, 0, item.Unit, item.DisplayText, string.Empty);
 
+        // 1. scale
         double quantity = item.Quantity * Math.Max(scaleFactor, 0);
 
+        // 2. convert, 3. format
         var (displayQuantity, displayUnit) = UnitConverter.ConvertForDisplay(quantity, item.Unit, system);
         string number = QuantityFormatter.Format(displayQuantity, displayUnit);
         string unitWord = UnitConverter.DisplayUnit(displayUnit, displayQuantity);

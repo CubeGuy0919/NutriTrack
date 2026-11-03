@@ -1,0 +1,21 @@
+ProductId,Name,Category,Brand,Unit,CaloriesPer100,ProteinPer100,CarbsPer100,FatPer100,FiberPer100,SugarPer100,SaltPer100
+1,Chicken Breast,Meat,Generic,g,165,31.0,0.0,3.6,0.0,0.0,0.2
+2,Ground Beef (80/20),Meat,Generic,g,254,17.2,0.0,20.0,0.0,0.0,0.2
+3,Salmon Fillet,Fish,Generic,g,208,20.4,0.0,13.4,0.0,0.0,0.1
+4,Whole Milk,Dairy,Generic,ml,61,3.2,4.8,3.3,0.0,4.8,0.1
+5,Greek Yogurt (Plain),Dairy,Generic,g,59,10.0,3.6,0.4,0.0,3.2,0.1
+6,Cheddar Cheese,Dairy,Generic,g,403,24.9,1.3,33.1,0.0,0.5,1.6
+7,Eggs,Dairy,Generic,g,155,12.6,1.1,10.6,0.0,1.1,0.3
+8,White Rice (Uncooked),Grains,Generic,g,365,7.1,80.0,0.7,1.3,0.1,0.0
+9,Oats,Grains,Generic,g,389,16.9,66.3,6.9,10.6,0.0,0.0
+10,Whole Wheat Bread,Bakery,Generic,g,247,13.0,41.0,3.4,6.0,5.6,1.1
+11,Olive Oil,Oils,Generic,ml,884,0.0,0.0,100.0,0.0,0.0,0.0
+12,Butter,Dairy,Generic,g,717,0.9,0.1,81.1,0.0,0.1,0.0
+13,Banana,Produce,Generic,g,89,1.1,22.8,0.3,2.6,12.2,0.0
+14,Apple,Produce,Generic,g,52,0.3,13.8,0.2,2.4,10.4,0.0
+15,Broccoli,Produce,Generic,g,34,2.8,6.6,0.4,2.6,1.7,0.0
+16,Spinach,Produce,Generic,g,23,2.9,3.6,0.4,2.2,0.4,0.1
+17,Potatoes,Produce,Generic,g,77,2.0,17.0,0.1,2.2,0.8,0.0
+18,Almonds,Nuts,Generic,g,579,21.2,21.6,49.9,12.5,4.4,0.0
+19,Peanut Butter,Pantry,Generic,g,588,25.0,20.0,50.0,6.0,9.0,0.4
+20,Dark Chocolate (70%),Sweets,Generic,g,598,7.8,45.9,42.6,10.9,24.0,0.0

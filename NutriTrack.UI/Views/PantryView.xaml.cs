@@ -150,7 +150,6 @@ public partial class PantryView : UserControl
     {
         var allRecipes = AppServices.GetLoadedRecipes();
 
-        // 1. "Use soon" items (within 3 days or expired)
         var expiringItems = AppServices.Pantry.GetExpiringSoonItems(3);
         var useSoonList = new List<UseSoonViewModel>();
 
@@ -282,7 +281,6 @@ public partial class PantryView : UserControl
         string unit = DialogUnitInput.Text?.Trim() ?? "pcs";
         DateTime? expiryDate = DialogExpiryPicker.SelectedDate;
 
-        // Typed names such as "tomatoes" or "greek yogurt" still link to the catalog product
         var catalogProduct = AppServices.GetProductMatcher().Match(name);
 
         int productId = catalogProduct?.ProductId ?? 0;

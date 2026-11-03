@@ -27,19 +27,17 @@ public static class IngredientParser
     /// </summary>
     private static readonly Dictionary<string, string> KnownUnits = new(StringComparer.OrdinalIgnoreCase)
     {
-        // metric weight / volume
         ["g"] = "g", ["gram"] = "g", ["grams"] = "g", ["kg"] = "kg", ["kilogram"] = "kg", ["kilograms"] = "kg",
         ["mg"] = "mg",
         ["ml"] = "ml", ["milliliter"] = "ml", ["milliliters"] = "ml", ["millilitre"] = "ml", ["millilitres"] = "ml",
         ["l"] = "l", ["liter"] = "l", ["liters"] = "l", ["litre"] = "l", ["litres"] = "l",
         ["dl"] = "dl", ["cl"] = "cl",
-        // spoons / cups
         ["tsp"] = "tsp", ["teaspoon"] = "tsp", ["teaspoons"] = "tsp",
         ["tbsp"] = "tbsp", ["tablespoon"] = "tbsp", ["tablespoons"] = "tbsp",
         ["cup"] = "cup", ["cups"] = "cups",
         // imperial
         ["oz"] = "oz", ["ounce"] = "oz", ["ounces"] = "oz", ["lb"] = "lb", ["lbs"] = "lb", ["pound"] = "lb", ["pounds"] = "lb",
-        // portion words that behave like units
+        // portion words => units
         ["clove"] = "clove", ["cloves"] = "cloves",
         ["slice"] = "slice", ["slices"] = "slices",
         ["pinch"] = "pinch", ["pinches"] = "pinches",
@@ -94,7 +92,7 @@ public static class IngredientParser
         string trimmed = text.Trim();
         var match = QuantityRegex.Match(trimmed);
         if (!match.Success || match.Length != trimmed.Length)
-            return false; // empty / not a number
+            return false;
 
         return TryReadQuantity(match, out quantity) && quantity > 0;
     }
@@ -117,7 +115,7 @@ public static class IngredientParser
         string rest = line.Substring(match.Length).Trim();
         string unit = string.Empty;
 
-        // "fl oz" is the only two-word unit we support
+        // "fl oz" is the only two-word unit supported
         if (rest.StartsWith("fl oz", StringComparison.OrdinalIgnoreCase) &&
             (rest.Length == 5 || char.IsWhiteSpace(rest[5])))
         {
@@ -137,7 +135,7 @@ public static class IngredientParser
             }
         }
 
-        if (rest.Length == 0) return false;   // just a number, or "2 tbsp" with no ingredient name
+        if (rest.Length == 0) return false;
 
         item = new IngredientItem { Quantity = quantity, Unit = unit, Name = rest };
         return true;

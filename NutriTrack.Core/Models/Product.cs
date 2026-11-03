@@ -12,13 +12,15 @@ public class Product
     public string? Brand { get; set; }
     public string Unit { get; set; } = "g";
 
-    public double CaloriesPer100 { get; set; }
-    public double ProteinPer100 { get; set; }
-    public double CarbsPer100 { get; set; }
-    public double FatPer100 { get; set; }
-    public double FiberPer100 { get; set; }
-    public double SugarPer100 { get; set; }
-    public double SaltPer100 { get; set; }
+    public double? CaloriesPer100 { get; set; }
+    public double? ProteinPer100 { get; set; }
+    public double? CarbsPer100 { get; set; }
+    public double? FatPer100 { get; set; }
+    public double? FiberPer100 { get; set; }
+    public double? SugarPer100 { get; set; }
+    public double? SaltPer100 { get; set; }
+
+    public bool HasNutritionData => CaloriesPer100.HasValue && ProteinPer100.HasValue && CarbsPer100.HasValue && FatPer100.HasValue;
 
     public override string ToString() => Name;
 }

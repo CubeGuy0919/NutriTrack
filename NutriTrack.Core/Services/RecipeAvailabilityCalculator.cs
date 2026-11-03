@@ -12,7 +12,6 @@ public static class RecipeAvailabilityCalculator
 {
     private const double Epsilon = 1e-6;
 
-    // Pantry rows with their still-unused amount, so a product used by two ingredient lines is not counted twice
     private sealed class Stock
     {
         public required PantryItem Item { get; init; }
@@ -85,7 +84,6 @@ public static class RecipeAvailabilityCalculator
         double have = compatible.Sum(s => s.Remaining);
         string haveLabel = QuantityFormatter.FormatAmount(have, required.BaseUnit, system);
 
-        // Use up what this ingredient takes from the pantry
         double toTake = Math.Min(have, required.Value);
         foreach (var row in compatible)
         {
@@ -119,7 +117,6 @@ public static class RecipeAvailabilityCalculator
             };
         }
 
-        // What goes on the shopping list
         double missing = Math.Round(UnitConverter.FromBase(missingBase, unit), 2, MidpointRounding.AwayFromZero);
         string missingLabel = QuantityFormatter.FormatAmount(missing, unit, system);
 

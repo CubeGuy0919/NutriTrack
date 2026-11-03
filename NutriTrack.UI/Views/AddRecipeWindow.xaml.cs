@@ -64,7 +64,6 @@ public partial class AddRecipeWindow : Window
 
     private void IngredientCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        // Picking a product pre-fills its natural unit (g / ml) if the unit box is still empty
         if (IngredientCombo.SelectedItem is string name && string.IsNullOrWhiteSpace(UnitCombo.Text))
         {
             var product = _matcher.Match(name);
@@ -204,7 +203,6 @@ public partial class AddRecipeWindow : Window
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {
-        // A half-finished ingredient row must not be silently dropped
         if (!string.IsNullOrWhiteSpace(IngredientCombo.Text) || !string.IsNullOrWhiteSpace(QuantityBox.Text))
         {
             MessageBox.Show(this,
@@ -307,7 +305,7 @@ public partial class AddRecipeWindow : Window
 
     private static double? ReadOptionalDouble(string? text, string label, List<string> problems)
     {
-        if (string.IsNullOrWhiteSpace(text)) return null; // left empty = not provided, never invented
+        if (string.IsNullOrWhiteSpace(text)) return null;
 
         if (TryReadDouble(text, out double value) && value >= 0) return value;
 

@@ -51,3 +51,18 @@ Counted units (pcs, clove, slice, pinch ...) are never converted.
 ## Data files (next to the .exe)
 `Data/Recipes.txt` and `Data/Products.txt` are shipped. `Pantry.json`, `Receipts.json` and `ShoppingList.txt` are created
 on first use (the first run fills pantry and receipts with demo data). A clean rebuild removes them.
+
+
+## Recipe Explorer
+
+The Recipes screen is the single recipe workspace. It includes local recipe search, cuisine/time sorting, favorites, serving scaling, nutrition, pantry availability and shopping-list integration. Categories include Breakfast, Lunch, Dinner, Bread, Meal, Soup, Salad, Snack and Dessert.
+
+The curated collection contains 250 recipes. The 50 additions (IDs 201–250) use only the supplied `Data/Products.txt` catalogue. Their per-serving calorie, protein, carbohydrate and fat values are calculated from the product nutrition fields. Milk/oil volume-to-mass assumptions are approximate and are disclosed in each recipe description.
+
+Favorites and the 20 most recently viewed recipes are saved outside the installation directory under `%LOCALAPPDATA%\NutriTrack`. The “Cook with my pantry” filter uses the existing pantry and ingredient matching services. Recipe cards also show per-serving macro summaries when available.
+
+## Full recipe-derived product catalogue
+
+`NutriTrack.UI/Data/Products.txt` is the shared Pantry/Recipes/Shopping/Receipts product catalogue. It contains 4,950 normalized ingredient entries extracted from the `ingredients` JSON field of the Hugging Face `datahiveai/recipes-with-nutrition` dataset (39,447 recipes; dataset URL: https://huggingface.co/datasets/datahiveai/recipes-with-nutrition). The 9,725 distinct ingredient strings in that source are covered by the catalogue's case-, accent-, punctuation- and plural-tolerant matcher.
+
+The original 20 curated products retain their existing nutrition values. Other entries have blank per-100g nutrition because the source dataset contains recipe-level totals, not reliable per-ingredient nutrient profiles. NutriTrack treats blank values as unknown and will not use them to fabricate recipe nutrition calculations. Product categories are organizational classifications inferred from ingredient names, not source-provided dietary facts.

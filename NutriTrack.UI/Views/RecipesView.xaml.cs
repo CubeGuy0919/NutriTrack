@@ -57,9 +57,9 @@ public partial class RecipesView : UserControl
 
     private void LoadRecipes()
     {
-        // The shared product list is the only source of accepted ingredients; recipes are read again from disk
         _products = AppServices.GetAllowedProducts();
         _allRecipes = AppServices.ReloadRecipes();
+        LoadPantry();
 
         _view = CollectionViewSource.GetDefaultView(_allRecipes);
         _view.Filter = FilterRecipe;
@@ -84,8 +84,10 @@ public partial class RecipesView : UserControl
         CategoryChips.Children.Clear();
         _categoryChips.Clear();
 
-        var categories = new[] { "All" }
-            .Concat(_allRecipes.Select(r => r.Category).Distinct().OrderBy(c => c));
+        var categories = new[] { "All", "★ Favorites", "◷ Recently viewed", "Breakfast", "Lunch", "Dinner", "Bread" }
+            .Concat(_allRecipes.Select(r => r.Category).Distinct(StringComparer.OrdinalIgnoreCase)
+                .Where(c => !new[] { "Breakfast", "Lunch", "Dinner", "Bread" }.Contains(c, StringComparer.OrdinalIgnoreCase))
+                .OrderBy(c => c, StringComparer.OrdinalIgnoreCase));
 
         foreach (var category in categories)
         {
@@ -111,7 +113,6 @@ public partial class RecipesView : UserControl
         var clicked = (ToggleButton)sender;
         _selectedCategory = (string)clicked.Tag;
 
-        // Keep the chip row acting like a single-select group
         foreach (var chip in _categoryChips)
             chip.IsChecked = ReferenceEquals(chip, clicked);
 
@@ -122,6 +123,7 @@ public partial class RecipesView : UserControl
     private void Filter_Changed(object sender, RoutedEventArgs e)
     {
         if (_view is null) return;
+        LoadPantry();
         ApplySort();
         _view.Refresh();
         RefreshResultCount();
@@ -131,8 +133,17 @@ public partial class RecipesView : UserControl
     {
         if (obj is not Recipe recipe) return false;
 
-        if (_selectedCategory != "All" && recipe.Category != _selectedCategory)
-            return false;
+        if (_selectedCategory == "★ Favorites" && !recipe.IsFavorite) return false;
+        if (_selectedCategory == "◷ Recently viewed" && !recipe.IsRecentlyViewed) return false;
+        if (_selectedCategory != "All" && _selectedCategory != "★ Favorites" && _selectedCategory != "◷ Recently viewed" &&
+            !recipe.Category.Equals(_selectedCategory, StringComparison.OrdinalIgnoreCase)) return false;
+        if (CookFromPantryCheck.IsChecked == true)
+        {
+            var available = RecipeAvailabilityCalculator.Check(
+                IngredientScaler.Scale(recipe, recipe.BaseServings, UnitSystem.AsWritten),
+                _pantryItems, UnitSystem.AsWritten);
+            if (available.Count == 0 || available.Any(a => a.NeedsPurchase)) return false;
+        }
 
         if (CuisineCombo.SelectedItem is ComboBoxItem cuisineItem &&
             cuisineItem.Content is string cuisine && cuisine != "All cuisines" &&
@@ -201,6 +212,7 @@ public partial class RecipesView : UserControl
         TimeCombo.SelectedIndex = 0;
         SortCombo.SelectedIndex = 0;
         _selectedCategory = "All";
+        CookFromPantryCheck.IsChecked = false;
         foreach (var chip in _categoryChips)
             chip.IsChecked = (string)chip.Tag == "All";
 
@@ -212,8 +224,6 @@ public partial class RecipesView : UserControl
     // ---------------------------------------------------------------
     // Detail panel
     // ---------------------------------------------------------------
-    // All scaling / nutrition / pantry maths lives in Core (IngredientScaler, RecipeNutritionCalculator,
-    // RecipeAvailabilityCalculator, UnitConverter). This code only shows the results.
 
     private void RecipeCard_Click(object sender, RoutedEventArgs e)
     {
@@ -227,6 +237,19 @@ public partial class RecipesView : UserControl
 
         DetailTitle.Text = recipe.Name;
         DetailMeta.Text = $"{recipe.Cuisine} · {recipe.Category}";
+        recipe.IsRecentlyViewed = true;
+        try
+        {
+            Directory.CreateDirectory(AppPaths.UserDataDirectory);
+            var previous = File.Exists(AppPaths.RecentlyViewedRecipesPath)
+                ? File.ReadAllLines(AppPaths.RecentlyViewedRecipesPath)
+                : Array.Empty<string>();
+            var recentIds = new[] { recipe.RecipeId.ToString() }.Concat(previous)
+                .Distinct(StringComparer.Ordinal).Take(20);
+            File.WriteAllLines(AppPaths.RecentlyViewedRecipesPath, recentIds);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { /* Recent history is optional. */ }
+        FavoriteRecipeButton.Content = recipe.IsFavorite ? "★  Saved to favorites" : "☆  Add to favorites";
         DetailPrep.Text = $"{recipe.PrepTimeMinutes} min";
         DetailCook.Text = $"{recipe.CookTimeMinutes} min";
         DetailCalories.Text = recipe.CaloriesPerServing > 0 ? $"{recipe.CaloriesPerServing:0} kcal" : "–";
@@ -240,7 +263,6 @@ public partial class RecipesView : UserControl
 
         LoadPantry();
 
-        // The slider starts at the recipe's own (base) servings
         _suppressSliderEvents = true;
         ServingsSlider.Maximum = Math.Max(12, recipe.BaseServings);
         ServingsMaxText.Text = ((int)ServingsSlider.Maximum).ToString();
@@ -270,7 +292,6 @@ public partial class RecipesView : UserControl
 
     private void ServingsSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        // Also fires while the window is still being built, before any recipe is open
         if (_suppressSliderEvents || _detailRecipe is null) return;
         RefreshServings();
     }
@@ -397,7 +418,7 @@ public partial class RecipesView : UserControl
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(path, UriKind.Absolute);
-            bitmap.CacheOption = BitmapCacheOption.OnLoad; // do not keep the file locked
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
             bitmap.DecodePixelWidth = 640;
             bitmap.EndInit();
             bitmap.Freeze();
@@ -405,7 +426,7 @@ public partial class RecipesView : UserControl
         }
         catch
         {
-            return null; // unreadable / corrupt image: treat it as missing instead of crashing
+            return null;
         }
     }
 
@@ -439,7 +460,7 @@ public partial class RecipesView : UserControl
     private void PrevSlide_Click(object sender, RoutedEventArgs e)
     {
         ShowSlide(_slideIndex - 1);
-        StartSlideshow(); // restart the 5 s countdown after a manual change
+        StartSlideshow();
     }
 
     private void NextSlide_Click(object sender, RoutedEventArgs e)
@@ -469,10 +490,29 @@ public partial class RecipesView : UserControl
 
         if (dialog.ShowDialog() == true && dialog.CreatedRecipe != null)
         {
-            // Reload from disk so the list shows exactly what was persisted
             CloseDetail_Click(this, new RoutedEventArgs());
             LoadRecipes();
-            ClearFilters_Click(this, new RoutedEventArgs()); // make sure the new recipe is visible
+            ClearFilters_Click(this, new RoutedEventArgs());
+        }
+    }
+
+    private void FavoriteRecipe_Click(object sender, RoutedEventArgs e)
+    {
+        if (_detailRecipe is null) return;
+        _detailRecipe.IsFavorite = !_detailRecipe.IsFavorite;
+        try
+        {
+            Directory.CreateDirectory(AppPaths.UserDataDirectory);
+            var ids = _allRecipes.Where(r => r.IsFavorite).Select(r => r.RecipeId.ToString()).ToArray();
+            File.WriteAllLines(AppPaths.FavoriteRecipesPath, ids);
+            FavoriteRecipeButton.Content = _detailRecipe.IsFavorite ? "★  Saved to favorites" : "☆  Add to favorites";
+            _view?.Refresh();
+            RefreshResultCount();
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _detailRecipe.IsFavorite = !_detailRecipe.IsFavorite;
+            MessageBox.Show($"Favorites could not be saved: {ex.Message}", "NutriTrack", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
