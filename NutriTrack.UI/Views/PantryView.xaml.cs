@@ -182,10 +182,6 @@ public partial class PantryView : UserControl
             AppServices.OpenRecipe(recipe);
     }
 
-    // -----------------------------------------------------------------
-    // Add / Edit Modal Dialog
-    // -----------------------------------------------------------------
-
     private void AddItem_Click(object sender, RoutedEventArgs e)
     {
         OpenItemDialog(null);

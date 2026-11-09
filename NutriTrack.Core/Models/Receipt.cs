@@ -24,6 +24,7 @@ public class ReceiptItem
     public string ProductName { get; set; } = string.Empty;
     public double Quantity { get; set; } = 1;
     public decimal UnitPrice { get; set; }
+    public DateTime? ExpiryDate { get; set; }
 
     public decimal LineTotal => UnitPrice * (decimal)Quantity;
 }

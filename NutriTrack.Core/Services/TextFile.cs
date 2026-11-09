@@ -12,6 +12,20 @@ internal static class TextFile
     public static string Unescape(string text) =>
         text.Trim().Replace("%2C", ",").Replace("%25", "%");
 
+    /// <summary>Encodes a field for the pipe-delimited TXT data files.</summary>
+    public static string EncodeField(string? value) =>
+        Convert.ToBase64String(Encoding.UTF8.GetBytes(value ?? string.Empty));
+
+    public static string DecodeField(string value) =>
+        Encoding.UTF8.GetString(Convert.FromBase64String(value));
+
+    public static string[] SplitRecord(string line) => line.Split('|');
+
+    public static DateTime? ParseNullableDate(string value) =>
+        string.IsNullOrWhiteSpace(value) ? null :
+        DateTime.Parse(value, System.Globalization.CultureInfo.InvariantCulture,
+            System.Globalization.DateTimeStyles.RoundtripKind);
+
     /// <summary>Writes to a temp file first, keeps the previous file as .bak, then swaps - a crash cannot leave half a file.</summary>
     public static void WriteAtomic(string filePath, string content)
     {

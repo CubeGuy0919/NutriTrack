@@ -7,7 +7,7 @@
              d:DesignHeight="720" d:DesignWidth="1100">
 
     <UserControl.Resources>
-        <!-- Primary Action Button -->
+        
         <Style x:Key="ActionButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
             <Setter Property="Foreground" Value="White" />
@@ -32,7 +32,7 @@
             </Setter>
         </Style>
 
-        <!-- Secondary Button -->
+        
         <Style x:Key="SecondaryButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#F3F4F6" />
             <Setter Property="Foreground" Value="#374151" />
@@ -58,7 +58,7 @@
             </Setter>
         </Style>
 
-        <!-- Danger Button -->
+        
         <Style x:Key="DangerButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#FEE2E2" />
             <Setter Property="Foreground" Value="#B91C1C" />
@@ -91,7 +91,7 @@
             <ColumnDefinition x:Name="DetailColumn" Width="0" />
         </Grid.ColumnDefinitions>
 
-        <!-- Main Receipts Area -->
+        
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -100,7 +100,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Header -->
+            
             <Grid Grid.Row="0" Margin="0,0,0,18">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -110,15 +110,15 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="🧾 Receipts" FontSize="30" FontWeight="Bold"
                                Foreground="{StaticResource PrimaryDarkBrush}" />
-                    <TextBlock Text="Add and browse your grocery receipts, track spending and view purchased items."
+                    <TextBlock Text="Save your grocery receipts and keep track of what you spend."
                                Foreground="#6B7A70" FontSize="13.5" Margin="0,4,0,0" />
                 </StackPanel>
 
-                <Button Grid.Column="1" Content="+ Add Receipt" Style="{StaticResource ActionButtonStyle}"
+                <Button Grid.Column="1" Content="+ Add receipt" Style="{StaticResource ActionButtonStyle}"
                         Click="AddReceipt_Click" VerticalAlignment="Center" Padding="20,11" FontSize="14" />
             </Grid>
 
-            <!-- Filter Row -->
+            
             <Grid Grid.Row="1" Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" MinWidth="220" />
@@ -153,14 +153,14 @@
                         Foreground="#2E7D32" FontWeight="SemiBold" BorderBrush="#A5D6A7" Cursor="Hand" />
             </Grid>
 
-            <!-- Total count and spending bar -->
+            
             <Grid Grid.Row="2" Margin="0,0,0,14">
                 <TextBlock x:Name="ResultSummaryText" FontSize="13" Foreground="#6B7A70" VerticalAlignment="Center" />
                 <TextBlock x:Name="TotalSpendingText" HorizontalAlignment="Right" FontSize="14" FontWeight="Bold"
                            Foreground="{StaticResource PrimaryDarkBrush}" VerticalAlignment="Center" />
             </Grid>
 
-            <!-- Receipts Cards ScrollViewer -->
+            
             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" Margin="0,0,-8,0" Padding="0,0,8,0">
                 <Grid>
                     <ItemsControl x:Name="ReceiptsItemsControl">
@@ -188,7 +188,7 @@
                                                         <RowDefinition Height="Auto" />
                                                     </Grid.RowDefinitions>
 
-                                                    <!-- Store Header -->
+                                                    
                                                     <Grid Grid.Row="0" Margin="0,0,0,12">
                                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                                             <Border Background="{StaticResource PrimaryLightBrush}" CornerRadius="8" Width="36" Height="36" Margin="0,0,10,0">
@@ -201,10 +201,10 @@
                                                         </StackPanel>
                                                     </Grid>
 
-                                                    <!-- Divider -->
+                                                    
                                                     <Border Grid.Row="1" Height="1" Background="#F0F4F1" Margin="0,0,0,12" />
 
-                                                    <!-- Items count & Amount -->
+                                                    
                                                     <Grid Grid.Row="2" Margin="0,0,0,14">
                                                         <StackPanel HorizontalAlignment="Left">
                                                             <TextBlock Text="ITEMS" FontSize="10" FontWeight="Bold" Foreground="#8FA396" />
@@ -216,7 +216,7 @@
                                                         </StackPanel>
                                                     </Grid>
 
-                                                    <!-- View Details Button -->
+                                                    
                                                     <Border Grid.Row="3" Background="{StaticResource PrimaryLightBrush}" CornerRadius="8" Padding="0,7">
                                                         <TextBlock Text="View details →" Foreground="{StaticResource PrimaryBrush}" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center" />
                                                     </Border>
@@ -234,17 +234,17 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <!-- Empty state -->
+                    
                     <StackPanel x:Name="EmptyState" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,70,0,0">
                         <TextBlock Text="🧾" FontSize="44" HorizontalAlignment="Center" />
-                        <TextBlock Text="No receipts found" FontSize="18" FontWeight="Bold" Foreground="#2C3E35" HorizontalAlignment="Center" Margin="0,8,0,0" />
-                        <TextBlock Text="Click '+ Add Receipt' to record your first grocery receipt." FontSize="13.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        <TextBlock Text="No receipts yet" FontSize="18" FontWeight="Bold" Foreground="#2C3E35" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                        <TextBlock Text="Choose + Add receipt to save your first purchase." FontSize="13.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,4,0,0" />
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
         </Grid>
 
-        <!-- Right Side Detail / Drawer Panel -->
+        
         <Border x:Name="DetailBorder" Grid.Column="1" Visibility="Collapsed"
                 Background="White" CornerRadius="16" BorderBrush="{StaticResource CardBorderBrush}"
                 BorderThickness="1" Margin="20,0,0,0" Padding="20">
@@ -260,7 +260,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Detail Header -->
+                
                 <Grid Grid.Row="0" Margin="0,0,0,16">
                     <StackPanel>
                         <TextBlock x:Name="DetailStoreText" Text="TESCO" FontSize="22" FontWeight="Bold" Foreground="#1B2A20" />
@@ -270,7 +270,7 @@
                             Background="Transparent" BorderThickness="0" FontSize="16" Foreground="#8FA396" Cursor="Hand" Padding="6,2" />
                 </Grid>
 
-                <!-- Total Amount Banner -->
+                
                 <Border Grid.Row="1" Background="{StaticResource PrimaryLightBrush}" CornerRadius="12" Padding="16,12" Margin="0,0,0,16">
                     <Grid>
                         <StackPanel>
@@ -281,7 +281,7 @@
                     </Grid>
                 </Border>
 
-                <!-- Items List -->
+                
                 <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -307,6 +307,8 @@
                                                     <Run Text="×" />
                                                     <Run Text="{Binding UnitPrice, Mode=OneWay, StringFormat='{}{0:N0} Ft'}" />
                                                 </TextBlock>
+                                                <TextBlock Text="{Binding ExpiryDate, StringFormat='Expiry: {0:yyyy-MM-dd}'}"
+                                                           FontSize="10.5" Foreground="#6B7A70" />
                                             </StackPanel>
                                             <TextBlock Grid.Column="1" Text="{Binding LineTotal, StringFormat='{}{0:N0} Ft'}"
                                                        FontSize="13.5" FontWeight="Bold" Foreground="#2C3E35" VerticalAlignment="Center" />
@@ -318,7 +320,7 @@
                     </ScrollViewer>
                 </Grid>
 
-                <!-- Actions Footer -->
+                
                 <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
                     <Button Content="✏ Edit" Click="EditSelectedReceipt_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" />
                     <Button Content="🗑 Delete" Click="DeleteSelectedReceipt_Click" Style="{StaticResource DangerButtonStyle}" />
@@ -326,7 +328,7 @@
             </Grid>
         </Border>
 
-        <!-- Add/Edit Receipt Modal Dialog Overlay -->
+        
         <Grid x:Name="AddReceiptModal" Grid.ColumnSpan="2" Visibility="Collapsed" Background="#66000000">
             <Border Width="620" MaxHeight="680" Background="White" CornerRadius="16" Padding="26" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Border.Effect>
@@ -341,13 +343,13 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Title -->
+                    
                     <Grid Grid.Row="0" Margin="0,0,0,16">
                         <TextBlock x:Name="ModalTitleText" Text="Add New Receipt" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryDarkBrush}" />
                         <Button Content="✕" Click="CancelReceiptDialog_Click" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" FontSize="16" Foreground="#8FA396" Cursor="Hand" />
                     </Grid>
 
-                    <!-- Store and Date Form Row -->
+                    
                     <Grid Grid.Row="1" Margin="0,0,0,16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -366,7 +368,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <!-- Items Table -->
+                    
                     <Grid Grid.Row="2" Margin="0,0,0,12">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -374,17 +376,19 @@
                             <RowDefinition Height="*" MinHeight="140" MaxHeight="220" />
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Text="Items" FontSize="13" FontWeight="Bold" Foreground="#374151" Margin="0,0,0,6" />
+                        <TextBlock Grid.Row="0" Text="Add products · expiry date is optional (yyyy-MM-dd)" FontSize="13" FontWeight="Bold" Foreground="#374151" Margin="0,0,0,6" />
 
-                        <!-- Add Item Row -->
+                        
                         <Border Grid.Row="1" Background="#F9FAF9" CornerRadius="10" BorderBrush="#E5E7EB" BorderThickness="1" Padding="10" Margin="0,0,0,10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2.2*" />
                                     <ColumnDefinition Width="8" />
+                                    <ColumnDefinition Width="0.8*" />
+                                    <ColumnDefinition Width="8" />
                                     <ColumnDefinition Width="1*" />
                                     <ColumnDefinition Width="8" />
-                                    <ColumnDefinition Width="1.2*" />
+                                    <ColumnDefinition Width="1.3*" />
                                     <ColumnDefinition Width="8" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
@@ -397,14 +401,20 @@
                                          Style="{StaticResource SearchBoxStyle}" HorizontalContentAlignment="Center" />
 
                                 <TextBox x:Name="DialogUnitPriceInput" Grid.Column="4"
-                                         Style="{StaticResource SearchBoxStyle}" HorizontalContentAlignment="Right" />
+                                         Style="{StaticResource SearchBoxStyle}" HorizontalContentAlignment="Right"
+                                         ToolTip="Unit price in Ft" />
 
-                                <Button Grid.Column="6" Content="+ Add" Click="DialogAddItem_Click"
+                                <TextBox x:Name="DialogExpiryInput" Grid.Column="6"
+                                         Style="{StaticResource SearchBoxStyle}" HorizontalContentAlignment="Center"
+                                         ToolTip="Optional expiry date, format yyyy-MM-dd"
+                                         Text="" />
+
+                                <Button Grid.Column="8" Content="+ Add" Click="DialogAddItem_Click"
                                         Style="{StaticResource ActionButtonStyle}" Padding="12,7" />
                             </Grid>
                         </Border>
 
-                        <!-- Items DataGrid/List -->
+                        
                         <DataGrid x:Name="DialogItemsGrid" Grid.Row="2"
                                   AutoGenerateColumns="False" CanUserAddRows="False"
                                   HeadersVisibility="Column" GridLinesVisibility="Horizontal"
@@ -414,6 +424,7 @@
                                 <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*" />
                                 <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="60" />
                                 <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat='{}{0:N0} Ft'}" Width="90" />
+                                <DataGridTextColumn Header="Expiry" Binding="{Binding ExpiryDate, StringFormat='{}{0:yyyy-MM-dd}'}" Width="100" />
                                 <DataGridTextColumn Header="Total" Binding="{Binding LineTotal, StringFormat='{}{0:N0} Ft'}" Width="90" IsReadOnly="True" />
                                 <DataGridTemplateColumn Width="70">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -428,7 +439,7 @@
                         </DataGrid>
                     </Grid>
 
-                    <!-- Calculated Total Banner -->
+                    
                     <Border Grid.Row="3" Background="{StaticResource PrimaryLightBrush}" CornerRadius="10" Padding="14,10" Margin="0,0,0,16">
                         <Grid>
                             <TextBlock Text="Calculated Total:" FontSize="13" FontWeight="SemiBold" Foreground="#2E7D32" VerticalAlignment="Center" />
@@ -436,7 +447,7 @@
                         </Grid>
                     </Border>
 
-                    <!-- Footer Buttons -->
+                    
                     <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="Cancel" Click="CancelReceiptDialog_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Padding="18,9" />
                         <Button Content="Save Receipt" Click="SaveReceiptDialog_Click" Style="{StaticResource ActionButtonStyle}" Padding="22,9" />

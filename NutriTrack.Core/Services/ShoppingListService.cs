@@ -18,7 +18,7 @@ public class ShoppingListService
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            var parts = line.Split(',');
+            string[] parts = line.Split(',');
             if (parts.Length < 4) continue;
 
             if (!double.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out double quantity) || quantity <= 0) continue;

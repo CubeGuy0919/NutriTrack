@@ -26,7 +26,6 @@ public partial class ReceiptsView : UserControl
 
     private void PopulateFilterCombos()
     {
-        // Populate products in dialog combobox
         var products = AppServices.GetAllowedProducts();
         DialogProductCombo.Items.Clear();
         foreach (var p in products)
@@ -124,7 +123,6 @@ public partial class ReceiptsView : UserControl
         var filtered = query.ToList();
         ReceiptsItemsControl.ItemsSource = filtered;
 
-        // Update stats
         int count = filtered.Count;
         ResultSummaryText.Text = count == 1 ? "1 receipt found" : $"{count} receipts found";
         decimal totalSpending = filtered.Sum(r => r.TotalAmount);
@@ -137,10 +135,6 @@ public partial class ReceiptsView : UserControl
             CloseDetail();
         }
     }
-
-    // -----------------------------------------------------------------
-    // Receipt Details Panel
-    // -----------------------------------------------------------------
 
     private void ReceiptCard_Click(object sender, RoutedEventArgs e)
     {
@@ -197,10 +191,6 @@ public partial class ReceiptsView : UserControl
         OpenReceiptDialog(_selectedReceipt);
     }
 
-    // -----------------------------------------------------------------
-    // Add / Edit Modal Dialog
-    // -----------------------------------------------------------------
-
     private void AddReceipt_Click(object sender, RoutedEventArgs e)
     {
         OpenReceiptDialog(null);
@@ -226,7 +216,8 @@ public partial class ReceiptsView : UserControl
                     ProductId = item.ProductId,
                     ProductName = item.ProductName,
                     Quantity = item.Quantity,
-                    UnitPrice = item.UnitPrice
+                    UnitPrice = item.UnitPrice,
+                    ExpiryDate = item.ExpiryDate
                 });
             }
         }
@@ -240,6 +231,7 @@ public partial class ReceiptsView : UserControl
         DialogProductCombo.Text = string.Empty;
         DialogQuantityInput.Text = "1";
         DialogUnitPriceInput.Text = string.Empty;
+        DialogExpiryInput.Text = string.Empty;
         UpdateDialogTotal();
 
         AddReceiptModal.Visibility = Visibility.Visible;
@@ -275,6 +267,20 @@ public partial class ReceiptsView : UserControl
             return;
         }
 
+        DateTime? expiryDate = null;
+        string expiryText = DialogExpiryInput.Text?.Trim() ?? string.Empty;
+        if (!string.IsNullOrWhiteSpace(expiryText))
+        {
+            if (!DateTime.TryParseExact(expiryText, new[] { "yyyy-MM-dd", "yyyy.MM.dd", "yyyy/MM/dd", "dd.MM.yyyy" },
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedExpiry))
+            {
+                MessageBox.Show("Enter the expiry date as yyyy-MM-dd (for example: 2026-11-20), or leave it empty.",
+                    "Invalid expiry date", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+            expiryDate = parsedExpiry.Date;
+        }
+
         var matchedProduct = AppServices.GetAllowedProducts()
             .FirstOrDefault(p => p.Name.Equals(productName, StringComparison.OrdinalIgnoreCase));
 
@@ -284,13 +290,14 @@ public partial class ReceiptsView : UserControl
             ProductId = matchedProduct?.ProductId ?? 0,
             ProductName = productName,
             Quantity = qty,
-            UnitPrice = unitPrice
+            UnitPrice = unitPrice,
+            ExpiryDate = expiryDate
         });
 
-        // Reset inputs
         DialogProductCombo.Text = string.Empty;
         DialogQuantityInput.Text = "1";
         DialogUnitPriceInput.Text = string.Empty;
+        DialogExpiryInput.Text = string.Empty;
 
         UpdateDialogTotal();
     }

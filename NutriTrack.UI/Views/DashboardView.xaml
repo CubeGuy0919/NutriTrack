@@ -64,13 +64,30 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <StackPanel Margin="28,24,28,24">
-            <!-- Header -->
-            <TextBlock Text="Dashboard" FontSize="30" FontWeight="Bold"
+            
+            <TextBlock Text="Home" FontSize="30" FontWeight="Bold"
                        Foreground="{StaticResource PrimaryDarkBrush}" Margin="0,0,0,4" />
-            <TextBlock Text="A quick look at where things stand."
+            <TextBlock Text="Welcome to NutriTrack! Keep your food, shopping and meals organised in one place."
                        Foreground="#6B7A70" FontSize="13.5" Margin="0,0,0,22" />
 
-            <!-- 3 Metrics Tiles -->
+            
+            <Border Background="#F3F9F3" CornerRadius="12" Padding="16" Margin="0,0,0,20"
+                    BorderBrush="#DCEBDD" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="How to use NutriTrack" FontSize="15" FontWeight="Bold"
+                               Foreground="#1B2A20" Margin="0,0,0,8" />
+                    <TextBlock Text="1. Add a receipt after shopping."
+                               FontSize="12.5" Foreground="#425348" TextWrapping="Wrap" Margin="0,0,0,4" />
+                    <TextBlock Text="2. Check Pantry to see what food you have and what needs using soon."
+                               FontSize="12.5" Foreground="#425348" TextWrapping="Wrap" Margin="0,0,0,4" />
+                    <TextBlock Text="3. Open Recipes and choose “I Made This” after preparing a meal."
+                               FontSize="12.5" Foreground="#425348" TextWrapping="Wrap" Margin="0,0,0,4" />
+                    <TextBlock Text="4. Open Statistics to see your shopping and meal history."
+                               FontSize="12.5" Foreground="#425348" TextWrapping="Wrap" />
+                </StackPanel>
+            </Border>
+
+            
             <Grid Margin="0,0,0,24">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -80,7 +97,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Receipts This Month -->
+                
                 <Border Grid.Column="0" Style="{StaticResource TileStyle}">
                     <StackPanel>
                         <TextBlock Text="RECEIPTS THIS MONTH" Style="{StaticResource TileLabelStyle}" />
@@ -89,26 +106,26 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Total Recipes -->
+                
                 <Border Grid.Column="2" Style="{StaticResource TileStyle}">
                     <StackPanel>
-                        <TextBlock Text="TOTAL RECIPES" Style="{StaticResource TileLabelStyle}" />
+                        <TextBlock Text="RECIPES" Style="{StaticResource TileLabelStyle}" />
                         <TextBlock x:Name="RecipesCountText" Text="0" Style="{StaticResource TileValueStyle}" />
                         <TextBlock x:Name="RecipesCuisinesText" Text="Categorized &amp; searchable" FontSize="12" Foreground="#8FA396" />
                     </StackPanel>
                 </Border>
 
-                <!-- Avg. Calories / Day -->
+                
                 <Border Grid.Column="4" Style="{StaticResource TileStyle}">
                     <StackPanel>
-                        <TextBlock Text="AVG. CALORIES / SERVING" Style="{StaticResource TileLabelStyle}" />
+                        <TextBlock Text="AVERAGE CALORIES PER RECIPE" Style="{StaticResource TileLabelStyle}" />
                         <TextBlock x:Name="AvgCaloriesText" Text="—" Style="{StaticResource TileValueStyle}" />
                         <TextBlock x:Name="AvgCaloriesSubtext" Text="Across recipe database" FontSize="12" Foreground="#8FA396" />
                     </StackPanel>
                 </Border>
             </Grid>
 
-            <!-- Bottom Section: Recipe of the day + Use soon -->
+            
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1.2*" MinWidth="360" />
@@ -116,7 +133,7 @@
                     <ColumnDefinition Width="1*" MinWidth="320" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Left: Recipe of the day Card -->
+                
                 <Border Grid.Column="0" Background="White" CornerRadius="16"
                         BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" Padding="22">
                     <Border.Effect>
@@ -131,11 +148,11 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <!-- Section Badge & Header -->
+                        
                         <Grid Grid.Row="0" Margin="0,0,0,14">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="🌟" FontSize="18" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Recipe of the day" FontSize="18" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
+                                <TextBlock Text="Recipe suggestion" FontSize="18" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
                             </StackPanel>
                             <Border x:Name="RecipePantryMatchBadge" Background="{StaticResource PrimaryLightBrush}"
                                     CornerRadius="8" Padding="8,4" HorizontalAlignment="Right">
@@ -143,16 +160,16 @@
                             </Border>
                         </Grid>
 
-                        <!-- Recipe Name -->
+                        
                         <TextBlock x:Name="RecipeNameText" Grid.Row="1" Text="Chicken Marsala"
                                    FontSize="22" FontWeight="Bold" Foreground="{StaticResource PrimaryDarkBrush}"
                                    TextWrapping="Wrap" Margin="0,0,0,6" />
 
-                        <!-- Cuisine & Category -->
+                        
                         <TextBlock x:Name="RecipeCategoryText" Grid.Row="2" Text="Italian · Meal"
                                    FontSize="13.5" Foreground="#6B7A70" Margin="0,0,0,18" />
 
-                        <!-- Meta Info Row (Time, Calories, Ingredients) -->
+                        
                         <UniformGrid Grid.Row="3" Columns="3" Margin="0,0,0,20">
                             <Border Background="#F9FAF9" CornerRadius="10" Padding="10" Margin="0,0,6,0">
                                 <StackPanel HorizontalAlignment="Center">
@@ -174,13 +191,13 @@
                             </Border>
                         </UniformGrid>
 
-                        <!-- Action Button -->
+                        
                         <Button Grid.Row="4" Content="View Recipe Details →" Click="OpenRecipeOfTheDay_Click"
                                 Style="{StaticResource ActionButtonStyle}" HorizontalAlignment="Left" Padding="20,10" />
                     </Grid>
                 </Border>
 
-                <!-- Right: Use soon Section -->
+                
                 <Border Grid.Column="2" Background="White" CornerRadius="16"
                         BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" Padding="20">
                     <Border.Effect>
@@ -192,18 +209,18 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
-                        <!-- Section Header -->
+                        
                         <Grid Grid.Row="0" Margin="0,0,0,14">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="⏰" FontSize="18" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Use soon" FontSize="18" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
+                                <TextBlock Text="Food expiring soon" FontSize="18" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
                             </StackPanel>
                             <Border x:Name="UseSoonCountBadge" Background="#FEF3C7" CornerRadius="8" Padding="7,2" HorizontalAlignment="Right">
                                 <TextBlock x:Name="UseSoonCountText" Text="0 items" FontSize="11" FontWeight="Bold" Foreground="#B45309" />
                             </Border>
                         </Grid>
 
-                        <!-- Use Soon Items List -->
+                        
                         <StackPanel Grid.Row="1">
                             <ItemsControl x:Name="DashboardUseSoonList">
                                 <ItemsControl.ItemTemplate>

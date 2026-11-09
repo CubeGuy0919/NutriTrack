@@ -58,10 +58,6 @@ public partial class AddRecipeWindow : Window
         NameBox.Focus();
     }
 
-    // ---------------------------------------------------------------
-    // Ingredients
-    // ---------------------------------------------------------------
-
     private void IngredientCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (IngredientCombo.SelectedItem is string name && string.IsNullOrWhiteSpace(UnitCombo.Text))
@@ -171,10 +167,6 @@ public partial class AddRecipeWindow : Window
 
     private void HideIngredientStatus() => IngredientStatusText.Visibility = Visibility.Collapsed;
 
-    // ---------------------------------------------------------------
-    // Image
-    // ---------------------------------------------------------------
-
     private void ChooseImage_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog
@@ -196,10 +188,6 @@ public partial class AddRecipeWindow : Window
         ImageNameText.Text = "No image - the default placeholder will be used.";
         ClearImageButton.Visibility = Visibility.Collapsed;
     }
-
-    // ---------------------------------------------------------------
-    // Save
-    // ---------------------------------------------------------------
 
     private void Save_Click(object sender, RoutedEventArgs e)
     {

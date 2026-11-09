@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using NutriTrack.Core.Models;
 
 namespace NutriTrack.Core.Services;
@@ -11,18 +10,12 @@ public class ReceiptService
 {
     private readonly string _filePath;
     private readonly List<Receipt> _receipts = new();
-    private static readonly JsonSerializerOptions _jsonOptions = new()
-    {
-        WriteIndented = true,
-        PropertyNameCaseInsensitive = true
-    };
-
     /// <summary>Message of the last failed save, or null when the last save worked.</summary>
     public string? LastSaveError { get; private set; }
 
     public ReceiptService(string? customPath = null)
     {
-        _filePath = customPath ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Receipts.json");
+        _filePath = customPath ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Receipts.txt");
         LoadReceipts();
     }
 
@@ -98,21 +91,49 @@ public class ReceiptService
         {
             if (File.Exists(_filePath))
             {
-                string json = File.ReadAllText(_filePath);
-                var items = JsonSerializer.Deserialize<List<Receipt>>(json, _jsonOptions);
-                if (items != null)
+                foreach (var line in File.ReadAllLines(_filePath))
                 {
-                    foreach (var r in items)
+                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
+                    var f = TextFile.SplitRecord(line);
+                    if (f[0] == "R" && f.Length == 6)
                     {
-                        r.RecalculateTotal();
-                        _receipts.Add(r);
+                        _receipts.Add(new Receipt
+                        {
+                            ReceiptId = int.Parse(f[1], System.Globalization.CultureInfo.InvariantCulture),
+                            UserId = int.Parse(f[2], System.Globalization.CultureInfo.InvariantCulture),
+                            Store = TextFile.DecodeField(f[3]),
+                            PurchaseDate = DateTime.Parse(f[4], System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.RoundtripKind),
+                            TotalAmount = decimal.Parse(f[5], System.Globalization.CultureInfo.InvariantCulture)
+                        });
                     }
+                    else if (f[0] == "I" && f.Length == 8)
+                    {
+                        int receiptId = int.Parse(f[1], System.Globalization.CultureInfo.InvariantCulture);
+                        var receipt = _receipts.FirstOrDefault(r => r.ReceiptId == receiptId);
+                        if (receipt == null) continue;
+                        receipt.Items.Add(new ReceiptItem
+                        {
+                            ReceiptId = receiptId,
+                            ReceiptItemId = int.Parse(f[2], System.Globalization.CultureInfo.InvariantCulture),
+                            ProductId = int.Parse(f[3], System.Globalization.CultureInfo.InvariantCulture),
+                            ProductName = TextFile.DecodeField(f[4]),
+                            Quantity = double.Parse(f[5], System.Globalization.CultureInfo.InvariantCulture),
+                            UnitPrice = decimal.Parse(f[6], System.Globalization.CultureInfo.InvariantCulture),
+                            ExpiryDate = TextFile.ParseNullableDate(f[7])
+                        });
+                    }
+                }
+                if (_receipts.Count > 0)
+                {
+                    foreach (var receipt in _receipts) receipt.RecalculateTotal();
                     return;
                 }
             }
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or FormatException or ArgumentException)
         {
+            _receipts.Clear();
+            LastSaveError = ex.Message;
         }
 
         SeedInitialReceipts();
@@ -123,8 +144,33 @@ public class ReceiptService
     {
         try
         {
-            string json = JsonSerializer.Serialize(_receipts, _jsonOptions);
-            TextFile.WriteAtomic(_filePath, json);
+            var lines = new List<string>
+            {
+                "# NutriTrack receipt data | R|id|userId|store(base64)|purchaseDate(ISO)|total",
+                "# Item data | I|receiptId|itemId|productId|name(base64)|quantity|unitPrice|expiry(ISO)"
+            };
+            foreach (var r in _receipts)
+            {
+                r.RecalculateTotal();
+                lines.Add(string.Join("|", "R",
+                    r.ReceiptId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    r.UserId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                    TextFile.EncodeField(r.Store),
+                    r.PurchaseDate.ToString("O", System.Globalization.CultureInfo.InvariantCulture),
+                    r.TotalAmount.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+                foreach (var item in r.Items)
+                {
+                    lines.Add(string.Join("|", "I",
+                        r.ReceiptId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        item.ReceiptItemId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        item.ProductId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        TextFile.EncodeField(item.ProductName),
+                        item.Quantity.ToString("R", System.Globalization.CultureInfo.InvariantCulture),
+                        item.UnitPrice.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        item.ExpiryDate?.ToString("O", System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty));
+                }
+            }
+            TextFile.WriteAtomic(_filePath, string.Join(Environment.NewLine, lines) + Environment.NewLine);
             LastSaveError = null;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -135,52 +181,64 @@ public class ReceiptService
 
     private void SeedInitialReceipts()
     {
-        var now = DateTime.Today;
+        var today = DateTime.Today;
+        int nextItemId = 1;
 
-        var r1 = new Receipt
+        Receipt Make(int id, string store, int daysAgo, params (int ProductId, string Name, double Qty, decimal Price)[] lines)
         {
-            ReceiptId = 1,
-            Store = "TESCO",
-            PurchaseDate = now.AddDays(-2),
-            Items = new List<ReceiptItem>
+            var receipt = new Receipt
             {
-                new() { ReceiptItemId = 1, ReceiptId = 1, ProductId = 1, ProductName = "Chicken Breast", Quantity = 1, UnitPrice = 1890 },
-                new() { ReceiptItemId = 2, ReceiptId = 1, ProductId = 4, ProductName = "Whole Milk", Quantity = 2, UnitPrice = 449 },
-                new() { ReceiptItemId = 3, ReceiptId = 1, ProductId = 7, ProductName = "Eggs", Quantity = 10, UnitPrice = 85 },
-                new() { ReceiptItemId = 4, ReceiptId = 1, ProductId = 8, ProductName = "White Rice (Uncooked)", Quantity = 1, UnitPrice = 690 }
-            }
-        };
-        r1.RecalculateTotal();
+                ReceiptId = id,
+                Store = store,
+                PurchaseDate = today.AddDays(-daysAgo),
+                Items = lines.Select(line => new ReceiptItem
+                {
+                    ReceiptItemId = nextItemId++,
+                    ReceiptId = id,
+                    ProductId = line.ProductId,
+                    ProductName = line.Name,
+                    Quantity = line.Qty,
+                    UnitPrice = line.Price
+                }).ToList()
+            };
+            receipt.RecalculateTotal();
+            return receipt;
+        }
 
-        var r2 = new Receipt
+        // Six months of realistic Hungarian supermarket history for useful analytics charts.
+        _receipts.AddRange(new[]
         {
-            ReceiptId = 2,
-            Store = "SPAR",
-            PurchaseDate = now.AddDays(-7),
-            Items = new List<ReceiptItem>
-            {
-                new() { ReceiptItemId = 5, ReceiptId = 2, ProductId = 3, ProductName = "Salmon Fillet", Quantity = 1, UnitPrice = 2990 },
-                new() { ReceiptItemId = 6, ReceiptId = 2, ProductId = 5, ProductName = "Greek Yogurt (Plain)", Quantity = 3, UnitPrice = 320 },
-                new() { ReceiptItemId = 7, ReceiptId = 2, ProductId = 9, ProductName = "Oats", Quantity = 1, UnitPrice = 499 }
-            }
-        };
-        r2.RecalculateTotal();
-
-        var r3 = new Receipt
-        {
-            ReceiptId = 3,
-            Store = "LIDL",
-            PurchaseDate = now.AddDays(-15),
-            Items = new List<ReceiptItem>
-            {
-                new() { ReceiptItemId = 8, ReceiptId = 3, ProductId = 6, ProductName = "Cheddar Cheese", Quantity = 1, UnitPrice = 1250 },
-                new() { ReceiptItemId = 9, ReceiptId = 3, ProductId = 2, ProductName = "Ground Beef (80/20)", Quantity = 1, UnitPrice = 2190 }
-            }
-        };
-        r3.RecalculateTotal();
-
-        _receipts.Add(r1);
-        _receipts.Add(r2);
-        _receipts.Add(r3);
+            Make(1, "TESCO", 2,
+                (1, "Chicken Breast", 1, 1890m), (4, "Whole Milk", 2, 449m),
+                (7, "Eggs", 10, 85m), (8, "White Rice (Uncooked)", 1, 690m),
+                (13, "Banana", 1, 599m)),
+            Make(2, "SPAR", 8,
+                (3, "Salmon Fillet", 1, 2990m), (5, "Greek Yogurt (Plain)", 3, 320m),
+                (9, "Oats", 1, 499m), (14, "Apple", 1, 699m)),
+            Make(3, "LIDL", 18,
+                (6, "Cheddar Cheese", 1, 1250m), (2, "Ground Beef (80/20)", 1, 2190m),
+                (15, "Broccoli", 2, 499m), (17, "Potatoes", 2, 399m)),
+            Make(4, "ALDI", 32,
+                (1, "Chicken Breast", 1.2, 2190m), (10, "Whole Wheat Bread", 2, 599m),
+                (11, "Olive Oil", 1, 1890m), (16, "Spinach", 1, 449m)),
+            Make(5, "TESCO", 47,
+                (4, "Whole Milk", 3, 459m), (7, "Eggs", 20, 79m),
+                (12, "Butter", 1, 899m), (18, "Almonds", 1, 1290m)),
+            Make(6, "SPAR", 65,
+                (3, "Salmon Fillet", 2, 2790m), (5, "Greek Yogurt (Plain)", 2, 349m),
+                (13, "Banana", 1.5, 549m), (14, "Apple", 1, 749m)),
+            Make(7, "LIDL", 88,
+                (2, "Ground Beef (80/20)", 1, 2290m), (8, "White Rice (Uncooked)", 2, 649m),
+                (15, "Broccoli", 2, 469m), (19, "Peanut Butter", 1, 1190m)),
+            Make(8, "TESCO", 112,
+                (1, "Chicken Breast", 1, 1990m), (4, "Whole Milk", 2, 429m),
+                (9, "Oats", 1, 479m), (20, "Dark Chocolate (70%)", 2, 699m)),
+            Make(9, "ALDI", 143,
+                (6, "Cheddar Cheese", 1, 1190m), (10, "Whole Wheat Bread", 2, 549m),
+                (12, "Butter", 1, 849m), (17, "Potatoes", 2, 379m)),
+            Make(10, "SPAR", 174,
+                (3, "Salmon Fillet", 1, 2690m), (5, "Greek Yogurt (Plain)", 3, 299m),
+                (13, "Banana", 1, 499m), (16, "Spinach", 2, 399m))
+        });
     }
 }

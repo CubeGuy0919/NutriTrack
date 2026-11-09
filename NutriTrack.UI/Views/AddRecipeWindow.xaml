@@ -49,7 +49,7 @@
             <Setter Property="Cursor" Value="Hand" />
         </Style>
 
-        <!-- One row in the ingredient list -->
+        
         <DataTemplate x:Key="IngredientRowTemplate">
             <Grid Margin="0,2">
                 <Grid.ColumnDefinitions>
@@ -102,7 +102,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="0,0,10,0">
 
-                <!-- ============ Recipe information ============ -->
+                
                 <Border Style="{StaticResource SectionCard}">
                     <StackPanel>
                         <TextBlock Text="RECIPE INFORMATION" Style="{StaticResource SectionTitle}" />
@@ -186,7 +186,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- ============ Ingredients ============ -->
+                
                 <Border Style="{StaticResource SectionCard}">
                     <StackPanel>
                         <TextBlock Text="INGREDIENTS" Style="{StaticResource SectionTitle}" />
@@ -232,7 +232,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- ============ Instructions ============ -->
+                
                 <Border Style="{StaticResource SectionCard}">
                     <StackPanel>
                         <TextBlock Text="INSTRUCTIONS *" Style="{StaticResource SectionTitle}" />
@@ -243,7 +243,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- ============ Image ============ -->
+                
                 <Border Style="{StaticResource SectionCard}">
                     <StackPanel>
                         <TextBlock Text="IMAGE (OPTIONAL)" Style="{StaticResource SectionTitle}" />
@@ -259,7 +259,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Footer -->
+        
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
             <Button Content="Cancel" IsCancel="True" Click="Cancel_Click"
                     Style="{StaticResource OutlineButton}" Margin="0,0,10,0" />

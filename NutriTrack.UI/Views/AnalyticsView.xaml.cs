@@ -27,6 +27,9 @@ public partial class AnalyticsView : UserControl
         // Subscribe AFTER setting the default, so it does not fire during setup.
         RangeCombo.SelectionChanged += (sender, e) => LoadAnalytics();
 
+        if (AppServices.MealLog.NeedsDemoData)
+            AppServices.MealLog.SeedDemoData(AppServices.GetLoadedRecipes());
+
         LoadAnalytics();
     }
 
@@ -55,5 +58,18 @@ public partial class AnalyticsView : UserControl
         TopProductsChart.ItemsSource = analytics.GetTopProducts(receipts);
         FreshnessChart.ItemsSource = analytics.GetPantryFreshness(pantryItems);
         CategoryChart.ItemsSource = analytics.GetRecipesByCategory(recipes);
+
+        // Eating habits are based on meals explicitly logged by the user, not on purchased receipts.
+        var meals = analytics.FilterMealsByMonths(AppServices.MealLog.GetAll(), months);
+        var consumption = analytics.GetConsumptionSummary(meals);
+        MealsLoggedText.Text = consumption.MealsLogged.ToString();
+        AverageCaloriesText.Text = $"{consumption.AverageDailyCalories:N0} kcal";
+        LoggedDaysText.Text = consumption.DaysLogged.ToString();
+        StreakText.Text = $"{analytics.GetLoggingStreak(meals)} days";
+        EatingInsightsList.ItemsSource = analytics.GetConsumptionInsights(meals);
+        CaloriesChart.ItemsSource = analytics.GetCaloriesPerDay(meals, 7);
+        MealsByTypeChart.ItemsSource = analytics.GetMealsByType(meals);
+        MostEatenChart.ItemsSource = analytics.GetMostEatenRecipes(meals);
+        MacroChart.ItemsSource = analytics.GetMacroSplit(meals);
     }
 }

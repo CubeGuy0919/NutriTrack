@@ -108,10 +108,6 @@ public class ProductMatcher
             { word = word.Substring(0, word.Length - 2); }
         else if (word.EndsWith("ses", StringComparison.Ordinal))
             { word = word.Substring(0, word.Length - 1); }
-        else if (word.EndsWith("sses", StringComparison.Ordinal))
-        { word = word.Substring(0, word.Length - 1); }
-        else if (word.EndsWith("xes", StringComparison.Ordinal))
-        { word = word.Substring(0, word.Length - 2); }
         else if (word.EndsWith("ss", StringComparison.Ordinal) || word.EndsWith("us", StringComparison.Ordinal))
         { word = word.Substring(0, word.Length - 1); }
         else if (word.EndsWith('s'))

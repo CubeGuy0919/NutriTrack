@@ -1,10 +1,9 @@
-using System.Text.Json;
 using NutriTrack.Core.Models;
 
 namespace NutriTrack.Core.Services;
 
 /// <summary>
-/// The pantry: what is at home, how much, and until when (Pantry.json).
+/// The pantry: what is at home, how much, and until when (Pantry.txt).
 /// One shared instance (see AppServices) is the single source of truth for the Pantry screen, the Dashboard and the
 /// recipe detail panel. Ingredient matching uses the structured recipe data (ProductId + quantity + unit).
 /// </summary>
@@ -12,24 +11,14 @@ public class PantryService
 {
     private readonly string _filePath;
     private readonly List<PantryItem> _pantryItems = new();
-    private static readonly JsonSerializerOptions _jsonOptions = new()
-    {
-        WriteIndented = true,
-        PropertyNameCaseInsensitive = true
-    };
-
     /// <summary>Message of the last failed save, or null when the last save worked. Views show it instead of failing silently.</summary>
     public string? LastSaveError { get; private set; }
 
     public PantryService(string? customPath = null)
     {
-        _filePath = customPath ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Pantry.json");
+        _filePath = customPath ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Pantry.txt");
         LoadPantry();
     }
-
-    // ---------------------------------------------------------------
-    // Queries
-    // ---------------------------------------------------------------
 
     public List<PantryItem> GetAllPantryItems() => _pantryItems.OrderBy(p => p.ExpiryDate ?? DateTime.MaxValue).ToList();
 
@@ -39,7 +28,9 @@ public class PantryService
     {
         var today = DateTime.Today;
         return _pantryItems
-            .Where(p => p.ExpiryDate.HasValue && (p.ExpiryDate.Value.Date - today).TotalDays <= withinDays)
+            .Where(p => p.ExpiryDate.HasValue &&
+                        p.ExpiryDate.Value.Date >= today &&
+                        (p.ExpiryDate.Value.Date - today).TotalDays <= withinDays)
             .OrderBy(p => p.ExpiryDate!.Value)
             .ToList();
     }
@@ -121,10 +112,6 @@ public class PantryService
             r.Ingredients.Any(i => words.Any(w => i.Name.Contains(w, StringComparison.OrdinalIgnoreCase))));
     }
 
-    // ---------------------------------------------------------------
-    // Changes
-    // ---------------------------------------------------------------
-
     public void AddPantryItem(PantryItem item)
     {
         if (item.PantryItemId <= 0)
@@ -195,31 +182,37 @@ public class PantryService
         return true;
     }
 
-    // ---------------------------------------------------------------
-    // Persistence
-    // ---------------------------------------------------------------
-
     public void LoadPantry()
     {
         _pantryItems.Clear();
-
         try
         {
             if (File.Exists(_filePath))
             {
-                string json = File.ReadAllText(_filePath);
-                var items = JsonSerializer.Deserialize<List<PantryItem>>(json, _jsonOptions);
-                if (items != null)
+                foreach (var line in File.ReadAllLines(_filePath))
                 {
-                    _pantryItems.AddRange(items);
-                    return;
+                    if (string.IsNullOrWhiteSpace(line) || line.StartsWith("#")) continue;
+                    var f = TextFile.SplitRecord(line);
+                    if (f.Length != 8 || f[0] != "P") continue;
+                    _pantryItems.Add(new PantryItem
+                    {
+                        PantryItemId = int.Parse(f[1], System.Globalization.CultureInfo.InvariantCulture),
+                        ProductId = int.Parse(f[2], System.Globalization.CultureInfo.InvariantCulture),
+                        ProductName = TextFile.DecodeField(f[3]),
+                        Category = string.IsNullOrEmpty(f[4]) ? null : TextFile.DecodeField(f[4]),
+                        Quantity = double.Parse(f[5], System.Globalization.CultureInfo.InvariantCulture),
+                        Unit = TextFile.DecodeField(f[6]),
+                        ExpiryDate = TextFile.ParseNullableDate(f[7])
+                    });
                 }
+                if (_pantryItems.Count > 0) return;
             }
         }
-        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or FormatException or ArgumentException)
         {
+            _pantryItems.Clear();
+            LastSaveError = ex.Message;
         }
-
         SeedInitialPantry();
         SavePantry();
     }
@@ -228,8 +221,16 @@ public class PantryService
     {
         try
         {
-            string json = JsonSerializer.Serialize(_pantryItems, _jsonOptions);
-            TextFile.WriteAtomic(_filePath, json);
+            var lines = new List<string> { "# NutriTrack pantry data | P|id|productId|name(base64)|category(base64)|quantity|unit(base64)|expiry(ISO)" };
+            lines.AddRange(_pantryItems.Select(p => string.Join("|", "P",
+                p.PantryItemId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                p.ProductId.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                TextFile.EncodeField(p.ProductName),
+                TextFile.EncodeField(p.Category),
+                p.Quantity.ToString("R", System.Globalization.CultureInfo.InvariantCulture),
+                TextFile.EncodeField(p.Unit),
+                p.ExpiryDate?.ToString("O", System.Globalization.CultureInfo.InvariantCulture) ?? string.Empty)));
+            TextFile.WriteAtomic(_filePath, string.Join(Environment.NewLine, lines) + Environment.NewLine);
             LastSaveError = null;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -244,10 +245,22 @@ public class PantryService
     {
         var today = DateTime.Today;
 
-        _pantryItems.Add(new PantryItem { PantryItemId = 1, ProductId = 4, ProductName = "Whole Milk", Category = "Dairy", Quantity = 1.5, Unit = "L", ExpiryDate = today.AddDays(2) });
-        _pantryItems.Add(new PantryItem { PantryItemId = 2, ProductId = 7, ProductName = "Eggs", Category = "Dairy", Quantity = 6, Unit = "pcs", ExpiryDate = today.AddDays(1) });
-        _pantryItems.Add(new PantryItem { PantryItemId = 3, ProductId = 1, ProductName = "Chicken Breast", Category = "Meat", Quantity = 800, Unit = "g", ExpiryDate = today.AddDays(5) });
-        _pantryItems.Add(new PantryItem { PantryItemId = 4, ProductId = 8, ProductName = "White Rice (Uncooked)", Category = "Grains", Quantity = 1000, Unit = "g", ExpiryDate = today.AddDays(180) });
-        _pantryItems.Add(new PantryItem { PantryItemId = 5, ProductId = 6, ProductName = "Cheddar Cheese", Category = "Dairy", Quantity = 200, Unit = "g", ExpiryDate = today.AddDays(-1) });
+        // A varied first-run pantry gives the demo useful examples of fresh, expiring and expired stock.
+        _pantryItems.AddRange(new[]
+        {
+            new PantryItem { PantryItemId = 1, ProductId = 4, ProductName = "Whole Milk", Category = "Dairy", Quantity = 1.5, Unit = "L", ExpiryDate = today.AddDays(2) },
+            new PantryItem { PantryItemId = 2, ProductId = 7, ProductName = "Eggs", Category = "Dairy", Quantity = 6, Unit = "pcs", ExpiryDate = today.AddDays(1) },
+            new PantryItem { PantryItemId = 3, ProductId = 1, ProductName = "Chicken Breast", Category = "Meat", Quantity = 800, Unit = "g", ExpiryDate = today.AddDays(5) },
+            new PantryItem { PantryItemId = 4, ProductId = 8, ProductName = "White Rice (Uncooked)", Category = "Grains", Quantity = 1000, Unit = "g", ExpiryDate = today.AddDays(180) },
+            new PantryItem { PantryItemId = 5, ProductId = 6, ProductName = "Cheddar Cheese", Category = "Dairy", Quantity = 200, Unit = "g", ExpiryDate = today.AddDays(-1) },
+            new PantryItem { PantryItemId = 6, ProductId = 13, ProductName = "Banana", Category = "Produce", Quantity = 5, Unit = "pcs", ExpiryDate = today.AddDays(2) },
+            new PantryItem { PantryItemId = 7, ProductId = 14, ProductName = "Apple", Category = "Produce", Quantity = 4, Unit = "pcs", ExpiryDate = today.AddDays(8) },
+            new PantryItem { PantryItemId = 8, ProductId = 15, ProductName = "Broccoli", Category = "Produce", Quantity = 350, Unit = "g", ExpiryDate = today.AddDays(3) },
+            new PantryItem { PantryItemId = 9, ProductId = 5, ProductName = "Greek Yogurt (Plain)", Category = "Dairy", Quantity = 400, Unit = "g", ExpiryDate = today.AddDays(6) },
+            new PantryItem { PantryItemId = 10, ProductId = 9, ProductName = "Oats", Category = "Grains", Quantity = 500, Unit = "g", ExpiryDate = today.AddDays(120) },
+            new PantryItem { PantryItemId = 11, ProductId = 11, ProductName = "Olive Oil", Category = "Oils", Quantity = 250, Unit = "ml", ExpiryDate = null },
+            new PantryItem { PantryItemId = 12, ProductId = 17, ProductName = "Potatoes", Category = "Produce", Quantity = 1.2, Unit = "kg", ExpiryDate = today.AddDays(14) },
+            new PantryItem { PantryItemId = 13, ProductId = 16, ProductName = "Spinach", Category = "Produce", Quantity = 150, Unit = "g", ExpiryDate = today.AddDays(-2) }
+        });
     }
 }

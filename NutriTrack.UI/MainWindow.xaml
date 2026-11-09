@@ -12,7 +12,7 @@
             <ColumnDefinition Width="8*" MinWidth="220" />
         </Grid.ColumnDefinitions>
 
-        <!-- Sidebar -->
+        
         <Border Grid.Column="0" Background="{StaticResource SidebarBrush}">
             <DockPanel LastChildFill="False">
 
@@ -21,14 +21,14 @@
                     <TextBlock Text="NutriTrack" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,8,0,0" Foreground="LightBlue"/>
                 </StackPanel>
 
-                <!-- Navigation Section -->
+                
                 <StackPanel DockPanel.Dock="Top" Margin="12,0" HorizontalAlignment="Center">
-                    <Button Content="🏠  Home"      Style="{StaticResource NavButtonStyle}" Click="NavDashboard_Click" />
-                    <Button Content="📖  Recipes"   Style="{StaticResource NavButtonStyle}" Click="NavRecipes_Click" />
-                    <Button Content="🧾  Receipts"  Style="{StaticResource NavButtonStyle}" Click="NavReceipts_Click" />
-                    <Button Content="🥫  Pantry"    Style="{StaticResource NavButtonStyle}" Click="NavPantry_Click" />
-                    <Button Content="🛒  Shopping"  Style="{StaticResource NavButtonStyle}" Click="NavShopping_Click" />
-                    <Button Content="📊  Analytics" Style="{StaticResource NavButtonStyle}" Click="NavAnalytics_Click" />
+                    <Button Content="🏠  Home" ToolTip="Your overview and quick links"      Style="{StaticResource NavButtonStyle}" Click="NavDashboard_Click" />
+                    <Button Content="📖  Recipes" ToolTip="Find recipes and mark meals you have made"   Style="{StaticResource NavButtonStyle}" Click="NavRecipes_Click" />
+                    <Button Content="🧾  Receipts" ToolTip="Save grocery receipts and expiry dates"  Style="{StaticResource NavButtonStyle}" Click="NavReceipts_Click" />
+                    <Button Content="🥫  My Pantry" ToolTip="See the food you have at home"    Style="{StaticResource NavButtonStyle}" Click="NavPantry_Click" />
+                    <Button Content="🛒  Shopping List" ToolTip="Keep track of things to buy"  Style="{StaticResource NavButtonStyle}" Click="NavShopping_Click" />
+                    <Button Content="📊  Statistics" ToolTip="See your spending and meals made" Style="{StaticResource NavButtonStyle}" Click="NavAnalytics_Click" />
                 </StackPanel>
 
                 <TextBlock DockPanel.Dock="Bottom" Text="v1.0"
@@ -37,7 +37,7 @@
             </DockPanel>
         </Border>
 
-        <!-- Content area -->
+        
         <ContentControl x:Name="MainContent" Grid.Column="1" Margin="24" />
 
     </Grid>

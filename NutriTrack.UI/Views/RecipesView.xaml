@@ -12,7 +12,7 @@
         <conv:CategoryBrushConverter x:Key="CategoryBrushConverter" />
         <conv:DifficultyBrushConverter x:Key="DifficultyBrushConverter" />
 
-        <!-- Round translucent button used for the image slideshow arrows -->
+        
         <Style x:Key="SlideNavButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="30" />
             <Setter Property="Height" Value="30" />
@@ -38,7 +38,7 @@
             </Setter>
         </Style>
 
-        <!-- One recipe card -->
+        
         <DataTemplate x:Key="RecipeCardTemplate">
             <Button Click="RecipeCard_Click" Tag="{Binding}" Cursor="Hand"
                     Width="266" Margin="0,0,16,16" Focusable="False">
@@ -50,7 +50,7 @@
                                 <DropShadowEffect BlurRadius="12" ShadowDepth="2" Opacity="0.08" Color="Black" />
                             </Border.Effect>
                             <StackPanel>
-                                <!-- Colored category strip -->
+                                
                                 <Border CornerRadius="14,14,0,0" Height="64"
                                         Background="{Binding Category, Converter={StaticResource CategoryBrushConverter}}">
                                     <Grid>
@@ -82,7 +82,7 @@
                                                TextWrapping="Wrap" TextTrimming="CharacterEllipsis"
                                                MaxHeight="42" Margin="0,0,0,10" />
 
-                                    <!-- Meta row: time | calories | difficulty -->
+                                    
                                     <UniformGrid Columns="3" Margin="0,0,0,12">
                                         <StackPanel HorizontalAlignment="Center">
                                             <TextBlock Text="⏱" FontSize="14" HorizontalAlignment="Center" />
@@ -142,17 +142,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Header (centered) -->
+        
         <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="0,0,0,18">
-            <TextBlock Text="🍃  Your Recipe Kitchen" FontSize="30" FontWeight="Bold"
+            <TextBlock Text="🍃  Recipes" FontSize="30" FontWeight="Bold"
                        Foreground="{StaticResource PrimaryDarkBrush}" HorizontalAlignment="Center" />
-            <TextBlock Text="Find your next favourite meal · plan portions · shop only what you need"
+            <TextBlock Text="Find a recipe, check its ingredients and mark it as made."
                        Foreground="#6B7A70" FontSize="13.5" HorizontalAlignment="Center" Margin="0,4,0,0" />
         </StackPanel>
 
-        <!-- Search + dropdown filters -->
+        
         <WrapPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,14" VerticalAlignment="Center">
-            <!-- Search Box container -->
+            
             <Grid Width="240" Margin="0,0,10,8">
                 <TextBox x:Name="SearchBox" Style="{StaticResource SearchBoxStyle}"
                  TextChanged="Filter_Changed" />
@@ -195,12 +195,12 @@
             Margin="0,0,10,8" Padding="14,8" Background="Transparent" BorderThickness="1"
             Foreground="#2E7D32" FontWeight="SemiBold" BorderBrush="#A5D6A7" Cursor="Hand" />
 
-            <Button Content="+ Add Recipe" Click="AddRecipe_Click"
+            <Button Content="+ Add recipe" Click="AddRecipe_Click"
             Margin="0,0,0,8" Padding="16,8" Background="{StaticResource PrimaryBrush}" BorderThickness="0"
             Foreground="White" FontWeight="SemiBold" Cursor="Hand" />
         </WrapPanel>
 
-        <!-- Category chips + smart pantry filter + result count -->
+        
         <Grid Grid.Row="2" Grid.Column="0" Margin="0,0,0,16">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -208,7 +208,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- Using WrapPanel instead of StackPanel for responsive tag chips -->
+            
             <WrapPanel x:Name="CategoryChips" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
 
             <CheckBox x:Name="CookFromPantryCheck" Grid.Column="1" Content="Cook with my pantry" VerticalAlignment="Center"
@@ -217,7 +217,7 @@
                Foreground="#6B7A70" FontSize="12.5" Margin="10,0,0,0" />
         </Grid>
 
-        <!-- Card grid -->
+        
         <ScrollViewer Grid.Row="3" Grid.Column="0" VerticalScrollBarVisibility="Auto">
             <Grid>
                 <ItemsControl x:Name="RecipeItemsControl" ItemTemplate="{StaticResource RecipeCardTemplate}">
@@ -236,7 +236,7 @@
             </Grid>
         </ScrollViewer>
 
-        <!-- Detail panel (slides in when a card is selected) -->
+        
         <Border x:Name="DetailBorder" Grid.Row="0" Grid.RowSpan="4" Grid.Column="1"
                 Visibility="Collapsed"
                 Background="White" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1,0,0,0"
@@ -244,7 +244,7 @@
             <ScrollViewer x:Name="DetailScroll" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="DetailPanel">
 
-                    <!-- Title + close -->
+                    
                     <Grid>
                         <TextBlock x:Name="DetailTitle" FontSize="20" FontWeight="Bold"
                                    Foreground="{StaticResource PrimaryDarkBrush}" TextWrapping="Wrap"
@@ -253,12 +253,18 @@
                                 Background="Transparent" BorderThickness="0" Foreground="#9AA8A0" Cursor="Hand" FontSize="14" />
                     </Grid>
                     <TextBlock x:Name="DetailMeta" FontSize="12.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,0,0,8" />
-                    <Button x:Name="FavoriteRecipeButton" Content="☆  Add to favorites" Click="FavoriteRecipe_Click"
-                            HorizontalAlignment="Stretch" Padding="12,8" Margin="0,0,0,12"
+                    <Button x:Name="FavoriteRecipeButton" Content="☆  Save recipe" Click="FavoriteRecipe_Click"
+                            HorizontalAlignment="Stretch" Padding="12,8" Margin="0,0,0,8"
                             Background="#EAF3EB" Foreground="#1B5E20" BorderBrush="#C9DDCB"
                             FontWeight="SemiBold" Cursor="Hand" />
+                    <Button x:Name="MarkAsMadeButton" Content="✓  I Made This" Click="MarkAsMade_Click"
+                            HorizontalAlignment="Stretch" Padding="12,9" Margin="0,0,0,12"
+                            Background="#1B6B45" Foreground="White" BorderBrush="#1B6B45"
+                            FontWeight="SemiBold" Cursor="Hand" />
+                    <TextBlock x:Name="MealLoggedMessage" Text="" Foreground="#27834D" FontSize="11.5"
+                               TextAlignment="Center" Margin="0,-6,0,10" />
 
-                    <!-- Recipe image / slideshow -->
+                    
                     <Border x:Name="DetailImageBorder" CornerRadius="10" ClipToBounds="True" Height="200"
                             Background="#EEF2EF" Margin="0,0,0,14">
                         <Grid>
@@ -280,7 +286,7 @@
                         </Grid>
                     </Border>
 
-                    <!-- Prep / cook / calories per serving -->
+                    
                     <UniformGrid Columns="3" Margin="0,0,0,16">
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="PREP" FontSize="10.5" FontWeight="Bold" Foreground="#9AA8A0" HorizontalAlignment="Center" />
@@ -291,7 +297,7 @@
                             <TextBlock x:Name="DetailCook" FontSize="15" FontWeight="SemiBold" Foreground="#1B2A20" HorizontalAlignment="Center" Margin="0,2,0,0" />
                         </StackPanel>
                         <StackPanel HorizontalAlignment="Center">
-                            <TextBlock Text="CALORIES / SERVING" FontSize="10.5" FontWeight="Bold" Foreground="#9AA8A0" HorizontalAlignment="Center" />
+                            <TextBlock Text="CALORIES PER SERVING" FontSize="10.5" FontWeight="Bold" Foreground="#9AA8A0" HorizontalAlignment="Center" />
                             <TextBlock x:Name="DetailCalories" FontSize="15" FontWeight="SemiBold" Foreground="#1B2A20" HorizontalAlignment="Center" Margin="0,2,0,0" />
                         </StackPanel>
                     </UniformGrid>
@@ -299,7 +305,7 @@
                     <TextBlock x:Name="DetailDescription" FontSize="13" TextWrapping="Wrap" Foreground="#3C4A42"
                                Margin="0,0,0,16" Visibility="Collapsed" />
 
-                    <!-- SERVINGS -->
+                    
                     <Border Background="{StaticResource PrimaryLightBrush}" CornerRadius="10" Padding="14,12" Margin="0,0,0,18">
                         <StackPanel>
                             <TextBlock Text="SERVINGS" FontSize="11" FontWeight="Bold" Foreground="#6B7A70" Margin="0,0,0,6" />
@@ -321,7 +327,7 @@
                                        Foreground="{StaticResource PrimaryDarkBrush}" Margin="0,8,0,0" />
                             <TextBlock x:Name="BaseServingsNote" FontSize="11.5" Foreground="#6B7A70" TextWrapping="Wrap" Margin="0,2,0,0" />
 
-                            <!-- Units: only changes how amounts are shown (scale first, then convert, then format) -->
+                            
                             <WrapPanel Margin="0,10,0,0" VerticalAlignment="Center">
                                 <TextBlock Text="UNITS" FontSize="11" FontWeight="Bold" Foreground="#6B7A70" VerticalAlignment="Center" Margin="0,0,12,0" />
                                 <RadioButton x:Name="UnitAsWrittenRadio" Content="As written" GroupName="UnitSystem" IsChecked="True"
@@ -334,7 +340,7 @@
                         </StackPanel>
                     </Border>
 
-                    <!-- INGREDIENTS (scaled, with pantry status) -->
+                    
                     <TextBlock Text="INGREDIENTS" FontSize="11" FontWeight="Bold" Foreground="#9AA8A0" Margin="0,0,0,8" />
                     <ItemsControl x:Name="DetailIngredients" Margin="0,0,0,8">
                         <ItemsControl.ItemTemplate>
@@ -386,13 +392,13 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <Button x:Name="AddMissingButton" Content="Add missing ingredients to shopping list"
+                    <Button x:Name="AddMissingButton" Content="Add missing ingredients to my shopping list"
                             Click="AddMissing_Click" Padding="14,9" Margin="0,2,0,0" HorizontalAlignment="Stretch"
                             Background="{StaticResource PrimaryBrush}" Foreground="White" FontWeight="SemiBold"
                             BorderThickness="0" Cursor="Hand" />
                     <TextBlock x:Name="ShoppingMessage" FontSize="12" TextWrapping="Wrap" Margin="0,6,0,0" />
 
-                    <!-- NUTRITION: per-serving values never change with the slider, totals do -->
+                    
                     <TextBlock Text="NUTRITION" FontSize="11" FontWeight="Bold" Foreground="#9AA8A0" Margin="0,20,0,8" />
                     <Grid x:Name="NutritionHeader" Margin="0,0,0,4">
                         <Grid.ColumnDefinitions>
@@ -426,7 +432,7 @@
                     <TextBlock Text="SENSITIVITIES" FontSize="11" FontWeight="Bold" Foreground="#9AA8A0" Margin="0,20,0,6" />
                     <TextBlock x:Name="DetailSensitivities" FontSize="13" TextWrapping="Wrap" Margin="0,0,0,18" />
 
-                    <TextBlock Text="INSTRUCTIONS" FontSize="11" FontWeight="Bold" Foreground="#9AA8A0" Margin="0,0,0,6" />
+                    <TextBlock Text="HOW TO MAKE IT" FontSize="11" FontWeight="Bold" Foreground="#9AA8A0" Margin="0,0,0,6" />
                     <ItemsControl x:Name="DetailInstructions">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>

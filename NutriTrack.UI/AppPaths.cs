@@ -2,8 +2,8 @@ using System.IO;
 
 namespace NutriTrack.UI;
 
-/// <summary>Where the files live. Everything sits next to the running .exe.</summary>
-internal static class AppPaths
+/// <summary>Files Locations.</summary>
+public static class AppPaths
 {
     private static string BaseDir => AppDomain.CurrentDomain.BaseDirectory;
 

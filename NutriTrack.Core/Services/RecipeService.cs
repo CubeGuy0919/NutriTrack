@@ -29,10 +29,6 @@ public class RecipeService
         _imageService = imageService;
     }
 
-    // ---------------------------------------------------------------
-    // Load
-    // ---------------------------------------------------------------
-
     /// <summary>
     /// Loads recipes. When <paramref name="products"/> is supplied, each ingredient is linked to its
     /// Product (ProductId) where the match is confident; ingredients that match no product keep ProductId = null.
@@ -98,17 +94,12 @@ public class RecipeService
             }
             catch
             {
-                // Skip corrupted individual lines
                 continue;
             }
         }
 
         return recipes;
     }
-
-    // ---------------------------------------------------------------
-    // Save
-    // ---------------------------------------------------------------
 
     /// <summary>
     /// Writes the whole recipe list in the extended format. The write goes to a temp file first and the previous
@@ -145,10 +136,6 @@ public class RecipeService
 
         TextFile.WriteAtomic(filePath, sb.ToString());
     }
-
-    // ---------------------------------------------------------------
-    // Validate
-    // ---------------------------------------------------------------
 
     /// <summary>Checks a NEW recipe without changing it or saving anything.</summary>
     public RecipeValidationResult Validate(Recipe recipe, IEnumerable<Recipe> existingRecipes, IReadOnlyList<Product> products)
@@ -205,10 +192,6 @@ public class RecipeService
         return result;
     }
 
-    // ---------------------------------------------------------------
-    // Add
-    // ---------------------------------------------------------------
-
     /// <summary>
     /// Validates the recipe, optionally imports its image, assigns a new RecipeId, writes Recipes.txt and only then
     /// adds the recipe to <paramref name="existingRecipes"/>. On any problem nothing is added and the result explains why.
@@ -241,7 +224,6 @@ public class RecipeService
 
         recipe.RecipeId = existingRecipes.Count == 0 ? 1 : existingRecipes.Max(r => r.RecipeId) + 1;
 
-        // Optional image
         string? importedImage = null;
         if (!string.IsNullOrWhiteSpace(imageSourcePath) && !string.IsNullOrWhiteSpace(imagesDirectory))
         {
@@ -274,10 +256,6 @@ public class RecipeService
         result.SavedRecipe = recipe;
         return result;
     }
-
-    // ---------------------------------------------------------------
-    // Helpers
-    // ---------------------------------------------------------------
 
     /// <summary>Product for an ingredient: by ProductId if given (and still in the list), otherwise by exact normalized name.</summary>
     private static Product? ResolveProduct(IngredientItem ingredient, ProductMatcher matcher)

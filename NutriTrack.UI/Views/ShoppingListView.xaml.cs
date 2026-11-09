@@ -18,12 +18,25 @@ public partial class ShoppingListView : UserControl
 
         try
         {
+            bool firstRun = !File.Exists(AppPaths.ShoppingListPath);
             _items = _service.Load(AppPaths.ShoppingListPath);
+
+            // First-run sample list makes the "Bought -> Pantry" workflow easy to demonstrate.
+            if (firstRun)
+            {
+                _items = new List<ShoppingListItem>
+                {
+                    new() { ProductId = 15, Name = "Broccoli", Quantity = 500, Unit = "g" },
+                    new() { ProductId = 5, Name = "Greek Yogurt (Plain)", Quantity = 400, Unit = "g" },
+                    new() { ProductId = 10, Name = "Whole Wheat Bread", Quantity = 500, Unit = "g" }
+                };
+                _service.Save(AppPaths.ShoppingListPath, _items);
+            }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             _items = new List<ShoppingListItem>();
-            StatusText.Text = $"ShoppingList.txt could not be read: {ex.Message}";
+            StatusText.Text = $"ShoppingList.txt could not be read or saved: {ex.Message}";
         }
 
         RefreshList();

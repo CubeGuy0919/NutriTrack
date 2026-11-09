@@ -6,8 +6,7 @@ using NutriTrack.Core.Services;
 namespace NutriTrack.UI;
 
 /// <summary>
-/// One shared set of services, so every screen sees the same pantry, receipts, shopping list, products and recipes.
-/// (A simple stand-in for dependency injection: easy to explain, and enough for an app of this size.)
+/// One shared set of services.
 /// </summary>
 public static class AppServices
 {
@@ -15,13 +14,15 @@ public static class AppServices
     public static ReceiptService Receipts { get; } = new();
     public static PantryService Pantry { get; } = new();
     public static ShoppingListService Shopping { get; } = new();
+    public static AnalyticsService Analytics { get; } = new();
+    public static MealLogService MealLog { get; } = new();
 
     private static readonly ProductService ProductLoader = new();
     private static List<Product>? _products;
     private static ProductMatcher? _matcher;
     private static List<Recipe>? _recipes;
 
-    /// <summary>The complete recipe-derived product catalogue. Blank nutrition fields are deliberately treated as unknown.</summary>
+    /// <summary>The complete Product catalogue.</summary>
     public static List<Product> GetAllowedProducts()
     {
         if (_products == null || _products.Count == 0)
@@ -65,7 +66,7 @@ public static class AppServices
         return _recipes;
     }
 
-    /// <summary>Reads Recipes.txt again (for example after a recipe was added).</summary>
+    /// <summary>Reads Recipes.txt again.</summary>
     public static List<Recipe> ReloadRecipes()
     {
         _recipes = File.Exists(AppPaths.RecipesPath)
@@ -75,13 +76,13 @@ public static class AppServices
         try
         {
             Directory.CreateDirectory(AppPaths.UserDataDirectory);
-            var favorites = File.Exists(AppPaths.FavoriteRecipesPath)
+            HashSet<string> favorites = File.Exists(AppPaths.FavoriteRecipesPath)
                 ? File.ReadAllLines(AppPaths.FavoriteRecipesPath).ToHashSet(StringComparer.Ordinal)
                 : new HashSet<string>(StringComparer.Ordinal);
-            var recent = File.Exists(AppPaths.RecentlyViewedRecipesPath)
+            HashSet<string> recent = File.Exists(AppPaths.RecentlyViewedRecipesPath)
                 ? File.ReadAllLines(AppPaths.RecentlyViewedRecipesPath).ToHashSet(StringComparer.Ordinal)
                 : new HashSet<string>(StringComparer.Ordinal);
-            foreach (var recipe in _recipes)
+            foreach (Recipe recipe in _recipes)
             {
                 recipe.IsFavorite = favorites.Contains(recipe.RecipeId.ToString());
                 recipe.IsRecentlyViewed = recent.Contains(recipe.RecipeId.ToString());
@@ -94,7 +95,7 @@ public static class AppServices
         return _recipes;
     }
 
-    /// <summary>Goes to the Recipes screen with this recipe already open.</summary>
+    /// <summary>Opens Recipes screen with this recipe already open.</summary>
     public static void OpenRecipe(Recipe recipe)
     {
         if (Application.Current?.MainWindow is MainWindow window)

@@ -51,10 +51,6 @@ public partial class RecipesView : UserControl
         }
     }
 
-    // ---------------------------------------------------------------
-    // Loading
-    // ---------------------------------------------------------------
-
     private void LoadRecipes()
     {
         _products = AppServices.GetAllowedProducts();
@@ -103,10 +99,6 @@ public partial class RecipesView : UserControl
             CategoryChips.Children.Add(chip);
         }
     }
-
-    // ---------------------------------------------------------------
-    // Filtering / sorting
-    // ---------------------------------------------------------------
 
     private void CategoryChip_Click(object sender, RoutedEventArgs e)
     {
@@ -221,10 +213,6 @@ public partial class RecipesView : UserControl
         RefreshResultCount();
     }
 
-    // ---------------------------------------------------------------
-    // Detail panel
-    // ---------------------------------------------------------------
-
     private void RecipeCard_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button button || button.Tag is not Recipe recipe) return;
@@ -250,6 +238,8 @@ public partial class RecipesView : UserControl
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { /* Recent history is optional. */ }
         FavoriteRecipeButton.Content = recipe.IsFavorite ? "★  Saved to favorites" : "☆  Add to favorites";
+        MarkAsMadeButton.Content = "✓  Mark as made";
+        MealLoggedMessage.Text = string.Empty;
         DetailPrep.Text = $"{recipe.PrepTimeMinutes} min";
         DetailCook.Text = $"{recipe.CookTimeMinutes} min";
         DetailCalories.Text = recipe.CaloriesPerServing > 0 ? $"{recipe.CaloriesPerServing:0} kcal" : "–";
@@ -469,10 +459,6 @@ public partial class RecipesView : UserControl
         StartSlideshow();
     }
 
-    // ---------------------------------------------------------------
-    // Add recipe
-    // ---------------------------------------------------------------
-
     private void AddRecipe_Click(object sender, RoutedEventArgs e)
     {
         if (_products.Count == 0)
@@ -514,6 +500,35 @@ public partial class RecipesView : UserControl
             _detailRecipe.IsFavorite = !_detailRecipe.IsFavorite;
             MessageBox.Show($"Favorites could not be saved: {ex.Message}", "NutriTrack", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+    }
+
+    private void MarkAsMade_Click(object sender, RoutedEventArgs e)
+    {
+        if (_detailRecipe is null) return;
+
+        string category = _detailRecipe.Category ?? string.Empty;
+        MealType mealType = category.Equals("Breakfast", StringComparison.OrdinalIgnoreCase) ||
+                            category.Equals("Bread", StringComparison.OrdinalIgnoreCase)
+            ? MealType.Breakfast
+            : category.Equals("Lunch", StringComparison.OrdinalIgnoreCase) ||
+              category.Equals("Soup", StringComparison.OrdinalIgnoreCase) ||
+              category.Equals("Salad", StringComparison.OrdinalIgnoreCase)
+                ? MealType.Lunch
+                : category.Equals("Dinner", StringComparison.OrdinalIgnoreCase) ||
+                  category.Equals("Meal", StringComparison.OrdinalIgnoreCase)
+                    ? MealType.Dinner
+                    : MealType.Snack;
+
+        AppServices.MealLog.AddFromRecipe(_detailRecipe, mealType, servings: 1);
+        if (AppServices.MealLog.LastSaveError is { } error)
+        {
+            MessageBox.Show($"The meal could not be saved: {error}", "NutriTrack",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        MarkAsMadeButton.Content = "✓  Saved as made";
+        MealLoggedMessage.Text = $"{_detailRecipe.Name} added to your meal history. Analytics will include it.";
     }
 
     private void CloseDetail_Click(object sender, RoutedEventArgs e)

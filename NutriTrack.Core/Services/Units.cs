@@ -2,7 +2,6 @@ using System.Globalization;
 
 namespace NutriTrack.Core.Services;
 
-
 /// <summary>How amounts are shown in the recipe detail. Only the display changes, stored recipes never do.</summary>
 public enum UnitSystem
 {
@@ -129,7 +128,6 @@ public static class UnitConverter
                 : Promote(amount.Value, "ml", "l");
         }
 
-        // Imperial
         if (amount.Dimension == UnitDimension.Mass)
         {
             if (u is "oz" or "lb") return (quantity, original);

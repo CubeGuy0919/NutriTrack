@@ -68,7 +68,7 @@
             <ColumnDefinition Width="380" MinWidth="340" />
         </Grid.ColumnDefinitions>
 
-        <!-- Left Column: Pantry Inventory -->
+        
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -77,7 +77,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Header -->
+            
             <Grid Grid.Row="0" Margin="0,0,0,18">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -85,15 +85,15 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="🥫 Pantry" FontSize="30" FontWeight="Bold" Foreground="{StaticResource PrimaryDarkBrush}" />
-                    <TextBlock Text="Your current food inventory and ingredient tracker." Foreground="#6B7A70" FontSize="13.5" Margin="0,4,0,0" />
+                    <TextBlock Text="🥫 My Pantry" FontSize="30" FontWeight="Bold" Foreground="{StaticResource PrimaryDarkBrush}" />
+                    <TextBlock Text="See what food you have at home and when it expires." Foreground="#6B7A70" FontSize="13.5" Margin="0,4,0,0" />
                 </StackPanel>
 
                 <Button Grid.Column="1" Content="+ Add item" Style="{StaticResource ActionButtonStyle}"
                         Click="AddItem_Click" VerticalAlignment="Center" Padding="20,11" FontSize="14" />
             </Grid>
 
-            <!-- Filters -->
+            
             <Grid Grid.Row="1" Margin="0,0,0,16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" MinWidth="180" />
@@ -118,10 +118,10 @@
                           Style="{StaticResource FilterComboStyle}"
                           SelectionChanged="Filter_Changed">
                     <ComboBoxItem Content="All items" IsSelected="True" />
-                    <ComboBoxItem Content="Expiring soon (≤ 3 days)" />
+                    <ComboBoxItem Content="Expiring in 3 days" />
                     <ComboBoxItem Content="Expired" />
-                    <ComboBoxItem Content="Fresh (> 3 days)" />
-                    <ComboBoxItem Content="No expiry date" />
+                    <ComboBoxItem Content="Not expiring soon" />
+                    <ComboBoxItem Content="No date entered" />
                 </ComboBox>
 
                 <Button Grid.Column="6" Content="Reset" Click="ResetFilters_Click"
@@ -129,14 +129,14 @@
                         Foreground="#2E7D32" FontWeight="SemiBold" BorderBrush="#A5D6A7" Cursor="Hand" />
             </Grid>
 
-            <!-- Summary bar -->
+            
             <Grid Grid.Row="2" Margin="0,0,0,14">
                 <TextBlock x:Name="PantrySummaryText" FontSize="13" Foreground="#6B7A70" VerticalAlignment="Center" />
                 <TextBlock x:Name="ExpiringCountBadge" HorizontalAlignment="Right" FontSize="12.5" FontWeight="SemiBold"
                            Foreground="#B45309" VerticalAlignment="Center" />
             </Grid>
 
-            <!-- Pantry Items Cards / List -->
+            
             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" Margin="0,0,-8,0" Padding="0,0,8,0">
                 <Grid>
                     <ItemsControl x:Name="PantryItemsControl">
@@ -160,10 +160,10 @@
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <!-- Top Row: Category and Expiry Badge -->
+                                        
                                         <Grid Grid.Row="0" Margin="0,0,0,8">
                                             <TextBlock Text="{Binding Category}" FontSize="11" FontWeight="SemiBold" Foreground="#8FA396" TextTrimming="CharacterEllipsis" MaxWidth="110" />
-                                            <!-- Expiry Badge -->
+                                            
                                             <Border HorizontalAlignment="Right" CornerRadius="8" Padding="7,3"
                                                     Background="{Binding ExpiryStatus, Converter={StaticResource ExpiryBackgroundBrushConverter}}">
                                                 <TextBlock Text="{Binding ExpiryText}" FontSize="10.5" FontWeight="Bold"
@@ -171,11 +171,11 @@
                                             </Border>
                                         </Grid>
 
-                                        <!-- Product Name -->
+                                        
                                         <TextBlock Grid.Row="1" Text="{Binding ProductName}" FontSize="16" FontWeight="Bold"
                                                    Foreground="#1B2A20" TextWrapping="Wrap" MaxHeight="42" Margin="0,0,0,10" />
 
-                                        <!-- Quantity Row -->
+                                        
                                         <Border Grid.Row="2" Background="#F8FAF8" CornerRadius="8" Padding="10,6" Margin="0,0,0,12">
                                             <Grid>
                                                 <TextBlock Text="IN STOCK" FontSize="9.5" FontWeight="Bold" Foreground="#8FA396" VerticalAlignment="Center" />
@@ -184,7 +184,7 @@
                                             </Grid>
                                         </Border>
 
-                                        <!-- Action Buttons: Edit / Delete -->
+                                        
                                         <Grid Grid.Row="3">
                                             <Button Content="Edit" Click="EditItem_Click" Tag="{Binding}"
                                                     Background="Transparent" BorderThickness="0" Foreground="#2E7D32"
@@ -199,20 +199,20 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <!-- Empty state -->
+                    
                     <StackPanel x:Name="EmptyState" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,70,0,0">
                         <TextBlock Text="🥫" FontSize="44" HorizontalAlignment="Center" />
-                        <TextBlock Text="No pantry items found" FontSize="18" FontWeight="Bold" Foreground="#2C3E35" HorizontalAlignment="Center" Margin="0,8,0,0" />
-                        <TextBlock Text="Click '+ Add item' to start tracking your food inventory." FontSize="13.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,4,0,0" />
+                        <TextBlock Text="Your pantry is empty" FontSize="18" FontWeight="Bold" Foreground="#2C3E35" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                        <TextBlock Text="Choose + Add item to add your first food." FontSize="13.5" Foreground="#6B7A70" HorizontalAlignment="Center" Margin="0,4,0,0" />
                     </StackPanel>
                 </Grid>
             </ScrollViewer>
         </Grid>
 
-        <!-- Right Column: Smart Integrations ("Use soon" and "What can I cook?") -->
+        
         <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" Padding="0,0,4,0">
             <StackPanel>
-                <!-- Section 1: Use Soon (Expiring Items + Recipe Suggestions) -->
+                
                 <Border Background="White" CornerRadius="16" BorderBrush="{StaticResource CardBorderBrush}"
                         BorderThickness="1" Padding="18" Margin="0,0,0,18">
                     <Border.Effect>
@@ -222,7 +222,7 @@
                         <Grid Margin="0,0,0,12">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="⏰" FontSize="18" Margin="0,0,8,0" VerticalAlignment="Center" />
-                                <TextBlock Text="Use soon" FontSize="17" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
+                                <TextBlock Text="Food expiring soon" FontSize="17" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
                             </StackPanel>
                             <Border x:Name="UseSoonCountBadge" Background="#FEF3C7" CornerRadius="10" Padding="8,2" HorizontalAlignment="Right">
                                 <TextBlock x:Name="UseSoonCountText" Text="0 items" FontSize="11" FontWeight="Bold" Foreground="#B45309" />
@@ -244,7 +244,7 @@
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
 
-                                            <!-- Item Header -->
+                                            
                                             <Grid Grid.Row="0">
                                                 <TextBlock Text="{Binding Item.ProductName}" FontSize="14" FontWeight="Bold" Foreground="#1B2A20" />
                                                 <Border HorizontalAlignment="Right" CornerRadius="6" Padding="6,2"
@@ -254,13 +254,13 @@
                                                 </Border>
                                             </Grid>
 
-                                            <!-- Suggested Recipe text -->
+                                            
                                             <StackPanel Grid.Row="1" Margin="0,8,0,8">
                                                 <TextBlock Text="Suggested recipe:" FontSize="11" FontWeight="SemiBold" Foreground="#8FA396" />
                                                 <TextBlock Text="{Binding RecipeNameDisplay}" FontSize="13" FontWeight="Bold" Foreground="{StaticResource PrimaryDarkBrush}" TextWrapping="Wrap" Margin="0,2,0,0" />
                                             </StackPanel>
 
-                                            <!-- Action Button -->
+                                            
                                             <Button Grid.Row="2" Content="View recipe →" Click="ViewSuggestedRecipe_Click" Tag="{Binding Recipe}"
                                                     Visibility="{Binding HasRecipeVisibility}"
                                                     Background="{StaticResource PrimaryLightBrush}" BorderThickness="0"
@@ -280,13 +280,13 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <!-- Empty state for use soon -->
+                        
                         <TextBlock x:Name="NoExpiringItemsText" Text="All pantry items are fresh! Nothing expiring soon."
                                    FontSize="12.5" Foreground="#8FA396" FontStyle="Italic" Visibility="Collapsed" Margin="0,4,0,4" />
                     </StackPanel>
                 </Border>
 
-                <!-- Section 2: What can I cook? -->
+                
                 <Border Background="White" CornerRadius="16" BorderBrush="{StaticResource CardBorderBrush}"
                         BorderThickness="1" Padding="18">
                     <Border.Effect>
@@ -295,9 +295,9 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
                             <TextBlock Text="🍝" FontSize="18" Margin="0,0,8,0" VerticalAlignment="Center" />
-                            <TextBlock Text="What can I cook?" FontSize="17" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
+                            <TextBlock Text="Recipes you can make" FontSize="17" FontWeight="Bold" Foreground="#1B2A20" VerticalAlignment="Center" />
                         </StackPanel>
-                        <TextBlock Text="Recipes matching available ingredients in your pantry."
+                        <TextBlock Text="Recipes that use food already in your pantry."
                                    FontSize="12" Foreground="#8FA396" Margin="0,0,0,14" />
 
                         <ItemsControl x:Name="AvailableRecipesControl">
@@ -337,7 +337,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
-                        <!-- Empty state for available recipes -->
+                        
                         <TextBlock x:Name="NoAvailableRecipesText" Text="Add more pantry items to see matching recipes."
                                    FontSize="12.5" Foreground="#8FA396" FontStyle="Italic" Visibility="Collapsed" Margin="0,4,0,4" />
                     </StackPanel>
@@ -345,7 +345,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Add / Edit Item Modal Dialog Overlay -->
+        
         <Grid x:Name="ItemModal" Grid.ColumnSpan="3" Visibility="Collapsed" Background="#66000000">
             <Border Width="480" Background="White" CornerRadius="16" Padding="26" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Border.Effect>
@@ -361,13 +361,13 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!-- Title -->
+                    
                     <Grid Grid.Row="0" Margin="0,0,0,16">
                         <TextBlock x:Name="ModalTitleText" Text="Add Pantry Item" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryDarkBrush}" />
                         <Button Content="✕" Click="CancelItemDialog_Click" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0" FontSize="16" Foreground="#8FA396" Cursor="Hand" />
                     </Grid>
 
-                    <!-- Product selector / name -->
+                    
                     <StackPanel Grid.Row="1" Margin="0,0,0,14">
                         <TextBlock Text="Product *" FontSize="12" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,6" />
                         <ComboBox x:Name="DialogProductCombo" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" StaysOpenOnEdit="True"
@@ -375,13 +375,13 @@
                                   SelectionChanged="DialogProductCombo_SelectionChanged" />
                     </StackPanel>
 
-                    <!-- Category -->
+                    
                     <StackPanel Grid.Row="2" Margin="0,0,0,14">
                         <TextBlock Text="Category" FontSize="12" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,6" />
                         <TextBox x:Name="DialogCategoryInput" Style="{StaticResource SearchBoxStyle}" />
                     </StackPanel>
 
-                    <!-- Quantity and Unit -->
+                    
                     <Grid Grid.Row="3" Margin="0,0,0,14">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -400,13 +400,13 @@
                         </StackPanel>
                     </Grid>
 
-                    <!-- Expiry Date -->
+                    
                     <StackPanel Grid.Row="4" Margin="0,0,0,20">
-                        <TextBlock Text="Expiry Date" FontSize="12" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,6" />
+                        <TextBlock Text="Expiry date (optional)" FontSize="12" FontWeight="SemiBold" Foreground="#374151" Margin="0,0,0,6" />
                         <DatePicker x:Name="DialogExpiryPicker" Height="40" VerticalContentAlignment="Center" />
                     </StackPanel>
 
-                    <!-- Footer Buttons -->
+                    
                     <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="Cancel" Click="CancelItemDialog_Click" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Padding="18,9" />
                         <Button Content="Save Item" Click="SaveItemDialog_Click" Style="{StaticResource ActionButtonStyle}" Padding="22,9" />
